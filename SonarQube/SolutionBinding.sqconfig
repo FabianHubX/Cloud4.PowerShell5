@@ -1,0 +1,14 @@
+{
+  "ServerUri": "https://sonarcloud.io/",
+  "Organization": {
+    "Key": "markuserlacher-github",
+    "Name": "markuserlacher"
+  },
+  "ProjectKey": "Cloud4.PowerShell5.Module",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "AWKg8yZ0o-4kJLXn2L5P",
+      "ProfileTimestamp": "2018-03-27T21:39:47+07:00"
+    }
+  }
+}
