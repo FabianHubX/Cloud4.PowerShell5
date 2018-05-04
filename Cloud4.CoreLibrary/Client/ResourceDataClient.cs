@@ -35,7 +35,7 @@ namespace Cloud4.CoreLibrary.Client
             System.Uri uri = new System.Uri(URL);
 
             var payloadFromResourceServer = await httpClient.PostAsync(uri, content).ConfigureAwait(false);
-            return !payloadFromResourceServer.IsSuccessStatusCode ? 
+             return !payloadFromResourceServer.IsSuccessStatusCode ? 
                 new DataClientResult {
                     StatusCode = payloadFromResourceServer.StatusCode, Content = ""
                 } : new DataClientResult {

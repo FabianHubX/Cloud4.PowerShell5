@@ -100,7 +100,7 @@ namespace Cloud4.Powershell5.Module
                      NumberOfProbes = NumberOfProbes,
                       Port = Port,
                       Protocol = Protocol.ToString(),
-                      RequestPath = ""
+                      RequestPath = RequestPath
 
                 };
                

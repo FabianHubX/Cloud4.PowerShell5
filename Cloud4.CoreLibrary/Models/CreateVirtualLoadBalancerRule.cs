@@ -16,7 +16,7 @@ namespace Cloud4.CoreLibrary.Models
         public int BackendPort { get; set; }
         public int IdleTimeoutInMinutes { get; set; }  // 4  (4-30
         public Guid ProbeId { get; set; }       
-        public bool FloatingIpEnabled { get; set; }    // if true FrontEnd==BackPort
+        public bool EnableFloatingIp  { get; set; }    // if true FrontEnd==BackPort
         public string LoadDistribution { get; set; }    //  Default, SourceIP,  SourceIPProtocol
 
 

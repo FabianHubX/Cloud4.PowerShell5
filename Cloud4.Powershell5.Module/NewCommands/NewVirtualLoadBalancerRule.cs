@@ -75,7 +75,7 @@ namespace Cloud4.Powershell5.Module
 
         [Parameter(
        Mandatory = true,
-       Position = 5,
+       Position = 6,
        ValueFromPipeline = true,
          HelpMessage = "Enable Floating IP",
        ValueFromPipelineByPropertyName = true)]
@@ -84,7 +84,7 @@ namespace Cloud4.Powershell5.Module
 
         [Parameter(
        Mandatory = true,
-       Position = 5,
+       Position = 7,
        ValueFromPipeline = true,
          HelpMessage = "Load Distribution Type",
        ValueFromPipelineByPropertyName = true)]
@@ -93,16 +93,24 @@ namespace Cloud4.Powershell5.Module
 
         [Parameter(
        Mandatory = true,
-       Position = 5,
+       Position = 8,
        ValueFromPipeline = true,
          HelpMessage = "Probe Id",
        ValueFromPipelineByPropertyName = true)]
 
         public Guid ProbeId { get; set; }
+        [Parameter(
+     Mandatory = true,
+     Position = 9,
+     ValueFromPipeline = true,
+       HelpMessage = "Idle Timeout In Minutes",
+     ValueFromPipelineByPropertyName = true)]
+
+        public int IdleTimeoutInMinutes { get; set; }
 
         [Parameter(
          Mandatory = false,
-         Position = 6,
+         Position = 10,
          ValueFromPipeline = true,
           HelpMessage = "Wait Job Finished",
          ValueFromPipelineByPropertyName = true)]
@@ -126,8 +134,8 @@ namespace Cloud4.Powershell5.Module
                     Protocol = Protocol.ToString(),
                     FrontendPort = FrontEndPort,
                     BackendPort = BackEndPort,
-                    IdleTimeoutInMinutes = 0,
-                    FloatingIpEnabled = FloatingIpEnabled,
+                    IdleTimeoutInMinutes = IdleTimeoutInMinutes,
+                    EnableFloatingIp = FloatingIpEnabled,
                     LoadDistribution = LoadDistribution.ToString(),
                     ProbeId = ProbeId
 
