@@ -84,11 +84,19 @@ namespace Cloud4.CoreLibrary.Services
                 returnresult.Job = job;
                 return returnresult;
             }
-            else
+            else if (result.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 returnresult.Code = result.StatusCode;
                 return returnresult;
             }
+            if (result.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                returnresult.Error = JsonConvert.DeserializeObject<ErrorDetails>(result.Content);
+                return returnresult;
+            }
+
+            returnresult.Code = result.StatusCode;
+            return returnresult;
         }
 
         public virtual async Task<Result> UpdateAsync(Guid Id, Z body)
@@ -102,16 +110,19 @@ namespace Cloud4.CoreLibrary.Services
                 returnresult.Job = job;
                 return returnresult;
             }
+            else if (result.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                returnresult.Code = result.StatusCode;
+                return returnresult;
+            }
             else if (result.StatusCode == System.Net.HttpStatusCode.Conflict)
             {
                 returnresult.Error = JsonConvert.DeserializeObject<ErrorDetails>(result.Content);
                 return returnresult;
             }
-            else
-            {
-                returnresult.Code = result.StatusCode;
-                return returnresult;
-            }
+
+            returnresult.Code = result.StatusCode;
+            return returnresult;
         }
 
         public virtual async Task<Result> DeleteAsync(Guid Id, bool Wait)
@@ -161,14 +172,12 @@ namespace Cloud4.CoreLibrary.Services
             }
             else if (result.StatusCode == System.Net.HttpStatusCode.Conflict)
             {
-                returnresult.Error = JsonConvert.DeserializeObject<ErrorDetails>(result.Content);                
-                return returnresult;
-            }        
-            else
-            {
-                returnresult.Code = result.StatusCode;
+                returnresult.Error = JsonConvert.DeserializeObject<ErrorDetails>(result.Content);
                 return returnresult;
             }
+
+            returnresult.Code = result.StatusCode;
+            return returnresult;
         }
 
 

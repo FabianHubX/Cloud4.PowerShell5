@@ -34,33 +34,37 @@ namespace Cloud4.Powershell5.Module
             }
         }
 
-    
+
 
         public static CoreLibrary.Models.Job Remove(Guid Id, Connection con, bool Wait)
         {
-           
 
-                var service = Activator.CreateInstance(typeof(Y), new object[] { con });
-                
-                Task<CoreLibrary.Models.Result> callTask = Task.Run(() => ((IBaseServiceInterface<T>)service).DeleteAsync(Id, Wait));
 
-                callTask.Wait();
-                var result = callTask.Result;
+            var service = Activator.CreateInstance(typeof(Y), new object[] { con });
 
-                if (result.Job != null)
-                {
-                    return result.Job;
-                }
-                else if (result.Error != null)
-                {
-                    throw new RemoteException("Conflict Error: " + result.Error.ErrorType + "\r\n" + result.Error.FaultyValues);
-                }
-                else
-                {
-                    throw new RemoteException("API returns: " + result.Code.ToString());
-                }
+            Task<CoreLibrary.Models.Result> callTask = Task.Run(() => ((IBaseServiceInterface<T>)service).DeleteAsync(Id, Wait));
 
-           
+            callTask.Wait();
+            var result = callTask.Result;
+
+            if (result.Job != null)
+            {
+                return result.Job;
+            }
+            else if (result.Error != null)
+            {
+                throw new RemoteException("Conflict Error: " + result.Error.ErrorType + "\r\n" + result.Error.FaultyValues);
+            }
+            else if (result.Code == System.Net.HttpStatusCode.OK)
+            {
+                return null;
+            }
+            else
+            {
+                throw new RemoteException("API returns: " + result.Code.ToString());
+            }
+
+
         }
 
 

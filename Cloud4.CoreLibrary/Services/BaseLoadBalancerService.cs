@@ -88,11 +88,19 @@ namespace Cloud4.CoreLibrary.Services
                 returnresult.Job = job;
                 return returnresult;
             }
-            else
+            else if (result.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 returnresult.Code = result.StatusCode;
                 return returnresult;
             }
+            else if (result.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                returnresult.Error = JsonConvert.DeserializeObject<ErrorDetails>(result.Content);
+                return returnresult;
+            }
+
+            returnresult.Code = result.StatusCode;
+            return returnresult;
         }
 
         public virtual async Task<Result> UpdateAsync(Guid Id, Z body)
@@ -105,18 +113,27 @@ namespace Cloud4.CoreLibrary.Services
                 var job = JsonConvert.DeserializeObject<Job>(result.Content);
                 returnresult.Job = job;
                 return returnresult;
-            }
-            else
+            }          
+            else if (result.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 returnresult.Code = result.StatusCode;
                 return returnresult;
             }
+            else if (result.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                returnresult.Error = JsonConvert.DeserializeObject<ErrorDetails>(result.Content);
+                return returnresult;
+            }
+
+            returnresult.Code = result.StatusCode;
+            return returnresult; return returnresult;
+            
         }
 
         public virtual async Task<Result> DeleteAsync(Guid Id, bool Wait)
         {
             Result returnresult = new Result();
-            DataClientResult result = await client.DeleteDataAsJsonAsync( new Uri( this.Connection.ApiUrl , this.Connection.TenantId.ToString() + "/" + Entity + "/" + LoadBalancerId.ToString() + "/" + SubEntity  + "/" + Id.ToString()));
+            DataClientResult result = await client.DeleteDataAsJsonAsync(new Uri(this.Connection.ApiUrl, this.Connection.TenantId.ToString() + "/" + Entity + "/" + LoadBalancerId.ToString() + "/" + SubEntity + "/" + Id.ToString()));
 
             Job job;
             if (result.StatusCode == System.Net.HttpStatusCode.Accepted)
@@ -153,10 +170,19 @@ namespace Cloud4.CoreLibrary.Services
                 }
 
             }
-            else
+            else if (result.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                return null;
+                returnresult.Code = result.StatusCode;
+                return returnresult;
             }
+            else if (result.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                returnresult.Error = JsonConvert.DeserializeObject<ErrorDetails>(result.Content);
+                return returnresult;
+            }
+
+            returnresult.Code = result.StatusCode;
+            return returnresult;
         }
 
 
