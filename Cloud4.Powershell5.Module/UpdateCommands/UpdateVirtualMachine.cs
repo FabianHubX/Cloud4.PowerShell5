@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsData.Update, "Cloud4VM")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualMachine : BaseCmdLet
+    public class UpdateVirtualMachine : BaseUpdateCmdLet<VirtualMachine, VirtualMachineService, VirtualMachine>
     {
         [Parameter(
      Mandatory = true,
@@ -62,133 +62,88 @@ ValueFromPipelineByPropertyName = true)]
 
         public bool Wait { get; set; }
 
-        private VirtualMachineService service { get; set; }
 
 
 
         protected override void ProcessRecord()
         {
 
-            service = new VirtualMachineService(Connection);
+            var vm = Get(Connection, Id);
 
-
-            try
+            if (!string.IsNullOrEmpty(VMProfile))
             {
+                vm.VirtualMachineProfile = VMProfile;
 
-           
-                Task<Cloud4.CoreLibrary.Models.VirtualMachine> callTaskvNet = Task.Run(() => service.GetAsync(Id));
+                var job = Update(Connection, Id, vm);
 
-                callTaskvNet.Wait();
-                var vnet = callTaskvNet.Result;
-
-                if (!string.IsNullOrEmpty(VMProfile))
+                if (Wait)
                 {
-                    vnet.VirtualMachineProfile = VMProfile;
-
-
-
-
-                    Task<CoreLibrary.Models.Job> callTask = Task.Run(() => service.UpdateAsync(Id, vnet));
-
-                    callTask.Wait();
-                    var job = callTask.Result;
-                    if (Wait)
-                    {
-                        WaitJobFinished(job.Id);
-
-                        Task<List<VirtualMachine>> callTasklist = Task.Run(() => service.AllAsync());
-
-                        callTasklist.Wait();
-                        var virtualnetworks = callTasklist.Result;
-
-                        WriteObject(virtualnetworks.FirstOrDefault(x => x.Id == job.ResourceId));
-
-                    }
-                    else
-                    {
-                        WriteObject(job);
-                    }
+                    WriteObject(WaitJobFinished(job.Id, Connection));
 
                 }
+                else
+                {
+                    WriteObject(job);
+                }
 
-                if (EnableRemoteAccess.HasValue)
-                { 
-                    string action = "";
-                    if (EnableRemoteAccess.Value)
-                    {
+            }
+
+            VirtualMachineService service = new VirtualMachineService(Connection);
+
+            if (EnableRemoteAccess.HasValue)
+            {
+                string action = "";
+                if (EnableRemoteAccess.Value)
+                {
                     action = "EnableRemoteAccess";
-                    }
-                    else
-                    {
-                    action = "DisableRemoteAccess";
-                    }
-
-                    string vmid = Id.ToString("D").ToLower();
-                    Task<Cloud4.CoreLibrary.Models.Job> callTask = Task.Run(() => service.ActionAsync(vmid, new CoreLibrary.Models.ActionParameter { Action = action }));
-
-                    callTask.Wait();
-                    var job = callTask.Result;
-                    if (Wait)
-                    {
-                        WaitJobFinished(job.Id);
-                        Task<VirtualMachine> callTasklist = Task.Run(() => service.GetAsync(job.ResourceId));
-
-                        callTasklist.Wait();
-                        var virtualnetworks = callTasklist.Result;
-
-                        WriteObject(virtualnetworks);
-                    }
-                    else
-                    {
-                        WriteObject(job);
-                    }
-
                 }
-                if (EnableInternetAccess.HasValue)
+                else
                 {
-                    string action = "";
-                    if (EnableRemoteAccess.Value)
-                    {
-                        action = "EnableInternetAccess";
-                    }
-                    else
-                    {
-                        action = "DisableInternetAccess";
-                    }
+                    action = "DisableRemoteAccess";
+                }
 
-                    string vmid = Id.ToString("D").ToLower();
-                    Task<Cloud4.CoreLibrary.Models.Job> callTask = Task.Run(() => service.ActionAsync(vmid, new CoreLibrary.Models.ActionParameter { Action = action }));
+            
+                Task<Cloud4.CoreLibrary.Models.Job> callTask = Task.Run(() => service.ActionAsync(Id, new CoreLibrary.Models.ActionParameter { Action = action }));
 
-                    callTask.Wait();
-                    var job = callTask.Result;
-                    if (Wait)
-                    {
-                        WaitJobFinished(job.Id);
-                        Task<VirtualMachine> callTasklist = Task.Run(() => service.GetAsync(job.ResourceId));
-
-                        callTasklist.Wait();
-                        var virtualnetworks = callTasklist.Result;
-
-                        WriteObject(virtualnetworks);
-                    }
-                    else
-                    {
-                        WriteObject(job);
-                    }
+                callTask.Wait();
+                var job = callTask.Result;
+                if (Wait)
+                {
+                    WriteObject(WaitJobFinished(job.Id, Connection));
+                }
+                else
+                {
+                    WriteObject(job);
                 }
 
             }
-            catch (Exception e)
+            if (EnableInternetAccess.HasValue)
             {
-                throw new RemoteException("An API Error has happen");
+                string action = "";
+                if (EnableRemoteAccess.Value)
+                {
+                    action = "EnableInternetAccess";
+                }
+                else
+                {
+                    action = "DisableInternetAccess";
+                }
+
+                Task<Cloud4.CoreLibrary.Models.Job> callTask = Task.Run(() => service.ActionAsync(Id, new CoreLibrary.Models.ActionParameter { Action = action }));
+
+                callTask.Wait();
+                var job = callTask.Result;
+                if (Wait)
+                {
+                    WriteObject(WaitJobFinished(job.Id, Connection));
+                }
+                else
+                {
+                    WriteObject(job);
+                }
             }
 
-
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
     }
 }

@@ -9,12 +9,12 @@ namespace Cloud4.CoreLibrary.Services
 {
     public interface IBaseServiceInterface<T>
     {
-        Task<List<T>> AllAsync();
+        Task<Result<List<T>>> AllAsync();
 
-        Task<T> GetAsync(Guid Id);
+        Task<Result<T>> GetAsync(Guid Id);
 
 
-        Task<Job> DeleteAsync(Guid Id, bool Wait);
+        Task<Result> DeleteAsync(Guid Id, bool Wait);
 
     }
 }

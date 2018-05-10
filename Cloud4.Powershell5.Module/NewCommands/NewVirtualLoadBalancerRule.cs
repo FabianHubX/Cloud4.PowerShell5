@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vLBRule")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualLoadBalancerRule : BaseCmdLet
+    public class NewVirtualLoadBalancerRule : BaseNewCmdLet<VirtualLoadBalancerRule, VirtualLoadBalancerRuleService, CreateVirtualLoadBalancerRule>
     {
       
 
@@ -122,58 +122,35 @@ namespace Cloud4.Powershell5.Module
         protected override void ProcessRecord()
         {
 
-            VirtualLoadBalancerRuleService service = new VirtualLoadBalancerRuleService(Connection, VirtualLoadBalancerId);
-      
-
-            try
+            var vlb = new CreateVirtualLoadBalancerRule
             {
-                var vlb = new CreateVirtualLoadBalancerRule
-                {
-                    BackendAddressPool = BackendAddressPool,
-                    FrontendIPConfigurations = FrontendIPConfigurations,
-                    Protocol = Protocol.ToString(),
-                    FrontendPort = FrontEndPort,
-                    BackendPort = BackEndPort,
-                    IdleTimeoutInMinutes = IdleTimeoutInMinutes,
-                    EnableFloatingIp = FloatingIpEnabled,
-                    LoadDistribution = LoadDistribution.ToString(),
-                    ProbeId = ProbeId
+                BackendAddressPool = BackendAddressPool,
+                FrontendIPConfigurations = FrontendIPConfigurations,
+                Protocol = Protocol.ToString(),
+                FrontendPort = FrontEndPort,
+                BackendPort = BackEndPort,
+                IdleTimeoutInMinutes = IdleTimeoutInMinutes,
+                EnableFloatingIp = FloatingIpEnabled,
+                LoadDistribution = LoadDistribution.ToString(),
+                ProbeId = ProbeId
 
-                };
-               
+            };
 
-                Task<CoreLibrary.Models.Job> callTask = Task.Run(() => service.CreateAsync(vlb));
-
-                callTask.Wait();
-                var job = callTask.Result;
-                if (Wait)
-                {
-                    WaitJobFinished(job.Id);
-                    Task<List<VirtualLoadBalancerRule>> callTasklist = Task.Run(() => service.AllAsync());
-
-                    callTasklist.Wait();
-                    var virtualnetworks = callTasklist.Result;
-
-                    WriteObject(virtualnetworks.FirstOrDefault(x => x.Id == job.ResourceId));
-                }
-                else
-                {
-                    WriteObject(job);
-                }
+            var job = Create(Connection, vlb);
 
 
-
+            if (Wait)
+            {
+                WriteObject(WaitJobFinished(job.Id, Connection));
             }
-            catch (Exception e)
+            else
             {
-                throw new RemoteException("An API Error has happen");
+                WriteObject(job);
             }
 
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
+        
+        
     }
 }

@@ -20,7 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>Cloud4.CoreLibrary.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -83,12 +83,16 @@
   <ItemGroup>
     <Compile Include="Client\IdentityServer4Client.cs" />
     <Compile Include="Client\ResourceDataClient.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\Action.cs" />
     <Compile Include="Models\Connection.cs" />
+    <Compile Include="Models\CreateAvailabilitySetVM.cs" />
     <Compile Include="Models\CreateAvailabilitySet.cs" />
     <Compile Include="Models\AvailabilitySet.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Contact.cs" />
+    <Compile Include="Models\ErrorDetails.cs" />
+    <Compile Include="Models\Result.cs" />
     <Compile Include="Models\UpdateVirtualLoadBalancerFrontEndConfigurations.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Job.cs" />

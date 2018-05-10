@@ -1,4 +1,5 @@
-﻿using Cloud4.CoreLibrary.Client;
+﻿// Copyright (c) HIAG Data AG. All Rights Reserved. Licensed under the GNU License.  See License.txt
+using Cloud4.CoreLibrary.Client;
 using Cloud4.CoreLibrary.Models;
 using Newtonsoft.Json;
 using System;
@@ -10,7 +11,7 @@ using IdentityModel.Client;
 
 namespace Cloud4.CoreLibrary.Services
 {
-    public class BaseTenantService<T,Y,Z> : IBaseServiceInterface<T>, IBaseCreateServiceInterface<Y>, IBaseUpdateServiceInterface<Z>
+    public class BaseTenantService<T, Y, Z> : IBaseServiceInterface<T>, IBaseCreateServiceInterface<Y>, IBaseUpdateServiceInterface<Z>
     {
         protected Connection Connection { get; set; }
 
@@ -44,57 +45,79 @@ namespace Cloud4.CoreLibrary.Services
             }
         }
 
-        public virtual async Task<List<T>> AllAsync()
+        public virtual async Task<Result<List<T>>> AllAsync()
         {
-            var result = await client.GetDataAsJsonAsync<List<T>>( this.Connection.ApiUrl + this.Connection.TenantId.ToString() + "/" + Entity);
+            Result<List<T>> returnresult = new Result<List<T>>();
 
-            return result;
+            var result = await client.GetDataAsJsonAsync<List<T>>(new Uri(this.Connection.ApiUrl, this.Connection.TenantId.ToString() + "/" + Entity));
+
+            returnresult.Object = result.Content;
+            returnresult.Code = result.StatusCode;
+
+            return returnresult;
 
 
         }
 
-        public virtual async Task<T> GetAsync(Guid Id)
+        public virtual async Task<Result<T>> GetAsync(Guid Id)
         {
-            var result = await client.GetDataAsJsonAsync<T>( this.Connection.ApiUrl + this.Connection.TenantId.ToString() + "/" + Entity + "/" + Id.ToString());
+            Result<T> returnresult = new Result<T>();
 
-            return result;
+            var result = await client.GetDataAsJsonAsync<T>(new Uri(this.Connection.ApiUrl, this.Connection.TenantId.ToString() + "/" + Entity + "/" + Id.ToString()));
 
 
+            returnresult.Object = result.Content;
+            returnresult.Code = result.StatusCode;
+            
+            return returnresult;
+            
         }
 
-        public virtual async Task<Job> CreateAsync(Y body)
+        public virtual async Task<Result> CreateAsync(Y body)
         {
+            Result returnresult = new Result();
             DataClientResult result = await client.PostDataAsJsonAsync<Y>( this.Connection.ApiUrl + this.Connection.TenantId.ToString() + "/" + Entity, body);
 
             if (result.StatusCode == System.Net.HttpStatusCode.Accepted)
             {
                 var job = JsonConvert.DeserializeObject<Job>(result.Content);
-                return job;
+                returnresult.Job = job;
+                return returnresult;
             }
             else
             {
-                return null;
+                returnresult.Code = result.StatusCode;
+                return returnresult;
             }
         }
 
-        public virtual async Task<Job> UpdateAsync(Guid Id, Z body)
+        public virtual async Task<Result> UpdateAsync(Guid Id, Z body)
         {
-            DataClientResult result = await client.PutDataAsJsonAsync<Z>( this.Connection.ApiUrl + this.Connection.TenantId.ToString() + "/" + Entity + "/" + Id.ToString(), body);
+            Result returnresult = new Result();
+            DataClientResult result = await client.PutDataAsJsonAsync<Z>(new Uri(this.Connection.ApiUrl, this.Connection.TenantId.ToString() + "/" + Entity + "/" + Id.ToString()), body);
 
             if (result.StatusCode == System.Net.HttpStatusCode.Accepted)
             {
                 var job = JsonConvert.DeserializeObject<Job>(result.Content);
-                return job;
+                returnresult.Job = job;
+                return returnresult;
+            }
+            else if (result.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                returnresult.Error = JsonConvert.DeserializeObject<ErrorDetails>(result.Content);
+                return returnresult;
             }
             else
             {
-                return null;
+                returnresult.Code = result.StatusCode;
+                return returnresult;
             }
         }
 
-        public virtual async Task<Job> DeleteAsync(Guid Id, bool Wait)
+        public virtual async Task<Result> DeleteAsync(Guid Id, bool Wait)
         {
-            DataClientResult result = await client.DeleteDataAsJsonAsync( this.Connection.ApiUrl + this.Connection.TenantId.ToString() + "/" + Entity + "/" + Id.ToString());
+            Result returnresult = new Result();
+            DataClientResult result = await client.DeleteDataAsJsonAsync(new Uri(this.Connection.ApiUrl, this.Connection.TenantId.ToString() + "/" + Entity + "/" + Id.ToString()));
 
             Job job;
             if (result.StatusCode == System.Net.HttpStatusCode.Accepted)
@@ -106,32 +129,45 @@ namespace Cloud4.CoreLibrary.Services
 
                     JobService jobService = new JobService(this.Connection);
 
-                    Task<CoreLibrary.Models.Job> callTask;
+                    Task<CoreLibrary.Models.Result<Job>> callTask;
 
                     do
                     {
                         callTask = Task.Run(() => jobService.GetAsync(job.Id));
 
                         callTask.Wait();
-                        job = callTask.Result;
+                        job = callTask.Result.Object;
 
                         Thread.Sleep(new TimeSpan(0, 0, 5));
 
                     }
                     while (job.State != "failed" && job.State != "succeeded");
 
-                    return job;
+                    returnresult.Job = job;
+                    return returnresult;
 
                 }
                 else
                 {
-                    return job;
+                    returnresult.Job = job;
+                    return returnresult;
                 }
 
             }
+            else if (result.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                returnresult.Code = result.StatusCode;
+                return returnresult;
+            }
+            else if (result.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                returnresult.Error = JsonConvert.DeserializeObject<ErrorDetails>(result.Content);                
+                return returnresult;
+            }        
             else
             {
-                return null;
+                returnresult.Code = result.StatusCode;
+                return returnresult;
             }
         }
 

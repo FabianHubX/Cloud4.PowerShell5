@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vLBBackEndPool")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualLoadBalancerBackEndPool : BaseCmdLet
+    public class NewVirtualLoadBalancerBackEndPool : BaseNewCmdLet<VirtualLoadBalancerBackEndPool, VirtualLoadBalancerBackEndPoolService, CreateVirtualLoadBalancerBackEndPool>
     {
       
 
@@ -50,50 +50,29 @@ namespace Cloud4.Powershell5.Module
         protected override void ProcessRecord()
         {
 
-            VirtualLoadBalancerBackEndPoolService service = new VirtualLoadBalancerBackEndPoolService(Connection, VirtualLoadBalancerId);
-      
 
-            try
+            var vlb = new CreateVirtualLoadBalancerBackEndPool
             {
-                var vlb = new CreateVirtualLoadBalancerBackEndPool
-                {
-                     VirtualMachines = VirtualMachineIds
+                VirtualMachines = VirtualMachineIds
 
-                };
-               
+            };
 
-                Task<CoreLibrary.Models.Job> callTask = Task.Run(() => service.CreateAsync(vlb));
+            var job = Create(Connection, vlb);
 
-                callTask.Wait();
-                var job = callTask.Result;
-                if (Wait)
-                {
-                    WaitJobFinished(job.Id);
-                    Task<List<VirtualLoadBalancerBackEndPool>> callTasklist = Task.Run(() => service.AllAsync());
-
-                    callTasklist.Wait();
-                    var virtualnetworks = callTasklist.Result;
-
-                    WriteObject(virtualnetworks.FirstOrDefault(x => x.Id == job.ResourceId));
-                }
-                else
-                {
-                    WriteObject(job);
-                }
-
-
+            if (Wait)
+            {
+                WriteObject(WaitJobFinished(job.Id, Connection));
 
             }
-            catch (Exception e)
+            else
             {
-                throw new RemoteException("An API Error has happen");
+                WriteObject(job);
             }
+
 
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
+        
+        
     }
 }

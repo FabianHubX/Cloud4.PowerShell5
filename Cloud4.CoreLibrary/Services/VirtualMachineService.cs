@@ -1,4 +1,5 @@
-﻿using Cloud4.CoreLibrary.Client;
+﻿// Copyright (c) HIAG Data AG. All Rights Reserved. Licensed under the GNU License.  See License.txt
+using Cloud4.CoreLibrary.Client;
 using Cloud4.CoreLibrary.Models;
 using Newtonsoft.Json;
 using System;
@@ -24,9 +25,9 @@ namespace Cloud4.CoreLibrary.Services
 
       
 
-        public async Task<Job> ActionAsync(string Id, ActionParameter body)
+        public async Task<Job> ActionAsync(Guid Id, ActionParameter body)
         {
-            DataClientResult result = await client.PostDataAsJsonAsync<ActionParameter>( this.Connection.ApiUrl + this.Connection.TenantId.ToString() + "/" + Entity + "/" + Id + "/actions", body);
+            DataClientResult result = await client.PostDataAsJsonAsync<ActionParameter>( this.Connection.ApiUrl + this.Connection.TenantId.ToString() + "/" + Entity + "/" + Id.ToString() + "/actions", body);
 
             if (result.StatusCode == System.Net.HttpStatusCode.Accepted)
             {
@@ -40,12 +41,15 @@ namespace Cloud4.CoreLibrary.Services
         }
 
 
-        public async Task<List<VirtualMachine>> GetByvDCAsync(Guid vDcId)
+        public async Task<Result<List<VirtualMachine>>> GetByvDCAsync(Guid vDcId)
         {
-            var result = await client.GetDataAsJsonAsync<List<VirtualMachine>>(this.Connection.ApiUrl + this.Connection.TenantId.ToString() + "/" + Entity + "?vdcId=" + vDcId.ToString());
+            var result = await client.GetDataAsJsonAsync<List<VirtualMachine>>(new Uri(this.Connection.ApiUrl, this.Connection.TenantId.ToString() + "/" + Entity + "?vdcId=" + vDcId.ToString()));
 
-            return result;
+            Result<List<VirtualMachine>> returnresult = new Result<List<VirtualMachine>>();
+            returnresult.Object = result.Content;
+            returnresult.Code = result.StatusCode;
 
+            return returnresult;
 
         }
     }

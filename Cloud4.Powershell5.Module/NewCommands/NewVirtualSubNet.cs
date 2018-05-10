@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vSubNet")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualSubNet : BaseCmdLet
+    public class NewVirtualSubNet : BaseNewCmdLet<VirtualSubNet, VirtualSubNetService, CreateVirtualSubNet>
     {
         [Parameter(
           Mandatory = true,
@@ -61,44 +61,24 @@ namespace Cloud4.Powershell5.Module
         {
 
 
-            service = new VirtualSubNetService(Connection);
-         
 
-            try
+
+            var newsubnet = new CreateVirtualSubNet { Name = Name, VirtualNetworkId = VirtualNetworkId, AddressPrefix = AddressSpace };
+
+            var job = Create(Connection, newsubnet);
+
+            if (Wait)
             {
-
-                Task<CoreLibrary.Models.Job> callTask = Task.Run(() => service.CreateAsync(new CreateVirtualSubNet { Name = Name, VirtualNetworkId = VirtualNetworkId, AddressPrefix = AddressSpace }));
-
-                callTask.Wait();
-                var job = callTask.Result;
-                if (Wait)
-                {
-                    WaitJobFinished(job.Id);
-                    Task<List<VirtualSubNet>> callTasklist = Task.Run(() => service.AllAsync());
-
-                    callTasklist.Wait();
-                    var virtualsubnets = callTasklist.Result;
-
-                    WriteObject(virtualsubnets.FirstOrDefault(x => x.Id == job.ResourceId));
-                }
-                else
-                {
-                    WriteObject(job);
-                }
-
-
-
+                WriteObject(WaitJobFinished(job.Id, Connection));
             }
-            catch (Exception e)
+            else
             {
-                throw new RemoteException("An API Error has happen");
+                WriteObject(job);
             }
 
-        }
-
-        protected override void EndProcessing()
-        {
 
         }
+        
+        
     }
 }

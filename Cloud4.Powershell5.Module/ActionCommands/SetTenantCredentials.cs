@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Set, "Cloud4TenantCredentials")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class SetTenantCredentials : BaseCmdLet
+    public class SetTenantCredentials : BaseActionCmdLet<Tenant, TenantService>
     {
 
      
@@ -64,9 +64,8 @@ namespace Cloud4.Powershell5.Module
 
         }
 
-        protected override void EndProcessing()
-        {
+        
+      
 
-        }
     }
 }

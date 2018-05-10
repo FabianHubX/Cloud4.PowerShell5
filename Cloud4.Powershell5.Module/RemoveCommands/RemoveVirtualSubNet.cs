@@ -55,11 +55,8 @@ ValueFromPipelineByPropertyName = true)]
 
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
-
+        
+        
         public static CoreLibrary.Models.Job RemoveForce(Guid Id, Connection con)
         {
             CoreLibrary.Models.Job job;
@@ -77,6 +74,10 @@ ValueFromPipelineByPropertyName = true)]
                 else if (job.State == "failed")
                 {
                     IsSuccessfull = false;
+                }
+                else
+                {
+                    IsSuccessfull = true;
                 }
             }
 

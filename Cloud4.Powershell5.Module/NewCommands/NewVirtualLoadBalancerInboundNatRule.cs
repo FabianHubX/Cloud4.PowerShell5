@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vLBInboundNATRule")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualLoadBalancerInboundNatRule : BaseCmdLet
+    public class NewVirtualLoadBalancerInboundNatRule : BaseNewCmdLet<VirtualLoadBalancerInboundNatRule, VirtualLoadBalancerInboundNatRuleService, CreateVirtualLoadBalancerInboundNatRule>
     {
       
 
@@ -86,55 +86,29 @@ namespace Cloud4.Powershell5.Module
 
         protected override void ProcessRecord()
         {
-
-            VirtualLoadBalancerInboundNatRuleService service = new VirtualLoadBalancerInboundNatRuleService(Connection, VirtualLoadBalancerId);
-      
-
-            try
+            var vlb = new CreateVirtualLoadBalancerInboundNatRule
             {
-                var vlb = new CreateVirtualLoadBalancerInboundNatRule
-                {
-                    BackendPort = BackEndPort,
-                    FrontendIpConfigurations = FrontendIpConfigurations,
-                    FrontendPort = FrontEndPort,
-                    Protocol = Protocol.ToString(),
-                    VirtualMachineId = VirtualMachineId
+                BackendPort = BackEndPort,
+                FrontendIpConfigurations = FrontendIpConfigurations,
+                FrontendPort = FrontEndPort,
+                Protocol = Protocol.ToString(),
+                VirtualMachineId = VirtualMachineId
 
-                };
-               
-
-                Task<CoreLibrary.Models.Job> callTask = Task.Run(() => service.CreateAsync(vlb));
-
-                callTask.Wait();
-                var job = callTask.Result;
-                if (Wait)
-                {
-                    WaitJobFinished(job.Id);
-                    Task<List<VirtualLoadBalancerInboundNatRule>> callTasklist = Task.Run(() => service.AllAsync());
-
-                    callTasklist.Wait();
-                    var virtualnetworks = callTasklist.Result;
-
-                    WriteObject(virtualnetworks.FirstOrDefault(x => x.Id == job.ResourceId));
-                }
-                else
-                {
-                    WriteObject(job);
-                }
+            };
 
 
+            var job = Create(Connection, vlb);
 
+            if (Wait)
+            {
+                WriteObject(WaitJobFinished(job.Id,Connection));             
             }
-            catch (Exception e)
+            else
             {
-                throw new RemoteException("An API Error has happen");
+                WriteObject(job);
             }
 
         }
-
-        protected override void EndProcessing()
-        {
-
-        }
+    
     }
 }

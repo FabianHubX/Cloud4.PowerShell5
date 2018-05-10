@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsData.Update, "Cloud4vNet")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualNetwork : BaseCmdLet
+    public class UpdateVirtualNetwork : BaseUpdateCmdLet< VirtualNetwork, VirtualNetworkService, VirtualNetwork>
     {
         [Parameter(
      Mandatory = true,
@@ -60,61 +60,34 @@ namespace Cloud4.Powershell5.Module
         protected override void ProcessRecord()
         {
 
-            virtualNetworkService = new VirtualNetworkService(Connection);
+            var vnet = Get(Connection, Id);
+
+
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                vnet.Name = Name;
+            }
+            if (DnsServers != null)
+            {
+                vnet.DnsServers = DnsServers.ToArray();
+            }
+
+            var job = Update(Connection, Id, vnet);
+
+            if (Wait)
+            {
+                WriteObject(WaitJobFinished(job.Id, Connection));
+
+            }
+            else
+            {
+                WriteObject(job);
+            }
+
+        }
+
         
-            try
-            {
-
-                Task<Cloud4.CoreLibrary.Models.VirtualNetwork> callTaskvNet = Task.Run(() => virtualNetworkService.GetAsync(Id));
-
-                callTaskvNet.Wait();
-                var vnet = callTaskvNet.Result;
-
-             
-
-
-                if (!string.IsNullOrEmpty(Name))
-                {
-                    vnet.Name = Name;
-                }
-                if (DnsServers != null)
-                {
-                    vnet.DnsServers = DnsServers.ToArray();
-                }
-                Task<CoreLibrary.Models.Job> callTask = Task.Run(() => virtualNetworkService.UpdateAsync(Id, vnet));
-
-                callTask.Wait();
-                var job = callTask.Result;
-                if (Wait)
-                {
-                    WaitJobFinished(job.Id);
-
-                    Task<List<VirtualNetwork>> callTasklist = Task.Run(() => virtualNetworkService.AllAsync());
-
-                    callTasklist.Wait();
-                    var virtualnetworks = callTasklist.Result;
-
-                    WriteObject(virtualnetworks.FirstOrDefault(x => x.Id == job.ResourceId));
-
-                }
-                else
-                {
-                    WriteObject(job);
-                }
-
-
-            }
-            catch (Exception e)
-            {
-                throw new RemoteException("An API Error has happen");
-            }
-
-
-        }
-
-        protected override void EndProcessing()
-        {
-
-        }
+        
     }
 }

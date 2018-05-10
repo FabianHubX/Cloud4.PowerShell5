@@ -19,7 +19,7 @@ namespace Cloud4.CoreLibrary.Models
 
         public VirtualMachineSetting SetupSetting { get; set; }
         
-        public CreateAvailabilitySet AvailabilitySet { get; set; }
+        public CreateAvailabilitySetVM AvailabilitySet { get; set; }
 
         public List<CreateVirtualDisk> DataDisks { get; set; }
 

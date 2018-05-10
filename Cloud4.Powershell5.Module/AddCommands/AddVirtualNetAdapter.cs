@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Add, "Cloud4vNetAdapter")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class AddVirtualNetAdapter : BaseCmdLet
+    public class AddVirtualNetAdapter : BaseAddCmdLet<VirtualNetworkAdapter, VirtualNetworkAdapterService>
     {
 
         private string _nICProfile;
@@ -64,12 +64,27 @@ namespace Cloud4.Powershell5.Module
 
             subnetService = new VirtualSubNetService(Connection);
 
+            VirtualSubNet subnet = new VirtualSubNet();
 
 
-            Task<CoreLibrary.Models.VirtualSubNet> callTasksubNet = Task.Run(() => subnetService.GetAsync(VirtualSubNetId));
+            Task<Result<CoreLibrary.Models.VirtualSubNet>> callTasksubNet = Task.Run(() => subnetService.GetAsync(VirtualSubNetId));
 
             callTasksubNet.Wait();
-            var subnet = callTasksubNet.Result;
+
+            if (callTasksubNet.Result.Job != null)
+            {
+                subnet = callTasksubNet.Result.Object;
+            }
+            else if (callTasksubNet.Result.Error != null)
+            {
+                throw new RemoteException("Conflict Error: " + callTasksubNet.Result.Error.ErrorType + "\r\n" + callTasksubNet.Result.Error.FaultyValues);
+            }
+            else
+            {
+                throw new RemoteException("API returns: " + callTasksubNet.Result.Code.ToString());
+            }
+
+           
 
 
 
@@ -85,24 +100,32 @@ namespace Cloud4.Powershell5.Module
 
 
 
-            Task<CoreLibrary.Models.Job> callTask = Task.Run(() => service.CreateAsync(virtualnic));
+            Task<CoreLibrary.Models.Result> callTask = Task.Run(() => service.CreateAsync(virtualnic));
 
             callTask.Wait();
-            var job = callTask.Result;
-       
+            var result = callTask.Result;
+            CoreLibrary.Models.Job job;
+
+            if (result.Job != null)
+            {
+                job = result.Job;
+            }
+            else if (result.Error != null)
+            {
+                throw new RemoteException("Conflict Error: " + result.Error.ErrorType + "\r\n" + result.Error.FaultyValues);
+            }
+            else
+            {
+                throw new RemoteException("API returns: " + result.Code.ToString());
+            }
+
 
             if (Wait)
             {
-                JobService jobService = new JobService(Connection);
 
-                WaitJobFinished(job.Id);
+                WriteObject(WaitJobFinished(job.Id,Connection));
+              
 
-                Task<List<VirtualNetworkAdapter>> callTasklist = Task.Run(() => service.AllAsync());
-
-                callTasklist.Wait();
-                var virtualDatacenters = callTasklist.Result;
-
-                WriteObject(virtualDatacenters.FirstOrDefault(x => x.Id == job.ResourceId));
             }
             else
             {
@@ -112,9 +135,5 @@ namespace Cloud4.Powershell5.Module
 
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
     }
 }

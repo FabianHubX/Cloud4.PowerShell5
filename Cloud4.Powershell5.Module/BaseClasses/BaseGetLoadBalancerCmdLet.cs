@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    public class BaseGetLoadBalancerCmdLet<T,Y> : BaseCmdLet where Y : new()
+    public class BaseGetLoadBalancerCmdLet<T,Y> : BaseCmdLet<T,Y> where Y : new()
     {
 
       
@@ -22,10 +22,10 @@ namespace Cloud4.Powershell5.Module
                 var service = Activator.CreateInstance(typeof(Y), new object[] { con, VirtualLoadBalancerId });
 
 
-                Task<List<T>> callTask = Task.Run(() => ((IBaseServiceInterface<T>)service).AllAsync());
+                Task<Result<List<T>>> callTask = Task.Run(() => ((IBaseServiceInterface<T>)service).AllAsync());
             
                 callTask.Wait();
-                var job = callTask.Result;
+                var job = callTask.Result.Object;
 
                 return job;
 
@@ -44,10 +44,10 @@ namespace Cloud4.Powershell5.Module
                 IBaseServiceInterface<T> service = (IBaseServiceInterface<T>)Activator.CreateInstance(typeof(Y), new object[] { con, VirtualLoadBalancerId   });
 
 
-                Task<T> callTask = Task.Run(() => service.GetAsync(Id));
+                Task<Result<T>> callTask = Task.Run(() => service.GetAsync(Id));
 
                 callTask.Wait();
-                var job = callTask.Result;
+                var job = callTask.Result.Object;
 
                 return job;
 

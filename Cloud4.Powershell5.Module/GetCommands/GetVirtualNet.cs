@@ -53,29 +53,31 @@ namespace Cloud4.Powershell5.Module
             }
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
-
+        
+        
 
         public static List<VirtualNetwork> GetbyvDCAll(Guid vDCId, Connection con)
         {
-            try
+            VirtualNetworkService service = new VirtualNetworkService(con);
+
+            Task<Result<List<VirtualNetwork>>> callTask = Task.Run(() => service.GetByvDCAsync(vDCId));
+
+            callTask.Wait();
+
+            var result = callTask.Result;
+
+
+            if (result.Object != null)
             {
-                VirtualNetworkService service = new VirtualNetworkService(con);
-
-                Task<List<VirtualNetwork>> callTask = Task.Run(() => service.GetByvDCAsync(vDCId));
-
-                callTask.Wait();
-                var job = callTask.Result;
-
-                return job;
-
+                return result.Object;
             }
-            catch (Exception e)
+            else if (result.Error != null)
             {
-                throw new RemoteException("An API Error has happen");
+                throw new RemoteException("Conflict Error: " + result.Error.ErrorType + "\r\n" + result.Error.FaultyValues);
+            }
+            else
+            {
+                throw new RemoteException("API returns: " + result.Code.ToString());
             }
         }
 

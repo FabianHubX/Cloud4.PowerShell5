@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4AvailabilitySet")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewAvailabilitySet : BaseCmdLet
+    public class NewAvailabilitySet : BaseNewCmdLet<AvailabilitySet, AvailabilitySetService, CreateAvailabilitySet>
     {
         [Parameter(
           Mandatory = true,
@@ -53,45 +53,23 @@ namespace Cloud4.Powershell5.Module
         protected override void ProcessRecord()
         {
 
-            service = new AvailabilitySetService(Connection);
-          
+            var newaailset = new CreateAvailabilitySet { Name = Name, VirtualDatacenterId = VirtualDataCenterId };
 
-            try
+            var job = Create(Connection, newaailset);
+
+
+            if (Wait)
             {
-               
-
-                Task<CoreLibrary.Models.Job> callTask = Task.Run(() => service.CreateAsync(new AvailabilitySet { Name = Name, VirtualDatacenterId = VirtualDataCenterId }));
-
-                callTask.Wait();
-                var job = callTask.Result;
-                if (Wait)
-                {
-                    WaitJobFinished(job.Id);
-                    Task<List<AvailabilitySet>> callTasklist = Task.Run(() => service.AllAsync());
-
-                    callTasklist.Wait();
-                    var virtualnetworks = callTasklist.Result;
-
-                    WriteObject(virtualnetworks.FirstOrDefault(x => x.Id == job.ResourceId));
-                }
-                else
-                {
-                    WriteObject(job);
-                }
-
-
-
+                WriteObject(WaitJobFinished(job.Id, Connection));
             }
-            catch (Exception e)
+            else
             {
-                throw new RemoteException("An API Error has happen");
+                WriteObject(job);
             }
 
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
+        
+        
     }
 }

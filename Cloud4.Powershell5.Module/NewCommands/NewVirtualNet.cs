@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vNet")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualNet : BaseCmdLet
+    public class NewVirtualNet : BaseNewCmdLet<VirtualNetwork, VirtualNetworkService, CreateVirtualNetwork>
     {
         private List<string> _dnsservers;
 
@@ -75,58 +75,32 @@ namespace Cloud4.Powershell5.Module
         public bool Wait { get; set; }
 
 
-        private VirtualNetworkService virtualNetworkService { get; set; }
-
-
 
         protected override void ProcessRecord()
         {
 
-            virtualNetworkService = new VirtualNetworkService(Connection);
-      
-
-            try
+            var vnet = new CreateVirtualNetwork
             {
-                var vnet = new CreateVirtualNetwork {
-                    Name = Name,
-                    VirtualDatacenterId = VirtualDataCenterId,
-                    AddressSpace = new[] { AddressSpace },
-                    DnsServers = _dnsservers.ToArray(),
-                    SubNets = SubNet };
+                Name = Name,
+                VirtualDatacenterId = VirtualDataCenterId,
+                AddressSpace = new[] { AddressSpace },
+                DnsServers = _dnsservers.ToArray(),
+                SubNets = SubNet
+            };
 
+            var job = Create(Connection, vnet);
 
-                Task<CoreLibrary.Models.Job> callTask = Task.Run(() => virtualNetworkService.CreateAsync(vnet));
-
-                callTask.Wait();
-                var job = callTask.Result;
-                if (Wait)
-                {
-                    WaitJobFinished(job.Id);
-                    Task<List<VirtualNetwork>> callTasklist = Task.Run(() => virtualNetworkService.AllAsync());
-
-                    callTasklist.Wait();
-                    var virtualnetworks = callTasklist.Result;
-
-                    WriteObject(virtualnetworks.FirstOrDefault(x => x.Id == job.ResourceId));
-                }
-                else
-                {
-                    WriteObject(job);
-                }
-
-
-
-            }
-            catch (Exception e)
+            if (Wait)
             {
-                throw new RemoteException("An API Error has happen");
+                WriteObject(WaitJobFinished(job.Id, Connection));
             }
+            else
+            {
+                WriteObject(job);
+            }
+
 
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
     }
 }

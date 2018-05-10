@@ -20,13 +20,10 @@ namespace Cloud4.CoreLibrary.Client
         {
             Console.Title = "Console ResourceOwner Flow RefreshToken";
 
-            // https://sts.e2e.itnetx.ch/.well-known/openid-configuration
-            // https://github.com/IdentityModel/IdentityModel.OidcClient2/issues/46
-            // var disco = await DiscoveryClient.GetAsync(StsServer);
-            // if (disco.IsError) throw new Exception(disco.Error);
+           
 
             var client = new DiscoveryClient(stsServer.ToString());
-            client.Policy.ValidateIssuerName = false; // "https://sts.fes.d1.sorbus.cloud:44354"
+            client.Policy.ValidateIssuerName = false;
 
             var disco = await client.GetAsync();
             if (disco.IsError) throw new Exception(disco.Error);

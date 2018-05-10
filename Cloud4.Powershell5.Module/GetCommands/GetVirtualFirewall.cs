@@ -64,9 +64,7 @@ namespace Cloud4.Powershell5.Module
                 WriteObject(GetOne(Id, Connection));
             }
         }
-        protected override void EndProcessing()
-        {
-
-        }
+        
+        
     }
 }

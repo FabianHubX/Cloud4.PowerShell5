@@ -1,4 +1,5 @@
-﻿using Cloud4.CoreLibrary.Client;
+﻿// Copyright (c) HIAG Data AG. All Rights Reserved. Licensed under the GNU License.  See License.txt
+using Cloud4.CoreLibrary.Client;
 using Cloud4.CoreLibrary.Models;
 using Newtonsoft.Json;
 using System;
@@ -23,12 +24,15 @@ namespace Cloud4.CoreLibrary.Services
 
 
 
-        public async Task<List<VirtualSubNet>> GetByvNetAsync(Guid vNetId)
+        public async Task<Result<List<VirtualSubNet>>> GetByvNetAsync(Guid vNetId)
         {
-            var result = await client.GetDataAsJsonAsync<List<VirtualSubNet>>( this.Connection.ApiUrl + this.Connection.TenantId.ToString() + "/" + Entity + "?vnetId=" + vNetId.ToString());
+            var result = await client.GetDataAsJsonAsync<List<VirtualSubNet>>(new Uri(this.Connection.ApiUrl, this.Connection.TenantId.ToString() + "/" + Entity + "?vnetId=" + vNetId.ToString()));
 
-            return result;
+            Result<List<VirtualSubNet>> returnresult = new Result<List<VirtualSubNet>>();
+            returnresult.Object = result.Content;
+            returnresult.Code = result.StatusCode;
 
+            return returnresult;
 
         }
     }

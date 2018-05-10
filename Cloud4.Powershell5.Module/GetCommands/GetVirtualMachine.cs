@@ -53,10 +53,8 @@ namespace Cloud4.Powershell5.Module
                 WriteObject(GetOne(Id, Connection));
             }
         }
-        protected override void EndProcessing()
-        {
-
-        }
+        
+        
 
 
         public static List<VirtualMachine> GetByvSubNetAll(Guid vSubNetId, Connection con)
@@ -92,22 +90,28 @@ namespace Cloud4.Powershell5.Module
 
         public static List<VirtualMachine> GetbyvDCAll(Guid vDCId, Connection con)
         {
-            try
+
+            VirtualMachineService service = new VirtualMachineService(con);
+
+            Task<Result<List<VirtualMachine>>> callTask = Task.Run(() => service.GetByvDCAsync(vDCId));
+
+            callTask.Wait();
+            var result = callTask.Result;
+
+
+            if (result.Object != null)
             {
-                VirtualMachineService service = new VirtualMachineService(con);
-
-                Task<List<VirtualMachine>> callTask = Task.Run(() => service.GetByvDCAsync(vDCId));
-
-                callTask.Wait();
-                var job = callTask.Result;
-
-                return job;
-
+                return result.Object;
             }
-            catch (Exception e)
+            else if (result.Error != null)
             {
-                throw new RemoteException("An API Error has happen");
+                throw new RemoteException("Conflict Error: " + result.Error.ErrorType + "\r\n" + result.Error.FaultyValues);
             }
+            else
+            {
+                throw new RemoteException("API returns: " + result.Code.ToString());
+            }
+
         }
 
     }

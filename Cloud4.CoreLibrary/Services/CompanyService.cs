@@ -1,4 +1,5 @@
-﻿using Cloud4.CoreLibrary.Client;
+﻿// Copyright (c) HIAG Data AG. All Rights Reserved. Licensed under the GNU License.  See License.txt
+using Cloud4.CoreLibrary.Client;
 using Cloud4.CoreLibrary.Models;
 using System;
 using System.Collections.Generic;
@@ -23,12 +24,15 @@ namespace Cloud4.CoreLibrary.Services
 
         
 
-        public async Task<Company> GetCurrentAsync()
+        public async Task<Result<Company>> GetCurrentAsync()
         {
-            var result = await client.GetDataAsJsonAsync<Company>(this.Connection.ApiUrl + Entity + "/current");
+            var result = await client.GetDataAsJsonAsync<Company>(new Uri(this.Connection.ApiUrl, Entity + "/current"));
 
-            return result;
+            Result<Company> returnresult = new Result<Company>();
+            returnresult.Object = result.Content;
+            returnresult.Code = result.StatusCode;
 
+            return returnresult;
 
         }
     }

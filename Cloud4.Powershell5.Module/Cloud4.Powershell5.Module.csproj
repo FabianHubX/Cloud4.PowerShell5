@@ -20,7 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>Cloud4.Powershell5.Module.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -67,11 +67,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddCommands\AddDataDisk.cs" />
+    <Compile Include="BaseClasses\BaseActionCmdLet.cs" />
     <Compile Include="BaseClasses\BaseCmdLet.cs" />
     <Compile Include="BaseClasses\BaseGetLoadBalancerCmdLet.cs" />
+    <Compile Include="BaseClasses\BaseAddCmdLet.cs" />
     <Compile Include="BaseClasses\BaseRemoveLoadBalancerCmdLet.cs" />
     <Compile Include="BaseClasses\BaseRemoveCmdLet.cs" />
     <Compile Include="BaseClasses\BaseGetCmdLet.cs" />
+    <Compile Include="BaseClasses\BaseNewCmdLet.cs" />
+    <Compile Include="BaseClasses\BaseUpdateCmdLet.cs" />
     <Compile Include="GetCommands\GetContact.cs" />
     <Compile Include="GetCommands\GetImage.cs" />
     <Compile Include="GetCommands\GetProfile.cs" />
@@ -87,6 +91,7 @@
     <Compile Include="GetCommands\GetAvailabilitySet.cs" />
     <Compile Include="GetCommands\GetVirtualDisk.cs" />
     <Compile Include="GetCommands\GetVirtualNetAdapter.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\CompanyEnums.cs" />
     <Compile Include="Models\LoadBalancerParameters.cs" />
     <Compile Include="Models\FirewallParameters.cs" />
@@ -102,6 +107,7 @@
     <Compile Include="NewCommands\NewVirtualLoadBalancerRule.cs" />
     <Compile Include="NewCommands\NewVirtualLoadBalancerInboundNatRule.cs" />
     <Compile Include="NewCommands\NewVirtualLoadBalancer.cs" />
+    <Compile Include="RemoveCommands\RemoveCompany.cs" />
     <Compile Include="RemoveCommands\RemoveVirtualLoadBalancer.cs" />
     <Compile Include="RemoveCommands\RemoveVirtualLoadBalancerRule.cs" />
     <Compile Include="RemoveCommands\RemoveVirtualLoadBalancerProbe.cs" />

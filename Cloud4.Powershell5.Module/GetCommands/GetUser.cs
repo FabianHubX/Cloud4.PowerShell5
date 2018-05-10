@@ -29,41 +29,46 @@ namespace Cloud4.Powershell5.Module
         protected override void ProcessRecord()
         {
 
-
-            userService = new UserService(Connection);
-
-            try
+            if (string.IsNullOrEmpty(eMail))
             {
-                if (string.IsNullOrEmpty(eMail))
-                {
-                    Task<List<Cloud4.CoreLibrary.Models.User>> callTask = Task.Run(() => userService.AllAsync());
-
-                    callTask.Wait();
-                    var users = callTask.Result;
-
-
-                    users.ToList().ForEach(WriteObject);
-                }
-                else
-                {
-
-                    Task<Cloud4.CoreLibrary.Models.User> callTask = Task.Run(() => userService.GetAsync(eMail.ToLower()));
-
-                    callTask.Wait();
-                    var user = callTask.Result;
-
-                    WriteObject(user);
-                }
+                GetAll(Connection).ForEach(WriteObject);
             }
-            catch (Exception e)
+            else
             {
-                throw new RemoteException("An API Error has happen");
+                WriteObject(GetOnebyEMail(eMail, Connection));
             }
+
+          
         }
 
-        protected override void EndProcessing()
+        
+        
+
+        public static User GetOnebyEMail(string email, Connection con)
         {
 
+            UserService service = new UserService(con);
+           
+            Task<Result<User>> callTask = Task.Run(() => service.GetAsync(email.ToLower()));
+
+            callTask.Wait();
+            var result = callTask.Result;
+
+
+            if (result.Object != null)
+            {
+                return result.Object;
+            }
+            else if (result.Error != null)
+            {
+                throw new RemoteException("Conflict Error: " + result.Error.ErrorType + "\r\n" + result.Error.FaultyValues);
+            }
+            else
+            {
+                throw new RemoteException("API returns: " + result.Code.ToString());
+            }
+
         }
+
     }
 }

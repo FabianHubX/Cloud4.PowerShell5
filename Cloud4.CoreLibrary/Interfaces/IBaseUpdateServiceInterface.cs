@@ -9,7 +9,7 @@ namespace Cloud4.CoreLibrary.Services
 {
     public interface IBaseUpdateServiceInterface<Z>
     {
-        Task<Job> UpdateAsync(Guid Id, Z body);
+        Task<Result> UpdateAsync(Guid Id, Z body);
 
     }
 }

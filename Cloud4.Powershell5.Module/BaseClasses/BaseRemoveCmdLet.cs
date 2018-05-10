@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Cloud4.Powershell5.Module
 {
    
-    public class BaseRemoveCmdLet<T,Y> : BaseCmdLet where Y : new()
+    public class BaseRemoveCmdLet<T,Y> : BaseCmdLet<T,Y> where Y : new()
     {
         public Connection Connection { get; set; }
 
@@ -38,24 +38,29 @@ namespace Cloud4.Powershell5.Module
 
         public static CoreLibrary.Models.Job Remove(Guid Id, Connection con, bool Wait)
         {
-            try
-            {
-               
+           
 
                 var service = Activator.CreateInstance(typeof(Y), new object[] { con });
                 
-                Task<CoreLibrary.Models.Job> callTask = Task.Run(() => ((IBaseServiceInterface<T>)service).DeleteAsync(Id, Wait));
+                Task<CoreLibrary.Models.Result> callTask = Task.Run(() => ((IBaseServiceInterface<T>)service).DeleteAsync(Id, Wait));
 
                 callTask.Wait();
-                var job = callTask.Result;
+                var result = callTask.Result;
 
-                return job;
+                if (result.Job != null)
+                {
+                    return result.Job;
+                }
+                else if (result.Error != null)
+                {
+                    throw new RemoteException("Conflict Error: " + result.Error.ErrorType + "\r\n" + result.Error.FaultyValues);
+                }
+                else
+                {
+                    throw new RemoteException("API returns: " + result.Code.ToString());
+                }
 
-            }
-            catch (Exception e)
-            {
-                throw new RemoteException("An API Error has happen");
-            }
+           
         }
 
 

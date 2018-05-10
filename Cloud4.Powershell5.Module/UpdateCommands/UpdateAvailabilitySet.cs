@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsData.Update, "Cloud4AvailabilitySet")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateAvailabilitySet : BaseCmdLet
+    public class UpdateAvailabilitySet : BaseUpdateCmdLet<AvailabilitySet, AvailabilitySetService, AvailabilitySet>
     {
 
         [Parameter(
@@ -47,54 +47,26 @@ ValueFromPipelineByPropertyName = true)]
 
         public bool Wait { get; set; }
 
-        private AvailabilitySetService service { get; set; }
-
 
         protected override void ProcessRecord()
         {
-            service = new AvailabilitySetService(Connection);
+           
 
-            try
+            var availset = Get(Connection, Id);
+
+            availset.Name = Name;
+
+            var job = Update(Connection, Id, availset);
+
+            if (Wait)
             {
-
-                string vdcid = Id.ToString("D").ToLower();
-                Task<Cloud4.CoreLibrary.Models.AvailabilitySet> callTask = Task.Run(() => service.GetAsync(Id));
-
-                callTask.Wait();
-                var vdc = callTask.Result;
-
-                vdc.Name = Name;
-
-                Task<CoreLibrary.Models.Job> callTaskJob = Task.Run(() => service.UpdateAsync(Id, vdc));
-
-                callTaskJob.Wait();
-                var job = callTaskJob.Result;
-                if (Wait)
-                {
-                    WaitJobFinished(job.Id);
-
-                  
-                    Task<AvailabilitySet> callTasklist = Task.Run(() => service.GetAsync(job.ResourceId));
-
-                    callTasklist.Wait();                    
-                    WriteObject(callTasklist.Result);
-                }
-                else
-                {
-                    WriteObject(job);
-                }
-
+                WriteObject(WaitJobFinished(job.Id, Connection));
             }
-            catch (Exception e)
+            else
             {
-                throw new RemoteException("An API Error has happen");
+                WriteObject(job);
             }
-
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
     }
 }

@@ -45,7 +45,7 @@ namespace Cloud4.CoreLibrary.Client
 
         }
 
-        public async Task<DataClientResult> PutDataAsJsonAsync<T>( string URL, T data)
+        public async Task<DataClientResult> PutDataAsJsonAsync<T>( Uri uri, T data)
         {
             HttpClient httpClient = new HttpClient();
             httpClient.SetBearerToken(this.Connection.AccessToken);
@@ -53,7 +53,7 @@ namespace Cloud4.CoreLibrary.Client
             var dataAsString = JsonConvert.SerializeObject(data);
             var content = new StringContent(dataAsString);
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            System.Uri uri = new System.Uri(URL);
+          
 
             var payloadFromResourceServer = await httpClient.PutAsync(uri, content).ConfigureAwait(false);
             return !payloadFromResourceServer.IsSuccessStatusCode ?
@@ -71,7 +71,7 @@ namespace Cloud4.CoreLibrary.Client
         }
 
 
-        public async Task<DataClientResult> DeleteDataAsJsonAsync( string URL)
+        public async Task<DataClientResult> DeleteDataAsJsonAsync(Uri URL)
         {
 
             HttpClient httpClient = new HttpClient();
@@ -94,12 +94,9 @@ namespace Cloud4.CoreLibrary.Client
         }
 
 
-        public async Task<T> GetDataAsJsonAsync<T>( string URL)
+        public async Task<DataClientResult<T>> GetDataAsJsonAsync<T>( Uri URL)
         {
-            var serializer = new DataContractJsonSerializer(typeof(T));
-
-        
-
+         
             HttpClient httpClient = new HttpClient();
             httpClient.SetBearerToken(this.Connection.AccessToken);
             System.IO.Stream content;
@@ -120,15 +117,15 @@ namespace Cloud4.CoreLibrary.Client
                 {
 
                     var objects = JsonConvert.DeserializeObject<T>(result);
-                    return objects;
+                    return new DataClientResult<T> { StatusCode = payloadFromResourceServer.StatusCode, Content = objects };
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.InnerException.Message);
+                    throw new Exception("Deserialize Object Failed");
                 }
 
-                return default(T);
-                
+                return new DataClientResult<T> { StatusCode = payloadFromResourceServer.StatusCode, Content = default(T) };
+
             }
             else if (payloadFromResourceServer.StatusCode == HttpStatusCode.Unauthorized & !string.IsNullOrEmpty(Connection.AccessToken))
             {
@@ -150,17 +147,17 @@ namespace Cloud4.CoreLibrary.Client
 
                     var objects = JsonConvert.DeserializeObject<T>(result);
 
-                    return objects;
+                    return new DataClientResult<T> { StatusCode = payloadFromResourceServer.StatusCode, Content = objects } ;
 
                 }
                 else
                 {
-                    return default(T);
+                    return new DataClientResult<T> {  StatusCode = payloadFromResourceServer.StatusCode, Content = default(T) };
                 }
             }
             else
             {
-                return default(T);
+                return new DataClientResult<T> { StatusCode = payloadFromResourceServer.StatusCode, Content = default(T) };
             }
 
 
@@ -187,5 +184,12 @@ namespace Cloud4.CoreLibrary.Client
         public HttpStatusCode StatusCode { get; set; }
 
         public string Content { get; set; }
+    }
+
+    public class DataClientResult<T>
+    {
+        public HttpStatusCode StatusCode { get; set; }
+
+        public T Content { get; set; }
     }
 }

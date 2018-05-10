@@ -48,5 +48,7 @@ namespace Cloud4.CoreLibrary.Models
         public List<Contact> Contacts { get; set; }
 
         public List<string> CompanyTypesAllowedForCreation { get; set; }
+
+        public bool IsDeletable { get; set; }
     }
 }

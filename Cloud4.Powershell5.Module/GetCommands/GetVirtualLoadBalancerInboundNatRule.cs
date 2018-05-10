@@ -12,17 +12,17 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4vLBInboundNATRule")]
     [OutputType(typeof(VirtualLoadBalancerInboundNatRule))]
-    public class GetVirtualLoadBalancerInboundNatRule :  BaseGetLoadBalancerCmdLet<VirtualLoadBalancerInboundNatRule, VirtualLoadBalancerInboundNatRuleService>
+    public class GetVirtualLoadBalancerInboundNatRule : BaseGetLoadBalancerCmdLet<VirtualLoadBalancerInboundNatRule, VirtualLoadBalancerInboundNatRuleService>
     {
-       
-      
+
+
         [Parameter(
            Mandatory = true,
            Position = 0,
            ValueFromPipeline = true,
             HelpMessage = "Filter by vLoadBalancer Id",
            ValueFromPipelineByPropertyName = true)]
-      
+
         public Guid VirtualLoadBalancerId { get; set; }
 
         [Parameter(
@@ -49,9 +49,7 @@ namespace Cloud4.Powershell5.Module
 
         }
 
-        protected override void EndProcessing()
-        {
 
-        }
+
     }
 }

@@ -11,7 +11,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4vFirewallRule")]
     [OutputType(typeof(VirtualFirewallRule))]
-    public class GetVirtualFirewallRules : BaseGetCmdLet<VirtualFirewallRule, VirtualFirewallService>
+    public class GetVirtualFirewallRules : BaseGetCmdLet<VirtualFirewall, VirtualFirewallService>
     {
         [Parameter(
         Mandatory = true,
@@ -34,36 +34,9 @@ namespace Cloud4.Powershell5.Module
         protected override void ProcessRecord()
         {
 
-
-
-            service = new VirtualFirewallService(Connection);
-
-
-            try
-            {
-
-        
-                Task<Cloud4.CoreLibrary.Models.VirtualFirewall> callTask = Task.Run(() => service.GetAsync(VirtualFirewallId));
-
-                callTask.Wait();
-                var vnet = callTask.Result;
-
-                if (vnet != null)
-                {
-                    WriteObject(vnet.Rules);
-                }
-
-
-
-            }
-            catch (Exception e)
-            {
-                throw new RemoteException("An API Error has happen");
-            }
+            WriteObject(GetOne(VirtualFirewallId, Connection).Rules);
+          
         }
-        protected override void EndProcessing()
-        {
-
-        }
+    
     }
 }

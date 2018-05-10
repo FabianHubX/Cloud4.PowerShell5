@@ -11,7 +11,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsLifecycle.Start, "Cloud4User")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class StartUser : BaseCmdLet
+    public class StartUser : BaseActionCmdLet<CoreLibrary.Models.User, UserService>
     {
         [Parameter(
           Mandatory = true,
@@ -56,9 +56,7 @@ namespace Cloud4.Powershell5.Module
                 throw new RemoteException("An API Error has happen");
             }
         }
-        protected override void EndProcessing()
-        {
-
-        }
+        
+     
     }
 }

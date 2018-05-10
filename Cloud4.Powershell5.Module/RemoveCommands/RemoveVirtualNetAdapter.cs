@@ -39,9 +39,5 @@ namespace Cloud4.Powershell5.Module
             WriteObject(Remove(Id, Connection, Wait));
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
     }
 }

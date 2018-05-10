@@ -22,13 +22,15 @@ namespace Cloud4.CoreLibrary.Services
 
 
 
-        public async Task<List<VirtualLoadBalancer>> GetByvDCAsync(Guid vDcId)
+        public async Task<Result<List<VirtualLoadBalancer>>> GetByvDCAsync(Guid vDcId)
         {
-            var result = await client.GetDataAsJsonAsync<List<VirtualLoadBalancer>>( this.Connection.ApiUrl + this.Connection.TenantId.ToString() + "/" + Entity + "?vdcId=" + vDcId.ToString());
+            var result = await client.GetDataAsJsonAsync<List<VirtualLoadBalancer>>(new Uri(this.Connection.ApiUrl, this.Connection.TenantId.ToString() + "/" + Entity + "?vdcId=" + vDcId.ToString()));
 
-            return result;
+            Result<List<VirtualLoadBalancer>> returnresult = new Result<List<VirtualLoadBalancer>>();
+            returnresult.Object = result.Content;
+            returnresult.Code = result.StatusCode;
 
-
+            return returnresult;
         }
 
 

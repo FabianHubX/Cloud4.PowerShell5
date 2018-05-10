@@ -51,9 +51,7 @@ namespace Cloud4.Powershell5.Module
 
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
+        
+        
     }
 }

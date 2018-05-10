@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsData.Update, "Cloud4vFirewall")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualFirewall : BaseCmdLet
+    public class UpdateVirtualFirewall : BaseUpdateCmdLet<VirtualFirewall, VirtualFirewallService, Cloud4.CoreLibrary.Models.UpdateVirtualFirewall>
     {
         [Parameter(
      Mandatory = true,
@@ -61,72 +61,43 @@ namespace Cloud4.Powershell5.Module
         {
 
             service = new VirtualFirewallService(Connection);
-         
 
-            try
+            var vfw = Get(Connection, Id);
+
+            var newfirewall = new Cloud4.CoreLibrary.Models.UpdateVirtualFirewall { Name = vfw.Name, Rules = vfw.Rules };
+
+
+            bool IsChanged = false;
+
+            if (!string.IsNullOrEmpty(Name))
             {
-
-               
-                Task<Cloud4.CoreLibrary.Models.VirtualFirewall> callTaskvNet = Task.Run(() => service.GetAsync(Id));
-
-                callTaskvNet.Wait();
-                var vnet = callTaskvNet.Result;
-
-
-                var newfirewall = new Cloud4.CoreLibrary.Models.UpdateVirtualFirewall {  Name = vnet.Name, Rules = vnet.Rules};
-
-
-                bool IsChanged = false;
-
-                if (!string.IsNullOrEmpty(Name))
-                {
-                    newfirewall.Name = Name;
-                    IsChanged = true;
-                }
-                
-                if (Rules != null)
-                {
-                    newfirewall.Rules = Rules;
-                    IsChanged = true;
-                }
-
-                if (IsChanged)
-                {
-
-                    Task<CoreLibrary.Models.Job> callTask = Task.Run(() => service.UpdateAsync(Id, newfirewall));
-
-                    callTask.Wait();
-                    var job = callTask.Result;
-                    if (Wait)
-                    {
-                        WaitJobFinished(job.Id);
-
-                        Task<List<VirtualFirewall>> callTasklist = Task.Run(() => service.AllAsync());
-
-                        callTasklist.Wait();
-                        var virtualnetworks = callTasklist.Result;
-
-                        WriteObject(virtualnetworks.FirstOrDefault(x => x.Id == job.ResourceId));
-
-                    }
-                    else
-                    {
-                        WriteObject(job);
-                    }
-
-                }
-            }
-            catch (Exception e)
-            {
-                throw new RemoteException("An API Error has happen");
+                newfirewall.Name = Name;
+                IsChanged = true;
             }
 
+            if (Rules != null)
+            {
+                newfirewall.Rules = Rules;
+                IsChanged = true;
+            }
 
+            if (IsChanged)
+            {
+
+                var job = Update(Connection, Id, newfirewall);
+
+                if (Wait)
+                {
+                    WriteObject(WaitJobFinished(job.Id, Connection));
+
+                }
+                else
+                {
+                    WriteObject(job);
+                }
+
+            }
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
     }
 }

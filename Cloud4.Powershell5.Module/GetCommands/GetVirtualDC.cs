@@ -14,15 +14,15 @@ namespace Cloud4.Powershell5.Module
     [OutputType(typeof(VirtualDatacenter))]
     public class GetVirtualDC : BaseGetCmdLet<VirtualDatacenter, VirtualDataCenterService>
     {
-       
-      
+
+
         [Parameter(
            Mandatory = false,
            Position = 0,
            ValueFromPipeline = true,
             HelpMessage = "Filter by vDC Id",
            ValueFromPipelineByPropertyName = true)]
-      
+
         public Guid Id { get; set; }
 
         [Parameter(
@@ -41,7 +41,7 @@ namespace Cloud4.Powershell5.Module
             {
 
                 GetAll(Connection).Where(x => x.Name == FilterByName).ToList().ForEach(WriteObject);
-                
+
             }
             else if (Id == Guid.Empty)
             {
@@ -53,10 +53,7 @@ namespace Cloud4.Powershell5.Module
             }
         }
 
-        protected override void EndProcessing()
-        {
 
-        }
 
     }
 }

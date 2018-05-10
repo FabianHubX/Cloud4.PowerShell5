@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4VM")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualMachine : BaseCmdLet
+    public class NewVirtualMachine : BaseNewCmdLet<VirtualMachine, VirtualMachineService, CreateVirtualMachine>
     {
         private string _vMProfile;
         private string _oSDiskProfile;
@@ -167,108 +167,77 @@ namespace Cloud4.Powershell5.Module
 
         public bool Wait { get; set; }
 
-        private VirtualMachineService service { get; set; }
-
-        private VirtualSubNetService subnetService { get; set; }
-
+   
 
 
         protected override void ProcessRecord()
         {
 
 
-            service = new VirtualMachineService(Connection);
+            var subnet = GetSpecial<VirtualSubNet, VirtualSubNetService>(Connection, VirtualSubNetId);
 
 
-            subnetService = new VirtualSubNetService(Connection);
-         
-            Task<CoreLibrary.Models.VirtualSubNet> callTasksubNet = Task.Run(() => subnetService.GetAsync(VirtualSubNetId));
 
-            callTasksubNet.Wait();
-            var subnet = callTasksubNet.Result;
-
-            try
+            if (_dataDiskProfile == null)
             {
-                if (_dataDiskProfile == null)
-                {
-                    _dataDiskProfile = new List<CreateVirtualDisk>();
-                }
-
-
-                var virtualniclist = new List<CreateVirtualNetworkAdapter>();
-                virtualniclist.Add(new CreateVirtualNetworkAdapter
-                {
-                    IpAddress = subnet.NextFreeIpAddress,
-                    IpAllocationMethod = 0,
-                    SubNetId = VirtualSubNetId,
-                    VirtualNetworkAdapterProfileName = _nICProfile
-                });
-
-
-
-                CreateAvailabilitySet asid = null;
-
-
-                if (_availabliltySet == Guid.Empty && !string.IsNullOrEmpty(_newavailabliltySetName))
-                {
-                    asid = new CreateAvailabilitySet { Name = _newavailabliltySetName };
-                }
-                else if (_availabliltySet != Guid.Empty)
-                {
-                    asid = new CreateAvailabilitySet { Id = _availabliltySet.ToString() };
-                }
-
-                var newvm = new CreateVirtualMachine
-                {
-                    Name = Name,
-                    VirtualDatacenterId = VirtualDatacenterId,
-                    AvailabilitySet = asid,
-                    ImageId = ImageId,
-                    VirtualMachineProfileName = _vMProfile,
-                    OsDisk = new CreateVirtualDisk { Name = "OS", VirtualDiskProfileName = _oSDiskProfile },
-                    NetworkInterfaces = virtualniclist,
-                    DataDisks = _dataDiskProfile,
-                    SetupSetting = _oSSettings,
-                    EnableInOutboundVNetTraffic = _enableinboundvnettraffic,
-                    EnableInternetAccess = _enableinternetaccess,
-                    EnableRemoteAccess = _enableremoteaccess
-
-                };
-
-
-
-
-                Task<CoreLibrary.Models.Job> callTask = Task.Run(() => service.CreateAsync(newvm));
-
-                callTask.Wait();
-                var job = callTask.Result;
-                if (Wait)
-                {
-                    WaitJobFinished(job.Id);
-                    Task<List<VirtualMachine>> callTasklist = Task.Run(() => service.AllAsync());
-
-                    callTasklist.Wait();
-                    var virtualDatacenters = callTasklist.Result;
-
-                    WriteObject(virtualDatacenters.FirstOrDefault(x => x.Id == job.ResourceId));
-                }
-                else
-                {
-                    WriteObject(job);
-                }
-
-
+                _dataDiskProfile = new List<CreateVirtualDisk>();
             }
-            catch (Exception e)
+
+
+            var virtualniclist = new List<CreateVirtualNetworkAdapter>();
+            virtualniclist.Add(new CreateVirtualNetworkAdapter
             {
-                throw new RemoteException("An API Error has happen");
+                IpAddress = subnet.NextFreeIpAddress,
+                IpAllocationMethod = 0,
+                SubNetId = VirtualSubNetId,
+                VirtualNetworkAdapterProfileName = _nICProfile
+            });
+
+
+
+            CreateAvailabilitySetVM asid = null;
+
+
+            if (_availabliltySet == Guid.Empty && !string.IsNullOrEmpty(_newavailabliltySetName))
+            {
+                asid = new CreateAvailabilitySetVM { Name = _newavailabliltySetName };
+            }
+            else if (_availabliltySet != Guid.Empty)
+            {
+                asid = new CreateAvailabilitySetVM { Id = _availabliltySet };
+            }
+
+            var newvm = new CreateVirtualMachine
+            {
+                Name = Name,
+                VirtualDatacenterId = VirtualDatacenterId,
+                AvailabilitySet = asid,
+                ImageId = ImageId,
+                VirtualMachineProfileName = _vMProfile,
+                OsDisk = new CreateVirtualDisk { Name = "OS", VirtualDiskProfileName = _oSDiskProfile },
+                NetworkInterfaces = virtualniclist,
+                DataDisks = _dataDiskProfile,
+                SetupSetting = _oSSettings,
+                EnableInOutboundVNetTraffic = _enableinboundvnettraffic,
+                EnableInternetAccess = _enableinternetaccess,
+                EnableRemoteAccess = _enableremoteaccess
+
+            };
+
+            var job = Create(Connection, newvm);
+
+
+            if (Wait)
+            {
+                WriteObject(WaitJobFinished(job.Id, Connection));
+            }
+            else
+            {
+                WriteObject(job);
             }
 
         }
-
-        protected override void EndProcessing()
-        {
-
-        }
+        
+        
     }
 }

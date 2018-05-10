@@ -55,10 +55,6 @@ namespace Cloud4.Powershell5.Module
             }
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
 
 
 
@@ -66,12 +62,24 @@ namespace Cloud4.Powershell5.Module
         {
             VirtualSubNetService service = new VirtualSubNetService(con);
 
-            Task<List<VirtualSubNet>> callTask = Task.Run(() => service.GetByvNetAsync(vNetId));
+            Task<Result<List<VirtualSubNet>>> callTask = Task.Run(() => service.GetByvNetAsync(vNetId));
         
             callTask.Wait();
-            var job = callTask.Result;
+            var result = callTask.Result;
 
-            return job;
+
+            if (result.Object != null)
+            {
+                return result.Object;
+            }
+            else if (result.Error != null)
+            {
+                throw new RemoteException("Conflict Error: " + result.Error.ErrorType + "\r\n" + result.Error.FaultyValues);
+            }
+            else
+            {
+                throw new RemoteException("API returns: " + result.Code.ToString());
+            }
         }
 
     }

@@ -48,9 +48,7 @@ namespace Cloud4.Powershell5.Module
             WriteObject(Remove(Id, Connection, VirtualLoadBalancerId, Wait));
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
+        
+        
     }
 }

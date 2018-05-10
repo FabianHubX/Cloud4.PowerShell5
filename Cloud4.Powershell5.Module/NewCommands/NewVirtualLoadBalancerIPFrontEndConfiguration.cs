@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vLBFrontEndIPConfigurations")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualLoadBalancerFrontEndIPConfiguration: BaseCmdLet
+    public class NewVirtualLoadBalancerFrontEndIPConfiguration: BaseNewCmdLet<VirtualLoadBalancerFrontEndIPConfigurations, VirtualLoadBalancerFrontendIpConfigurationsService, CreateVirtualLoadBalancerFrontEndIPConfigurations>
     {
 
 
@@ -67,66 +67,37 @@ namespace Cloud4.Powershell5.Module
 
 
         protected override void ProcessRecord()
-        {
-
-            VirtualLoadBalancerFrontendIpConfigurationsService service = new VirtualLoadBalancerFrontendIpConfigurationsService(Connection, VirtualLoadBalancerId);
-
-            VirtualSubNetService subnetService = new VirtualSubNetService(Connection);
-
-            Task<CoreLibrary.Models.VirtualSubNet> callTasksubNet = Task.Run(() => subnetService.GetAsync(VirtualSubnetId));
-
-            callTasksubNet.Wait();
-            var subnet = callTasksubNet.Result;
+        {            
 
             if (string.IsNullOrEmpty(InternalIpAddress))
             {
+                var subnet = GetSpecial<VirtualSubNet, VirtualSubNetService>(Connection, VirtualSubnetId);
                 InternalIpAddress = subnet.NextFreeIpAddress;
             }
+            
 
-
-            try
+            var vlb = new CreateVirtualLoadBalancerFrontEndIPConfigurations
             {
-                var vlb = new CreateVirtualLoadBalancerFrontEndIPConfigurations
-                {
-                     InternalIpAddress= InternalIpAddress,
-                      AssignPublicIp =  AssignPublicIP,
-                       VirtualSubnetId = VirtualSubnetId
+                InternalIpAddress = InternalIpAddress,
+                AssignPublicIp = AssignPublicIP,
+                VirtualSubnetId = VirtualSubnetId
 
-                };
-               
-
-                Task<CoreLibrary.Models.Job> callTask = Task.Run(() => service.CreateAsync(vlb));
-
-                callTask.Wait();
-                var job = callTask.Result;
-                if (Wait)
-                {
-                    WaitJobFinished(job.Id);
-                    Task<List<VirtualLoadBalancerFrontEndIPConfigurations>> callTasklist = Task.Run(() => service.AllAsync());
-
-                    callTasklist.Wait();
-                    var virtualnetworks = callTasklist.Result;
-
-                    WriteObject(virtualnetworks.FirstOrDefault(x => x.Id == job.ResourceId));
-                }
-                else
-                {
-                    WriteObject(job);
-                }
+            };
 
 
+            var job = Create(Connection, vlb);
 
-            }
-            catch (Exception e)
+            if (Wait)
             {
-                throw new RemoteException("An API Error has happen");
+                WriteObject(WaitJobFinished(job.Id,Connection));               
             }
+            else
+            {
+                WriteObject(job);
+            }
+
 
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
     }
 }

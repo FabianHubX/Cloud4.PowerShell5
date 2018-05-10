@@ -1,4 +1,5 @@
-﻿using Cloud4.CoreLibrary.Client;
+﻿// Copyright (c) HIAG Data AG. All Rights Reserved. Licensed under the GNU License.  See License.txt
+using Cloud4.CoreLibrary.Client;
 using Cloud4.CoreLibrary.Models;
 using Newtonsoft.Json;
 using System;
@@ -23,11 +24,15 @@ namespace Cloud4.CoreLibrary.Services
 
 
 
-        public async Task<List<VirtualNetwork>> GetByvDCAsync(Guid vDcId)
+        public async Task<Result<List<VirtualNetwork>>> GetByvDCAsync(Guid vDcId)
         {
-            var result = await client.GetDataAsJsonAsync<List<VirtualNetwork>>( this.Connection.ApiUrl + this.Connection.TenantId.ToString() + "/" + Entity + "?vdcId=" + vDcId.ToString());
+            var result = await client.GetDataAsJsonAsync<List<VirtualNetwork>>(new Uri(this.Connection.ApiUrl, this.Connection.TenantId.ToString() + "/" + Entity + "?vdcId=" + vDcId.ToString()));
 
-            return result;
+            Result<List<VirtualNetwork>> returnresult = new Result<List<VirtualNetwork>>();
+            returnresult.Object = result.Content;
+            returnresult.Code = result.StatusCode;
+
+            return returnresult;
 
 
         }

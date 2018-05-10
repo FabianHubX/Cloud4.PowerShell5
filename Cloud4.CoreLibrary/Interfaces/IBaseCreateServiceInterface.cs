@@ -9,7 +9,7 @@ namespace Cloud4.CoreLibrary.Services
 {
     public interface IBaseCreateServiceInterface<Y>
     {
-        Task<Job> CreateAsync(Y body);
+        Task<Result> CreateAsync(Y body);
 
 
 

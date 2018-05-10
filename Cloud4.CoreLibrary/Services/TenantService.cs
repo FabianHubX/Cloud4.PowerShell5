@@ -1,4 +1,5 @@
-﻿using Cloud4.CoreLibrary.Client;
+﻿// Copyright (c) HIAG Data AG. All Rights Reserved. Licensed under the GNU License.  See License.txt
+using Cloud4.CoreLibrary.Client;
 using Cloud4.CoreLibrary.Models;
 using Newtonsoft.Json;
 using System;
@@ -23,17 +24,21 @@ namespace Cloud4.CoreLibrary.Services
 
         }
 
-        public async Task<Tenant> GetByPlatformAsync(string platformid)
+        public async Task<Result<Tenant>> GetByPlatformAsync(string platformid)
         {
-            var result = await client.GetDataAsJsonAsync<List<Tenant>>( this.Connection.ApiUrl + Entity);
+            var result = await client.GetDataAsJsonAsync<List<Tenant>>(new Uri(this.Connection.ApiUrl, Entity));
 
-            return result?.First(x => x.PlatformId == platformid);
+            Result<Tenant> returnresult = new Result<Tenant>();
+            returnresult.Object = result.Content?.First(x=>x.PlatformId == platformid);
+            returnresult.Code = result.StatusCode;
+
+            return returnresult;
 
         }
 
         public async Task<string> SetCredentialsAsync(string Id, TenantCredentials body)
         {
-            var result = await client.PutDataAsJsonAsync<TenantCredentials>( this.Connection.ApiUrl + "PlatformCredentials/" + Id, body);
+            var result = await client.PutDataAsJsonAsync<TenantCredentials>(new Uri(this.Connection.ApiUrl, "PlatformCredentials/" + Id), body);
 
  
                 return result.StatusCode.ToString();

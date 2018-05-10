@@ -52,15 +52,10 @@ namespace Cloud4.Powershell5.Module
             }
             else
             {
-                VirtualNetworkService VirtualNetworkService = new VirtualNetworkService(Connection);
 
+                var subnet = GetVirtualNet.GetbyvDCAll(Id, Connection);             
 
-                Task<List<VirtualNetwork>> callTaskvnet = Task.Run(() => VirtualNetworkService.AllAsync());
-
-                callTaskvnet.Wait();
-                var jobvnet = callTaskvnet.Result;
-
-                if (jobvnet.Any(x => x.VirtualDatacenterId == Id))
+                if (subnet.Any())
                 {
                     throw new RemoteException("ou can not delete this virtual Datacenter as virtual Networks are related too.");
 
@@ -73,10 +68,7 @@ namespace Cloud4.Powershell5.Module
 
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
+     
 
         public static CoreLibrary.Models.Job RemoveForce(Guid Id, Connection con)
         {

@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vFirewall")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualFirewall : BaseCmdLet
+    public class NewVirtualFirewall : BaseNewCmdLet<VirtualFirewall, VirtualFirewallService, VirtualFirewall>
     {
         [Parameter(
           Mandatory = true,
@@ -21,19 +21,19 @@ namespace Cloud4.Powershell5.Module
           ValueFromPipeline = true,
             HelpMessage = "Name of the new virtual Firewall",
           ValueFromPipelineByPropertyName = true)]
-      
+
         public string Name { get; set; }
 
-      
 
-     
+
+
         [Parameter(
            Mandatory = true,
            Position = 1,
            ValueFromPipeline = true,
             HelpMessage = "Virtual Datacenter where the Firewall gets created",
            ValueFromPipelineByPropertyName = true)]
-      
+
         public Guid VirtualDataCenterId { get; set; }
 
         [Parameter(
@@ -55,53 +55,25 @@ namespace Cloud4.Powershell5.Module
         public bool Wait { get; set; }
 
 
-        private VirtualFirewallService service { get; set; }
-
 
 
         protected override void ProcessRecord()
         {
 
+            var newfw = new VirtualFirewall { VirtualDatacenterId = VirtualDataCenterId, Name = Name, Rules = Rules };
 
-            service = new VirtualFirewallService(Connection);
-           
+            var job = Create(Connection, newfw);
 
-            try
+            if (Wait)
             {
-           
-
-                Task<CoreLibrary.Models.Job> callTask = Task.Run(() => service.CreateAsync(new VirtualFirewall { VirtualDatacenterId = VirtualDataCenterId, Name = Name, Rules = Rules }));
-
-                callTask.Wait();
-                var job = callTask.Result;
-                if (Wait)
-                {
-                    WaitJobFinished(job.Id);
-
-                    Task<VirtualFirewall> callTasklist = Task.Run(() => service.GetAsync(job.ResourceId));
-
-                    callTasklist.Wait();
-                    var virtualnetworks = callTasklist.Result;
-
-                    WriteObject(virtualnetworks);
-                }
-                else
-                {
-                    WriteObject(job);
-                }
-
-
+                WriteObject(WaitJobFinished(job.Id, Connection));
             }
-            catch (Exception e)
+            else
             {
-                throw new RemoteException("An API Error has happen");
+                WriteObject(job);
             }
 
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
     }
 }

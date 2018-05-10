@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Add, "Cloud4vFirewallRule")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class AddVirtualFirewallRule : BaseCmdLet
+    public class AddVirtualFirewallRule : BaseAddCmdLet<VirtualFirewall, VirtualFirewallService>
     {
 
        
@@ -105,87 +105,70 @@ namespace Cloud4.Powershell5.Module
         public bool Wait { get; set; }
 
 
-        private VirtualFirewallService service { get; set; }
-
-
-
         protected override void ProcessRecord()
         {
+            VirtualFirewallService service = new VirtualFirewallService(Connection);
+
+            var currentvirtualFirewall = Get(Connection, VirtualFirewallId);
+
+            var virtualFirewall = new Cloud4.CoreLibrary.Models.UpdateVirtualFirewall();
+            virtualFirewall.Rules = currentvirtualFirewall.Rules;
+            virtualFirewall.Name = currentvirtualFirewall.Name;
 
 
-            service = new VirtualFirewallService(Connection);
 
-
-            try
+            if (virtualFirewall.Rules == null)
             {
-
-                Task<VirtualFirewall> callTaskvfw = Task.Run(() => service.GetAsync(VirtualFirewallId));
-
-                callTaskvfw.Wait();
-                var currentvirtualFirewall = callTaskvfw.Result;
-
-                var virtualFirewall = new Cloud4.CoreLibrary.Models.UpdateVirtualFirewall();          
-                virtualFirewall.Rules = currentvirtualFirewall.Rules;
-                virtualFirewall.Name = currentvirtualFirewall.Name;
-           
-
-
-                if (virtualFirewall.Rules == null)
-                {
-                    virtualFirewall.Rules = new List<VirtualFirewallRule>();
-                }
-
-                var rule = new VirtualFirewallRule
-                {
-                    SourceAddressPrefix = SourceAddressPrefix,
-                    SourcePortRange = SourcePortRange,
-                    DestinationAddressPrefix = DestinationAddressPrefix,
-                    DestinationPortRange = DestinationPortRange,
-                    Direction = Direction.ToString(),
-                    Action = Action.ToString(),
-                    Priority = Priority,
-                    Protocol = Protocol.ToString()
-
-                };
-
-                virtualFirewall.Rules.Add(rule);
-
-
-                Task<CoreLibrary.Models.Job> callTask = Task.Run(() => service.UpdateAsync(VirtualFirewallId, virtualFirewall));
-
-                callTask.Wait();
-                var job = callTask.Result;
-
-
-                if (Wait)
-                {
-                    JobService jobService = new JobService(Connection);
-
-                    WaitJobFinished(job.Id);
-
-                    Task<VirtualFirewall> callTasklist = Task.Run(() => service.GetAsync(job.ResourceId));
-
-                    callTasklist.Wait();
-                    var virtualnetworks = callTasklist.Result;
-
-                    WriteObject(virtualnetworks);
-                }
-                else
-                {
-
-                    WriteObject(job);
-                }
-
+                virtualFirewall.Rules = new List<VirtualFirewallRule>();
             }
-            catch (Exception e)
+
+            var rule = new VirtualFirewallRule
             {
-                throw new RemoteException("An API Error has happen");
+                SourceAddressPrefix = SourceAddressPrefix,
+                SourcePortRange = SourcePortRange,
+                DestinationAddressPrefix = DestinationAddressPrefix,
+                DestinationPortRange = DestinationPortRange,
+                Direction = Direction.ToString(),
+                Action = Action.ToString(),
+                Priority = Priority,
+                Protocol = Protocol.ToString()
+
+            };
+
+            virtualFirewall.Rules.Add(rule);
+
+
+            Task<CoreLibrary.Models.Result> callTask = Task.Run(() => service.UpdateAsync(VirtualFirewallId, virtualFirewall));
+
+            callTask.Wait();
+            var result = callTask.Result;
+            CoreLibrary.Models.Job job;
+
+            if (result.Job != null)
+            {
+                job = result.Job;
             }
+            else if (result.Error != null)
+            {
+                throw new RemoteException("Conflict Error: " + result.Error.ErrorType + "\r\n" + result.Error.FaultyValues);
+            }
+            else
+            {
+                throw new RemoteException("API returns: " + result.Code.ToString());
+            }
+
+            if (Wait)
+            {
+                WriteObject(WaitJobFinished(job.Id,Connection));             
+            }
+            else
+            {
+                WriteObject(job);
+            }
+
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
+        
+        
     }
 }

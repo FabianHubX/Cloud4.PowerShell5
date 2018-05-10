@@ -61,40 +61,43 @@ namespace Cloud4.Powershell5.Module
             }
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
+        
+        
 
 
 
         public static List<VirtualNetworkAdapter> GetbyVmAll(Guid vMId, Connection con)
         {
-            try
+
+            List<VirtualNetworkAdapter> newlist = new List<VirtualNetworkAdapter>();
+
+            VirtualMachineService service = new VirtualMachineService(con);
+
+
+
+            Task<Result<Cloud4.CoreLibrary.Models.VirtualMachine>> callTask = Task.Run(() => service.GetAsync(vMId));
+
+            callTask.Wait();
+            var result = callTask.Result;
+
+
+            if (result.Object != null)
             {
-                List<VirtualNetworkAdapter> newlist = new List<VirtualNetworkAdapter>();
-
-                VirtualMachineService service = new VirtualMachineService(con);
-
-
-
-                Task<Cloud4.CoreLibrary.Models.VirtualMachine> callTaskVM = Task.Run(() => service.GetAsync(vMId));
-
-                callTaskVM.Wait();
-                var vm = callTaskVM.Result;
-
-                if (vm != null)
-                {
-                    newlist.AddRange(vm.NetworkInterfaces);
-                }
+                newlist.AddRange(result.Object.NetworkInterfaces);
 
                 return newlist;
-
             }
-            catch (Exception e)
+            else if (result.Error != null)
             {
-                throw new RemoteException("An API Error has happen");
+                throw new RemoteException("Conflict Error: " + result.Error.ErrorType + "\r\n" + result.Error.FaultyValues);
             }
+            else
+            {
+                throw new RemoteException("API returns: " + result.Code.ToString());
+            }
+            
+            
+
         }
 
     }

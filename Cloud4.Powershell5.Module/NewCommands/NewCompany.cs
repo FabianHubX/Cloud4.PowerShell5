@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4Company")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewCompany : BaseCmdLet
+    public class NewCompany : BaseNewCmdLet<Company, CompanyService, Company>
     {
        
 
@@ -173,81 +173,59 @@ namespace Cloud4.Powershell5.Module
 
         public bool Wait { get; set; }
 
-        private CompanyService service { get; set; }
-
 
         protected override void ProcessRecord()
         {
 
 
-            service = new CompanyService(Connection);
-          
 
-            try
+            if (Contacts != null)
             {
-                if (Contacts != null)
+                if (Contacts.Count == 3 & Contacts.Any(x => x.ContactType == "Billing") & Contacts.Any(y => y.ContactType == "Admin") & Contacts.Any(z => z.ContactType == "Emergency"))
                 {
-                    if (Contacts.Count == 3 & Contacts.Any(x => x.ContactType == "Billing") & Contacts.Any(y => y.ContactType == "Admin") & Contacts.Any(z => z.ContactType == "Emergency"))
+                    var company = new Company
                     {
-                        var company = new Company
-                        {
-                            DisplayName = DisplayName,
-                            Email = Email,
-                            ErpAddressNo = ERPAddressNo,
-                            BillingCurrency = BillingCurrency.ToString(),
-                            BusinessPhone = BusinessPhone,
-                            ChamberOfCommerceNo = ChamberOfCommerceNo,
-                            CompanyType = CompanyType.ToString(),
-                            Contacts = Contacts,
-                            Country = Country,
-                            CrmId = CRMId,
-                            LanguageId = Language.ToString(),
-                            Fax = Fax,
-                            Street1 = Street1,
-                            Street2 = Street2,
-                            LegalName = LegalName,
-                            PostalCode = PostalCode,
-                            Town = Town,
-                            VatNo = VatNo
-                        };
+                        DisplayName = DisplayName,
+                        Email = Email,
+                        ErpAddressNo = ERPAddressNo,
+                        BillingCurrency = BillingCurrency.ToString(),
+                        BusinessPhone = BusinessPhone,
+                        ChamberOfCommerceNo = ChamberOfCommerceNo,
+                        CompanyType = CompanyType.ToString(),
+                        Contacts = Contacts,
+                        Country = Country,
+                        CrmId = CRMId,
+                        LanguageId = Language.ToString(),
+                        Fax = Fax,
+                        Street1 = Street1,
+                        Street2 = Street2,
+                        LegalName = LegalName,
+                        PostalCode = PostalCode,
+                        Town = Town,
+                        VatNo = VatNo
+                    };
 
-                        Task<CoreLibrary.Models.Job> callTask = Task.Run(() => service.CreateAsync(company));
+                    var job = Create(Connection, company);
 
-                        callTask.Wait();
-                        var job = callTask.Result;
-                        if (Wait)
-                        {
-                            WaitJobFinished(job.Id);
-                            Task<List<Company>> callTasklist = Task.Run(() => service.AllAsync());
 
-                            callTasklist.Wait();
-                            var virtualDatacenters = callTasklist.Result;
+                    if (Wait)
+                    {
+                        WriteObject(WaitJobFinished(job.Id, Connection));
 
-                            WriteObject(virtualDatacenters.FirstOrDefault(x => x.Id == job.ResourceId));
-                        }
-                        else
-                        {
-                            WriteObject(job);
-                        }
+
                     }
-
+                    else
+                    {
+                        WriteObject(job);
+                    }
                 }
 
-
-                
-
-
             }
-            catch (Exception e)
-            {
-                throw new RemoteException("An API Error has happen");
-            }
+
 
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
+        
+        
     }
 }

@@ -20,7 +20,7 @@ namespace Cloud4.Powershell5.Module
         private Uri _apiUrl;
         private Uri _loginUrl;
 
-        
+
 
 
         private Tenant tenant { get; set; }
@@ -68,7 +68,7 @@ namespace Cloud4.Powershell5.Module
                 _apiUrl = new Uri(apiurl);
             }
         }
-       
+
 
         [Parameter(
          Mandatory = true,
@@ -89,10 +89,6 @@ namespace Cloud4.Powershell5.Module
 
 
 
-        protected override void BeginProcessing()
-        {
-           
-        }
 
         protected override void ProcessRecord()
         {
@@ -102,7 +98,7 @@ namespace Cloud4.Powershell5.Module
 
             TokenService.Connect(_loginUrl, Credential.UserName, password);
 
-            var con = new Connection { UserName = Credential.UserName, PassWord = password, LogonUrl = _loginUrl, AccessToken = TokenService.AccessToken, ApiUrl = _apiUrl};
+            var con = new Connection { UserName = Credential.UserName, PassWord = password, LogonUrl = _loginUrl, AccessToken = TokenService.AccessToken, ApiUrl = _apiUrl };
 
 
 
@@ -114,10 +110,10 @@ namespace Cloud4.Powershell5.Module
                 try
                 {
 
-                    Task<List<Platform>> callTask = Task.Run(() => platformService.AllAsync());
+                    Task<Result<List<Platform>>> callTask = Task.Run(() => platformService.AllAsync());
 
                     callTask.Wait();
-                    platforms = callTask.Result;
+                    platforms = callTask.Result.Object;
 
                     platforms.ToList().ForEach(WriteObject);
                 }
@@ -134,30 +130,56 @@ namespace Cloud4.Powershell5.Module
                 try
                 {
 
-                    Task<Tenant> callTask = Task.Run(() => tenantService.GetByPlatformAsync(Id.ToString("D").ToLower()));
+                    Task<Result<Tenant>> callTask = Task.Run(() => tenantService.GetByPlatformAsync(Id.ToString("D").ToLower()));
 
                     callTask.Wait();
-                    tenant = callTask.Result;
+
+                    if (callTask.Result.Object != null)
+                    {
+                        tenant = callTask.Result.Object;
+                    }
+                    else if (callTask.Result.Error != null)
+                    {
+                        throw new RemoteException("Conflict Error: " + callTask.Result.Error.ErrorType + "\r\n" + callTask.Result.Error.FaultyValues);
+                    }
+                    else
+                    {
+                        throw new RemoteException("API returns: " + callTask.Result.Code.ToString());
+                    }
+
 
                     if (tenant == null)
                     {
                         Console.WriteLine("No Tenant existing");
+
+
+                        Task<CoreLibrary.Models.Result> callTaskJob = Task.Run(() => tenantService.CreateAsync(new Tenant { Name = "Swiss Cloud 4.0", PlatformId = Id.ToString("D").ToLower() }));
+
+                        var result = callTaskJob.Result;
                         CoreLibrary.Models.Job job;
 
+                        if (result.Job != null)
+                        {
+                            job = result.Job;
+                        }
+                        else if (result.Error != null)
+                        {
+                            throw new RemoteException("Conflict Error: " + result.Error.ErrorType + "\r\n" + result.Error.FaultyValues);
+                        }
+                        else
+                        {
+                            throw new RemoteException("API returns: " + result.Code.ToString());
+                        }
 
-                        Task<CoreLibrary.Models.Job> callTaskJob = Task.Run(() => tenantService.CreateAsync(new Tenant { Name = "Swiss Cloud 4.0", PlatformId = Id.ToString("D").ToLower() }));
-
-                        job = callTaskJob.Result;
-                 
 
                         Console.WriteLine("Create new Tenant, Job: " + job.Id.ToString());
 
                         do
                         {
-                            callTaskJob = Task.Run(() => jobService.GetAsync(job.Id));
+                            var callTaskjobid = Task.Run(() => jobService.GetAsync(job.Id));
 
-                            callTaskJob.Wait();
-                            job = callTaskJob.Result;
+                            callTaskjobid.Wait();
+                            job = callTaskjobid.Result.Object;
 
                             Console.WriteLine("Job tatus: " + job.State);
 
@@ -171,7 +193,7 @@ namespace Cloud4.Powershell5.Module
                         callTask = Task.Run(() => tenantService.GetByPlatformAsync(Id.ToString("D").ToLower()));
 
                         callTask.Wait();
-                        tenant = callTask.Result;
+                        tenant = callTask.Result.Object;
 
                         Console.WriteLine("Get Tenant id");
                     }
@@ -204,20 +226,23 @@ namespace Cloud4.Powershell5.Module
 
         protected override void EndProcessing()
         {
-            if (string.IsNullOrEmpty(TokenService.AccessToken))
             {
-                Console.WriteLine("Connection failed, User Name or Password wrong.");
-            }
-            else
-            {
-                Console.WriteLine("Connection established");
-            }
+                if (string.IsNullOrEmpty(TokenService.AccessToken))
+                {
+                    Console.WriteLine("Connection failed, User Name or Password wrong.");
+                }
+                else
+                {
+                    Console.WriteLine("Connection established");
+                }
 
-            if (Id == Guid.Empty)
-            {
+                if (Id == Guid.Empty)
+                {
 
-                Console.WriteLine("To Connect you need to select a platform:");
+                    Console.WriteLine("To Connect you need to select a platform:");
+                }
             }
         }
     }
 }
+

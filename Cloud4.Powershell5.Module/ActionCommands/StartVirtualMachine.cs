@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsLifecycle.Start, "Cloud4VM")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class StartVirtualMachine : BaseCmdLet
+    public class StartVirtualMachine : BaseActionCmdLet<VirtualMachine,VirtualMachineService>
     {
 
      
@@ -44,43 +44,22 @@ namespace Cloud4.Powershell5.Module
 
 
             Service = new VirtualMachineService(Connection);
-       
 
-            try
+           
+            Task<Cloud4.CoreLibrary.Models.Job> callTask = Task.Run(() => Service.ActionAsync(Id, new CoreLibrary.Models.ActionParameter { Action = "start" }));
+
+            callTask.Wait();
+            var job = callTask.Result;
+            if (Wait)
             {
-                string vmid = Id.ToString("D").ToLower();
-                Task<Cloud4.CoreLibrary.Models.Job> callTask = Task.Run(() => Service.ActionAsync(vmid, new CoreLibrary.Models.ActionParameter { Action = "start" }));
-
-                callTask.Wait();
-                var job = callTask.Result;
-                if (Wait)
-                {
-                    WaitJobFinished(job.Id);
-
-                    Task<VirtualMachine> callTasklist = Task.Run(() => Service.GetAsync(job.ResourceId));
-
-                    callTasklist.Wait();
-                    var virtualnetworks = callTasklist.Result;
-
-                    WriteObject(virtualnetworks);
-                }
-                else
-                {
-
-                    WriteObject(job);
-                }
-            
+                WriteObject(WaitJobFinished(job.Id,Connection));
             }
-            catch (Exception e)
+            else
             {
-                throw new RemoteException("An API Error has happen");
+                WriteObject(job);
             }
 
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
     }
 }

@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Add, "Cloud4vDataDisk")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class AddDataDisk : BaseCmdLet
+    public class AddDataDisk : BaseAddCmdLet<VirtualDisk, VirtualDiskService>
     {
 
         private string _diskProfile;
@@ -66,7 +66,7 @@ namespace Cloud4.Powershell5.Module
 
 
 
-            var virtualnic = new CreateVirtualDisk
+            var virtualDisk = new CreateVirtualDisk
             {
                 Name = _name,
                 VirtualDiskProfileName = _diskProfile
@@ -76,24 +76,29 @@ namespace Cloud4.Powershell5.Module
 
 
 
-            Task<CoreLibrary.Models.Job> callTask = Task.Run(() => service.CreateAsync(virtualnic));
+            Task<CoreLibrary.Models.Result> callTask = Task.Run(() => service.CreateAsync(virtualDisk));
 
             callTask.Wait();
-            var job = callTask.Result;
-         
+            var result = callTask.Result;
+            CoreLibrary.Models.Job job;
+
+            if (result.Job != null)
+            {
+                job = result.Job;
+            }
+            else if (result.Error != null)
+            {
+                throw new RemoteException("Conflict Error: " + result.Error.ErrorType + "\r\n" + result.Error.FaultyValues);
+            }
+            else
+            {
+                throw new RemoteException("API returns: " + result.Code.ToString());
+            }
+
 
             if (Wait)
             {
-                JobService jobService = new JobService(Connection);
-
-                WaitJobFinished(job.Id);
-
-                Task<List<VirtualDisk>> callTasklist = Task.Run(() => service.AllAsync());
-
-                callTasklist.Wait();
-                var virtualDatacenters = callTasklist.Result;
-
-                WriteObject(virtualDatacenters.FirstOrDefault(x => x.Id == job.ResourceId));
+                WriteObject(WaitJobFinished(job.Id,Connection));                             
             }
             else
             {
@@ -103,9 +108,6 @@ namespace Cloud4.Powershell5.Module
 
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
+        
     }
 }

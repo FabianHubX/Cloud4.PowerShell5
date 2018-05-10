@@ -54,11 +54,8 @@ ValueFromPipelineByPropertyName = true)]
 
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
-
+        
+        
 
         public static CoreLibrary.Models.Job RemoveForce(Guid Id, Connection con)
         {

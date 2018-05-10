@@ -28,12 +28,15 @@ namespace Cloud4.CoreLibrary.Services
             return result.StatusCode == System.Net.HttpStatusCode.Accepted;
         }
 
-        public async Task<User> GetAsync(string email)
+        public async Task<Result<User>> GetAsync(string email)
         {
-            var result = await client.GetDataAsJsonAsync<User>( this.Connection.ApiUrl + Entity + "/" + email);
+            var result = await client.GetDataAsJsonAsync<User>(new Uri(this.Connection.ApiUrl, Entity + "/" + email));
 
-            return result;
+            Result<User> returnresult = new Result<User>();
+            returnresult.Object = result.Content;
+            returnresult.Code = result.StatusCode;
 
+            return returnresult;
 
         }
     }

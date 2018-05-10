@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4Profile")]
     [OutputType(typeof(string))]
-    public class GetProfile : BaseGetCmdLet<VirtualLoadBalancer, VirtualLoadBalancerService>
+    public class GetProfile : BaseGetCmdLet<VirtualDiskProfile, VirtualDiskProfileService>
     {
 
 
@@ -43,32 +43,68 @@ namespace Cloud4.Powershell5.Module
                     case ProfileType.VirtualDisk:
                         DiskProfileService = new VirtualDiskProfileService(Connection);
 
-                        Task<List<VirtualDiskProfile>> callTask1 = Task.Run(() => DiskProfileService.AllAsync());
+                        Task<Result<List<VirtualDiskProfile>>> callTask1 = Task.Run(() => DiskProfileService.AllAsync());
 
                         callTask1.Wait();
-                        var diskprofiles = callTask1.Result;
-                        diskprofiles.ToList().ForEach(WriteObject);
+                        var result1 = callTask1.Result;
+
+                        if (result1.Object != default(List<VirtualDiskProfile>))
+                        {
+                            result1.Object.ToList().ForEach(WriteObject);
+                        }
+                        else if (result1.Error != null)
+                        {
+                            throw new RemoteException("Conflict Error: " + result1.Error.ErrorType + "\r\n" + result1.Error.FaultyValues);
+                        }
+                        else
+                        {
+                            throw new RemoteException("API returns: " + result1.Code.ToString());
+                        }
                         break;
-
-
+                        
                     case ProfileType.VirtualMachine:
+
                         MachineProfileService = new VirtualMachineProfileService(Connection);
 
-                        Task<List<VirtualMachineProfile>> callTask2 = Task.Run(() => MachineProfileService.AllAsync());
+                        Task<Result<List<VirtualMachineProfile>>> callTask2 = Task.Run(() => MachineProfileService.AllAsync());
 
                         callTask2.Wait();
-                        var vmprofiles = callTask2.Result;
-                        vmprofiles.ToList().ForEach(WriteObject);
+                        var result2 = callTask2.Result;
+
+                        if (result2.Object != default(List<VirtualMachineProfile>))
+                        {
+                            result2.Object.ToList().ForEach(WriteObject);
+                        }
+                        else if (result2.Error != null)
+                        {
+                            throw new RemoteException("Conflict Error: " + result2.Error.ErrorType + "\r\n" + result2.Error.FaultyValues);
+                        }
+                        else
+                        {
+                            throw new RemoteException("API returns: " + result2.Code.ToString());
+                        }
                         break;
 
                     case ProfileType.VirtualNetworkAdapter:
                         NetworkAdapterProfileService = new VirtualNetworkAdapterProfileService(Connection);
 
-                        Task<List<VirtualNetworkAdapterProfile>> callTask3 = Task.Run(() => NetworkAdapterProfileService.AllAsync());
+                        Task<Result<List<VirtualNetworkAdapterProfile>>> callTask3 = Task.Run(() => NetworkAdapterProfileService.AllAsync());
 
                         callTask3.Wait();
-                        var adapterprofiles = callTask3.Result;
-                        adapterprofiles.ToList().ForEach(WriteObject);
+                        var result3 = callTask3.Result;
+
+                        if (result3.Object != default(List<VirtualNetworkAdapterProfile>))
+                        {
+                            result3.Object.ToList().ForEach(WriteObject);
+                        }
+                        else if (result3.Error != null)
+                        {
+                            throw new RemoteException("Conflict Error: " + result3.Error.ErrorType + "\r\n" + result3.Error.FaultyValues);
+                        }
+                        else
+                        {
+                            throw new RemoteException("API returns: " + result3.Code.ToString());
+                        }
                         break;
                 }
 
@@ -81,9 +117,7 @@ namespace Cloud4.Powershell5.Module
             }
         }
 
-        protected override void EndProcessing()
-        {
-
-        }
+        
+        
     }
 }

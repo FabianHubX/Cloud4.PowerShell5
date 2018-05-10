@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsData.Update, "Cloud4vSubNet")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualSubNet : BaseCmdLet
+    public class UpdateVirtualSubNet : BaseUpdateCmdLet<VirtualSubNet, VirtualSubNetService, VirtualSubNet>
     {
         [Parameter(
      Mandatory = true,
@@ -60,69 +60,44 @@ namespace Cloud4.Powershell5.Module
         protected override void ProcessRecord()
         {
 
-            service = new VirtualSubNetService(Connection);
-         
+            var vsubnet = Get(Connection, Id);
 
-            try
+            bool IsChanged = false;
+
+            if (!string.IsNullOrEmpty(Name))
             {
-
-               
-                Task<Cloud4.CoreLibrary.Models.VirtualSubNet> callTaskvNet = Task.Run(() => service.GetAsync(Id));
-
-                callTaskvNet.Wait();
-                var vnet = callTaskvNet.Result;
-
-                bool IsChanged = false;
-
-                if (!string.IsNullOrEmpty(Name))
-                {
-                    vnet.Name = Name;
-                    IsChanged = true;
-                }
-                
-                if (VirtualFirewallId != Guid.Empty)
-                {
-                    vnet.VirtualFirewallId = VirtualFirewallId;
-                    IsChanged = true;
-                }
-
-                if (IsChanged)
-                {
-
-                    Task<CoreLibrary.Models.Job> callTask = Task.Run(() => service.UpdateAsync(Id, vnet));
-
-                    callTask.Wait();
-                    var job = callTask.Result;
-                    if (Wait)
-                    {
-                        WaitJobFinished(job.Id);
-
-                        Task<List<VirtualSubNet>> callTasklist = Task.Run(() => service.AllAsync());
-
-                        callTasklist.Wait();
-                        var virtualnetworks = callTasklist.Result;
-
-                        WriteObject(virtualnetworks.FirstOrDefault(x => x.Id == job.ResourceId));
-
-                    }
-                    else
-                    {
-                        WriteObject(job);
-                    }
-
-                }
-            }
-            catch (Exception e)
-            {
-                throw new RemoteException("An API Error has happen");
+                vsubnet.Name = Name;
+                IsChanged = true;
             }
 
+            if (VirtualFirewallId != Guid.Empty)
+            {
+                vsubnet.VirtualFirewallId = VirtualFirewallId;
+                IsChanged = true;
+            }
+
+            if (IsChanged)
+            {
+
+                var job = Update(Connection, Id, vsubnet);
+
+                if (Wait)
+                {
+                    WriteObject(WaitJobFinished(job.Id, Connection));
+
+                }
+                else
+                {
+                    WriteObject(job);
+                }
+
+            }
 
         }
 
-        protected override void EndProcessing()
-        {
+        
 
-        }
+        
+        
     }
 }
