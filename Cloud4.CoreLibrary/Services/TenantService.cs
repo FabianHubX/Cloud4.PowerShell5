@@ -24,7 +24,7 @@ namespace Cloud4.CoreLibrary.Services
 
         }
 
-        public async Task<Result<Tenant>> GetByPlatformAsync(string platformid)
+        public async Task<Result<Tenant>> GetByPlatformAsync(Guid platformid)
         {
             var result = await client.GetDataAsJsonAsync<List<Tenant>>(new Uri(this.Connection.ApiUrl, Entity));
 
@@ -36,9 +36,9 @@ namespace Cloud4.CoreLibrary.Services
 
         }
 
-        public async Task<string> SetCredentialsAsync(string Id, TenantCredentials body)
+        public async Task<string> SetCredentialsAsync(Guid Id, TenantCredentials body)
         {
-            var result = await client.PutDataAsJsonAsync<TenantCredentials>(new Uri(this.Connection.ApiUrl, "PlatformCredentials/" + Id), body);
+            var result = await client.PutDataAsJsonAsync<TenantCredentials>(new Uri(this.Connection.ApiUrl, "PlatformCredentials/" + Id.ToString()), body);
 
  
                 return result.StatusCode.ToString();

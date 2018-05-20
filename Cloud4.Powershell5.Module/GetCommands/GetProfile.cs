@@ -26,6 +26,14 @@ namespace Cloud4.Powershell5.Module
            ValueFromPipelineByPropertyName = true)]
 
         public ProfileType Type { get; set; }
+        [Parameter(
+        Mandatory = false,
+        Position = 1,
+        ValueFromPipeline = true,
+         HelpMessage = "Filter by Profile Name",
+        ValueFromPipelineByPropertyName = true)]
+
+        public string FilterByName { get; set; }
 
         private VirtualDiskProfileService DiskProfileService { get; set; }
         private VirtualMachineProfileService MachineProfileService { get; set; }
@@ -50,7 +58,14 @@ namespace Cloud4.Powershell5.Module
 
                         if (result1.Object != default(List<VirtualDiskProfile>))
                         {
-                            result1.Object.ToList().ForEach(WriteObject);
+                            if (!string.IsNullOrEmpty(FilterByName))
+                            {
+                                result1.Object.Where(x => x.Id == FilterByName).ToList().ForEach(WriteObject);
+                            }
+                            else
+                            {
+                                result1.Object.ToList().ForEach(WriteObject);
+                            }
                         }
                         else if (result1.Error != null)
                         {
@@ -73,7 +88,14 @@ namespace Cloud4.Powershell5.Module
 
                         if (result2.Object != default(List<VirtualMachineProfile>))
                         {
-                            result2.Object.ToList().ForEach(WriteObject);
+                            if (!string.IsNullOrEmpty(FilterByName))
+                            {
+                                result2.Object.Where(x => x.Id == FilterByName).ToList().ForEach(WriteObject);
+                            }
+                            else
+                            {
+                                result2.Object.ToList().ForEach(WriteObject);
+                            }
                         }
                         else if (result2.Error != null)
                         {
@@ -95,7 +117,14 @@ namespace Cloud4.Powershell5.Module
 
                         if (result3.Object != default(List<VirtualNetworkAdapterProfile>))
                         {
-                            result3.Object.ToList().ForEach(WriteObject);
+                            if (!string.IsNullOrEmpty(FilterByName))
+                            {
+                                result3.Object.Where(x => x.Id == FilterByName).ToList().ForEach(WriteObject);
+                            }
+                            else
+                            {
+                                result3.Object.ToList().ForEach(WriteObject);
+                            }
                         }
                         else if (result3.Error != null)
                         {

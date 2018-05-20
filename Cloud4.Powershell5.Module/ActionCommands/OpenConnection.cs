@@ -14,18 +14,18 @@ namespace Cloud4.Powershell5.Module
 {
 
     [Cmdlet(VerbsCommon.Open, "Cloud4Connection")]
-    [OutputType(typeof(Connection))]
+    [OutputType(typeof(ConnectionResult))]
     public class OpenConnection : Cmdlet
     {
         private Uri _apiUrl;
         private Uri _loginUrl;
 
-
+        private Guid PlatformId = new Guid("13d91c81-a9a7-4585-b653-a54ea363f763");
 
 
         private Tenant tenant { get; set; }
 
-        private List<Platform> platforms { get; set; }
+      //  private List<Platform> platforms { get; set; }
 
 
 
@@ -79,13 +79,13 @@ namespace Cloud4.Powershell5.Module
         public PSCredential Credential { get; set; }
 
 
-        [Parameter(
-            Mandatory = false,
-            Position = 3,
-            ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true)]
+        //[Parameter(
+        //    Mandatory = false,
+        //    Position = 3,
+        //    ValueFromPipeline = true,
+        //    ValueFromPipelineByPropertyName = true)]
 
-        public Guid Id { get; set; }
+        //public Guid Id { get; set; }
 
 
 
@@ -94,43 +94,42 @@ namespace Cloud4.Powershell5.Module
         {
 
             string password = new System.Net.NetworkCredential(string.Empty, Credential.Password).Password;
-
-
+            
             TokenService.Connect(_loginUrl, Credential.UserName, password);
 
             var con = new Connection { UserName = Credential.UserName, PassWord = password, LogonUrl = _loginUrl, AccessToken = TokenService.AccessToken, ApiUrl = _apiUrl };
 
 
 
-            if (Id == Guid.Empty)
-            {
-                // No Platform selected
-                PlatformService platformService = new PlatformService(con);
+            //if (Id == Guid.Empty)
+            //{
+            //    // No Platform selected
+            //    PlatformService platformService = new PlatformService(con);
 
-                try
-                {
+            //    try
+            //    {
 
-                    Task<Result<List<Platform>>> callTask = Task.Run(() => platformService.AllAsync());
+            //        Task<Result<List<Platform>>> callTask = Task.Run(() => platformService.AllAsync());
 
-                    callTask.Wait();
-                    platforms = callTask.Result.Object;
+            //        callTask.Wait();
+            //        platforms = callTask.Result.Object;
 
-                    platforms.ToList().ForEach(WriteObject);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: " + e.Message);
-                }
-            }
-            else
-            {
+            //        platforms.ToList().ForEach(WriteObject);
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        Console.WriteLine("Error: " + e.Message);
+            //    }
+            //}
+            //else
+            //{
                 TenantService tenantService = new TenantService(con);
                 JobService jobService = new JobService(con);
 
                 try
                 {
 
-                    Task<Result<Tenant>> callTask = Task.Run(() => tenantService.GetByPlatformAsync(Id.ToString("D").ToLower()));
+                    Task<Result<Tenant>> callTask = Task.Run(() => tenantService.GetByPlatformAsync(PlatformId));
 
                     callTask.Wait();
 
@@ -153,53 +152,53 @@ namespace Cloud4.Powershell5.Module
                         Console.WriteLine("No Tenant existing");
 
 
-                        Task<CoreLibrary.Models.Result> callTaskJob = Task.Run(() => tenantService.CreateAsync(new Tenant { Name = "Swiss Cloud 4.0", PlatformId = Id.ToString("D").ToLower() }));
+                        //Task<CoreLibrary.Models.Result> callTaskJob = Task.Run(() => tenantService.CreateAsync(new Tenant { Name = "Swiss Cloud 4.0", PlatformId = PlatformId }));
 
-                        var result = callTaskJob.Result;
-                        CoreLibrary.Models.Job job;
+                        //var result = callTaskJob.Result;
+                        //CoreLibrary.Models.Job job;
 
-                        if (result.Job != null)
-                        {
-                            job = result.Job;
-                        }
-                        else if (result.Error != null)
-                        {
-                            throw new RemoteException("Conflict Error: " + result.Error.ErrorType + "\r\n" + result.Error.FaultyValues);
-                        }
-                        else
-                        {
-                            throw new RemoteException("API returns: " + result.Code.ToString());
-                        }
-
-
-                        Console.WriteLine("Create new Tenant, Job: " + job.Id.ToString());
-
-                        do
-                        {
-                            var callTaskjobid = Task.Run(() => jobService.GetAsync(job.Id));
-
-                            callTaskjobid.Wait();
-                            job = callTaskjobid.Result.Object;
-
-                            Console.WriteLine("Job tatus: " + job.State);
-
-                            Thread.Sleep(new TimeSpan(0, 0, 5));
-
-                            Console.WriteLine("Wait...");
-                        }
-                        while (job.State == "failed" || job.State == "successful");
+                        //if (result.Job != null)
+                        //{
+                        //    job = result.Job;
+                        //}
+                        //else if (result.Error != null)
+                        //{
+                        //    throw new RemoteException("Conflict Error: " + result.Error.ErrorType + "\r\n" + result.Error.FaultyValues);
+                        //}
+                        //else
+                        //{
+                        //    throw new RemoteException("API returns: " + result.Code.ToString());
+                        //}
 
 
-                        callTask = Task.Run(() => tenantService.GetByPlatformAsync(Id.ToString("D").ToLower()));
+                        //Console.WriteLine("Create new Tenant, Job: " + job.Id.ToString());
 
-                        callTask.Wait();
-                        tenant = callTask.Result.Object;
+                        //do
+                        //{
+                        //    var callTaskjobid = Task.Run(() => jobService.GetAsync(job.Id));
 
-                        Console.WriteLine("Get Tenant id");
+                        //    callTaskjobid.Wait();
+                        //    job = callTaskjobid.Result.Object;
+
+                        //    Console.WriteLine("Job tatus: " + job.State);
+
+                        //    Thread.Sleep(new TimeSpan(0, 0, 5));
+
+                        //    Console.WriteLine("Wait...");
+                        //}
+                        //while (job.State == "failed" || job.State == "successful");
+
+
+                        //callTask = Task.Run(() => tenantService.GetByPlatformAsync(PlatformId));
+
+                        //callTask.Wait();
+                        //tenant = callTask.Result.Object;
+
+                        //Console.WriteLine("Get Tenant id");
                     }
 
 
-                    Console.WriteLine("TenantId: " + tenant.Id);
+                    //Console.WriteLine("TenantId: " + tenant.Id);
 
                     con.TenantId = tenant.Id;
 
@@ -211,7 +210,7 @@ namespace Cloud4.Powershell5.Module
 
                     }
 
-                    WriteObject(con);
+                    WriteObject(new ConnectionResult { UserName = con.UserName, ApiUrl = con.ApiUrl, LogonUrl = con.LogonUrl, TenantId = con.TenantId});
                 }
                 catch (Exception e)
                 {
@@ -221,7 +220,7 @@ namespace Cloud4.Powershell5.Module
 
 
 
-            }
+            //}
         }
 
         protected override void EndProcessing()
@@ -236,11 +235,11 @@ namespace Cloud4.Powershell5.Module
                     Console.WriteLine("Connection established");
                 }
 
-                if (Id == Guid.Empty)
-                {
+                //if (Id == Guid.Empty)
+                //{
 
-                    Console.WriteLine("To Connect you need to select a platform:");
-                }
+                //    Console.WriteLine("To Connect you need to select a platform:");
+                //}
             }
         }
     }

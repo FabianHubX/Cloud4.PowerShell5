@@ -93,6 +93,7 @@
     <Compile Include="GetCommands\GetVirtualNetAdapter.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\CompanyEnums.cs" />
+    <Compile Include="Models\ConnectionResult.cs" />
     <Compile Include="Models\LoadBalancerParameters.cs" />
     <Compile Include="Models\FirewallParameters.cs" />
     <Compile Include="Models\ProfileType.cs" />
@@ -164,6 +165,7 @@
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.0.1.4822\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\" />
     <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

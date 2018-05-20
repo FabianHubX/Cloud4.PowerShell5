@@ -9,6 +9,6 @@ namespace Cloud4.CoreLibrary.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
 
-        public string PlatformId { get; set; }
+        public Guid PlatformId { get; set; }
     }
 }

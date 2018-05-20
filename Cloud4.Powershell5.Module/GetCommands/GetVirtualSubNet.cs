@@ -34,11 +34,24 @@ namespace Cloud4.Powershell5.Module
 
         public Guid VirtualNetworkId { get; set; }
 
+        [Parameter(
+        Mandatory = false,
+        Position = 2,
+        ValueFromPipeline = true,
+         HelpMessage = "Filter by Name",
+        ValueFromPipelineByPropertyName = true)]
 
+        public string FilterByName { get; set; }
 
         protected override void ProcessRecord()
         {
-            if (Id == Guid.Empty)
+            if (!string.IsNullOrEmpty(FilterByName))
+            {
+
+                GetAll(Connection).Where(x => x.Name == FilterByName).ToList().ForEach(WriteObject);
+
+            }
+            else if (Id == Guid.Empty)
             {
                 if (VirtualNetworkId == Guid.Empty)
                 {

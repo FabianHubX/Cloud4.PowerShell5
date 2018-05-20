@@ -52,8 +52,8 @@ namespace Cloud4.Powershell5.Module
 
             Service = new TenantService(Connection);
 
-            string vmid = TenantId.ToString("D").ToLower();
-            Task<string> callTask = Task.Run(() => Service.SetCredentialsAsync(vmid, new TenantCredentials { Url = Url, Username = UserName, Password = Password }));
+         
+            Task<string> callTask = Task.Run(() => Service.SetCredentialsAsync(TenantId, new TenantCredentials { Url = Url, Username = UserName, Password = Password }));
 
             callTask.Wait();
             var job = callTask.Result;

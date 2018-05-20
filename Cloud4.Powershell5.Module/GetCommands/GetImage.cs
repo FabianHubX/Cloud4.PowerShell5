@@ -21,10 +21,18 @@ namespace Cloud4.Powershell5.Module
            Mandatory = false,
            Position = 0,
            ValueFromPipeline = true,
-            HelpMessage = "Filter by vDC Id",
+            HelpMessage = "Filter by Id",
            ValueFromPipelineByPropertyName = true)]
 
         public Guid Id { get; set; }
+        [Parameter(
+        Mandatory = false,
+        Position = 1,
+        ValueFromPipeline = true,
+         HelpMessage = "Filter by Name",
+        ValueFromPipelineByPropertyName = true)]
+
+        public string FilterByName { get; set; }
 
         private ImageService Service { get; set; }
 
@@ -32,7 +40,13 @@ namespace Cloud4.Powershell5.Module
 
         protected override void ProcessRecord()
         {
-            if (Id == Guid.Empty)
+            if (!string.IsNullOrEmpty(FilterByName))
+            {
+
+                GetAll(Connection).Where(x => x.Name == FilterByName).ToList().ForEach(WriteObject);
+
+            }
+            else if (Id == Guid.Empty)
             {
                 GetAll(Connection).ForEach(WriteObject);
             }

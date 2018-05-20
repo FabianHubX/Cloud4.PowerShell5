@@ -108,7 +108,7 @@ namespace Cloud4.Powershell5.Module
 
             callTasksubNet.Wait();
 
-            if (callTasksubNet.Result.Job != null)
+            if (callTasksubNet.Result.Object != null)
             {
                 return callTasksubNet.Result.Object;
             }
@@ -132,7 +132,7 @@ namespace Cloud4.Powershell5.Module
 
             callTasksubNet.Wait();
 
-            if (callTasksubNet.Result.Job != null)
+            if (callTasksubNet.Result.Object != null)
             {
                 return callTasksubNet.Result.Object;
             }

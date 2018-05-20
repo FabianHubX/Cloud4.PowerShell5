@@ -26,12 +26,27 @@ namespace Cloud4.Powershell5.Module
        
         public Guid Id { get; set; }
 
+        [Parameter(
+        Mandatory = false,
+        Position = 1,
+        ValueFromPipeline = true,
+         HelpMessage = "Filter by Region Name",
+        ValueFromPipelineByPropertyName = true)]
+
+        public string FilterByName { get; set; }
+
         private RegionService service;
 
 
         protected override void ProcessRecord()
         {
-            if (Id == Guid.Empty)
+            if (!string.IsNullOrEmpty(FilterByName))
+            {
+
+                GetAll(Connection).Where(x => x.Name == FilterByName).ToList().ForEach(WriteObject);
+
+            }
+            else if (Id == Guid.Empty)
             {
                 GetAll(Connection).ForEach(WriteObject);
             }
