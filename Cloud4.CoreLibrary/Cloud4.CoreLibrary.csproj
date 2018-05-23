@@ -91,6 +91,9 @@
     <Compile Include="Models\AvailabilitySet.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Contact.cs" />
+    <Compile Include="Models\CreateVirtualFirewall4Subnet.cs" />
+    <Compile Include="Models\CreateVirtualGateway.cs" />
+    <Compile Include="Models\CreateVirtualGatewayNetworkConnection.cs" />
     <Compile Include="Models\ErrorDetails.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="Models\UpdateVirtualLoadBalancerFrontEndConfigurations.cs" />
@@ -110,6 +113,8 @@
     <Compile Include="Models\VirtualFirewallRule.cs" />
     <Compile Include="Models\CreateVirtualMachine.cs" />
     <Compile Include="Models\CreateVirtualLoadBalancer.cs" />
+    <Compile Include="Models\VirtualGateway.cs" />
+    <Compile Include="Models\VirtualGatewayNetworkConnection.cs" />
     <Compile Include="Models\VirtualLoadBalancer.cs" />
     <Compile Include="Models\CreateVirtualLoadBalancerBackEndPool.cs" />
     <Compile Include="Models\VirtualLoadBalancerBackEndPool.cs" />
@@ -133,6 +138,7 @@
     <Compile Include="Models\VirtualSubNet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AvailabilitySetService.cs" />
+    <Compile Include="Services\BaseVirtualGatewayService.cs" />
     <Compile Include="Services\BaseLoadBalancerService.cs" />
     <Compile Include="Services\BaseTenantService.cs" />
     <Compile Include="Services\BaseService.cs" />
@@ -153,9 +159,11 @@
     <Compile Include="Services\VirtualFirewallService.cs" />
     <Compile Include="Services\VirtualLoadBalancerBackEndPoolService.cs" />
     <Compile Include="Services\VirtualLoadBalancerInboundNatRuleService.cs" />
+    <Compile Include="Services\VirtualGatewayNetworkConnectionService .cs" />
     <Compile Include="Services\VirtualLoadBalancerRuleService.cs" />
     <Compile Include="Services\VirtualLoadBalancerFrontendIpConfigurationsService.cs" />
     <Compile Include="Services\VirtualLoadBalancerProbeService.cs" />
+    <Compile Include="Services\VirtualGatewayService.cs" />
     <Compile Include="Services\VirtualLoadBalancerService.cs" />
     <Compile Include="Services\VirtualMachineProfileService.cs" />
     <Compile Include="Services\VirtualMachineService.cs" />

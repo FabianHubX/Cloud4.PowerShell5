@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vLBBackEndPool")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualLoadBalancerBackEndPool : BaseNewCmdLet<VirtualLoadBalancerBackEndPool, VirtualLoadBalancerBackEndPoolService, CreateVirtualLoadBalancerBackEndPool>
+    public class NewVirtualLoadBalancerBackEndPool : BaseNewLoadBalancerCmdLet<VirtualLoadBalancerBackEndPool, VirtualLoadBalancerBackEndPoolService, CreateVirtualLoadBalancerBackEndPool>
     {
       
 
@@ -57,7 +57,7 @@ namespace Cloud4.Powershell5.Module
 
             };
 
-            var job = Create(Connection, vlb);
+            var job = Create(Connection, vlb, VirtualLoadBalancerId);
 
             if (Wait)
             {

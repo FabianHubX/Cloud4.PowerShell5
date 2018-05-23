@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    public class BaseGetLoadBalancerCmdLet<T,Y> : BaseCmdLet<T,Y> where Y : new()
+    public class BaseGetVirtualGatewayCmdLet<T,Y> : BaseCmdLet<T,Y> where Y : new()
     {
 
-      
+        
 
-        public static List<T> GetAll(Connection con, Guid VirtualLoadBalancerId)
+        public static List<T> GetAll(Connection con, Guid VirtualGatewayId)
         {
             try
             {
 
-                var service = Activator.CreateInstance(typeof(Y), new object[] { con, VirtualLoadBalancerId });
+                var service = Activator.CreateInstance(typeof(Y), new object[] { con, VirtualGatewayId });
 
 
                 Task<Result<List<T>>> callTask = Task.Run(() => ((IBaseServiceInterface<T>)service).AllAsync());
@@ -36,12 +36,12 @@ namespace Cloud4.Powershell5.Module
             }
         }
 
-        public static T GetOne(Guid Id, Connection con, Guid VirtualLoadBalancerId)
+        public static T GetOne(Guid Id, Connection con, Guid VirtualGatewayId)
         {
             try
             {
               
-                IBaseServiceInterface<T> service = (IBaseServiceInterface<T>)Activator.CreateInstance(typeof(Y), new object[] { con, VirtualLoadBalancerId });
+                IBaseServiceInterface<T> service = (IBaseServiceInterface<T>)Activator.CreateInstance(typeof(Y), new object[] { con, VirtualGatewayId });
 
 
                 Task<Result<T>> callTask = Task.Run(() => service.GetAsync(Id));

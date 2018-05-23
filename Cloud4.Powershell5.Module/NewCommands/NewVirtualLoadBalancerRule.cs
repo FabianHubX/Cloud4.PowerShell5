@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vLBRule")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualLoadBalancerRule : BaseNewCmdLet<VirtualLoadBalancerRule, VirtualLoadBalancerRuleService, CreateVirtualLoadBalancerRule>
+    public class NewVirtualLoadBalancerRule : BaseNewLoadBalancerCmdLet<VirtualLoadBalancerRule, VirtualLoadBalancerRuleService, CreateVirtualLoadBalancerRule>
     {
       
 
@@ -136,7 +136,7 @@ namespace Cloud4.Powershell5.Module
 
             };
 
-            var job = Create(Connection, vlb);
+            var job = Create(Connection, vlb, VirtualLoadBalancerId);
 
 
             if (Wait)

@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsCommon.Remove, "Cloud4vLB")]
+    [Cmdlet(VerbsCommon.Remove, "Cloud4vGWNetConnection")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class RemoveVirtualLoadBalancer : BaseRemoveCmdLet<VirtualLoadBalancer, VirtualLoadBalancerService>
+    public class RemoveVirtualGatawayNetworkConnection : BaseRemoveVirtualGatewayCmdLet<VirtualLoadBalancerRule, VirtualLoadBalancerRuleService>
     {
         [Parameter(
           Mandatory = true,
@@ -21,6 +21,14 @@ namespace Cloud4.Powershell5.Module
           ValueFromPipelineByPropertyName = true)]
      
         public Guid Id { get; set; }
+
+        [Parameter(
+         Mandatory = true,
+         Position = 1,
+         ValueFromPipeline = true,
+         ValueFromPipelineByPropertyName = true)]
+
+        public Guid VirtualLoadBalancerId { get; set; }
 
 
         [Parameter(
@@ -37,8 +45,9 @@ namespace Cloud4.Powershell5.Module
 
         protected override void ProcessRecord()
         {
-            WriteObject(Remove(Id, Connection, Wait));
+            WriteObject(Remove(Id, Connection, VirtualLoadBalancerId, Wait));
         }
 
+      
     }
 }

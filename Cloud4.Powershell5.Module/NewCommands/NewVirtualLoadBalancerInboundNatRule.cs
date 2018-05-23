@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vLBInboundNATRule")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualLoadBalancerInboundNatRule : BaseNewCmdLet<VirtualLoadBalancerInboundNatRule, VirtualLoadBalancerInboundNatRuleService, CreateVirtualLoadBalancerInboundNatRule>
+    public class NewVirtualLoadBalancerInboundNatRule : BaseNewLoadBalancerCmdLet<VirtualLoadBalancerInboundNatRule, VirtualLoadBalancerInboundNatRuleService, CreateVirtualLoadBalancerInboundNatRule>
     {
       
 
@@ -97,7 +97,7 @@ namespace Cloud4.Powershell5.Module
             };
 
 
-            var job = Create(Connection, vlb);
+            var job = Create(Connection, vlb, VirtualLoadBalancerId);
 
             if (Wait)
             {

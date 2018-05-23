@@ -45,8 +45,45 @@ namespace Cloud4.Powershell5.Module
         public string AddressSpace { get; set; }
 
         [Parameter(
+        Mandatory = true,
+        Position = 3,
+        ValueFromPipeline = true,
+            HelpMessage = "Virtual Network is a Gateway Net",
+        ValueFromPipelineByPropertyName = true)]
+
+        public bool IsGatewaySubnet { get; set; }
+
+        [Parameter(
+   Mandatory = false,
+   Position = 4,
+   ValueFromPipeline = true,
+       HelpMessage = "Assign virtual Firewall to the virtual Network",
+   ValueFromPipelineByPropertyName = true)]
+
+        public Guid VirtualFirewallId { get; set; }
+
+        [Parameter(
+Mandatory = false,
+Position = 5,
+ValueFromPipeline = true,
+  HelpMessage = "New virtual Firewall Name to the virtual Network",
+ValueFromPipelineByPropertyName = true)]
+
+        public string NewVirtualFirewallName { get; set; }
+
+
+        [Parameter(
+Mandatory = false,
+Position = 6,
+ValueFromPipeline = true,
+HelpMessage = "Rules for the new virtual Firewall to the virtual Network",
+ValueFromPipelineByPropertyName = true)]
+
+        public List<VirtualFirewallRule> Rules { get; set; }
+
+        [Parameter(
      Mandatory = false,
-     Position = 3,
+     Position = 7,
      ValueFromPipeline = true,
       HelpMessage = "Wait Job Finished",
      ValueFromPipelineByPropertyName = true)]
@@ -61,9 +98,29 @@ namespace Cloud4.Powershell5.Module
         {
 
 
+            var newfirewall = new CreateVirtualFirewall4Subnet();
+            if (VirtualFirewallId != Guid.Empty)
+            {
+                newfirewall.Id = VirtualFirewallId;
+            }
+            else if (!string.IsNullOrEmpty(NewVirtualFirewallName))
+            {
+                newfirewall.Name = NewVirtualFirewallName;
+                newfirewall.Rules = Rules;
+            }
+            else
+            {
+                newfirewall = null;
+            }
 
 
-            var newsubnet = new CreateVirtualSubNet { Name = Name, VirtualNetworkId = VirtualNetworkId, AddressPrefix = AddressSpace };
+            var newsubnet = new CreateVirtualSubNet {
+                Name = Name,
+                VirtualNetworkId = VirtualNetworkId,
+                IsGatewaySubnet = IsGatewaySubnet ,
+                AddressPrefix = AddressSpace,
+                FirewallCreationParameters = newfirewall
+            };
 
             var job = Create(Connection, newsubnet);
 

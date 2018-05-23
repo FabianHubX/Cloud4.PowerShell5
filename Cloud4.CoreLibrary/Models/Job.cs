@@ -7,7 +7,8 @@ namespace Cloud4.CoreLibrary.Models
     public class Job
     {
         public Guid Id { get; set; }
-        public Guid ResourceId { get; set; }
+        public Guid ResourceId { get; set; }        
+        public string ResourceName { get; set; }
         public string JobType { get; set; }
         public string ErrorMessage { get; set; }
         public string State { get; set; }

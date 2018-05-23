@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsCommon.Remove, "Cloud4vLB")]
+    [Cmdlet(VerbsCommon.Remove, "Cloud4vGW")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class RemoveVirtualLoadBalancer : BaseRemoveCmdLet<VirtualLoadBalancer, VirtualLoadBalancerService>
+    public class RemoveVirtualGateway : BaseRemoveCmdLet<VirtualGateway, VirtualGatewayService>
     {
         [Parameter(
           Mandatory = true,

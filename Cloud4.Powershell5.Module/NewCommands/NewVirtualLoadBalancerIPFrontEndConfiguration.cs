@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vLBFrontEndIPConfigurations")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualLoadBalancerFrontEndIPConfiguration: BaseNewCmdLet<VirtualLoadBalancerFrontEndIPConfigurations, VirtualLoadBalancerFrontendIpConfigurationsService, CreateVirtualLoadBalancerFrontEndIPConfigurations>
+    public class NewVirtualLoadBalancerFrontEndIPConfiguration: BaseNewLoadBalancerCmdLet<VirtualLoadBalancerFrontEndIPConfigurations, VirtualLoadBalancerFrontendIpConfigurationsService, CreateVirtualLoadBalancerFrontEndIPConfigurations>
     {
 
 
@@ -85,7 +85,7 @@ namespace Cloud4.Powershell5.Module
             };
 
 
-            var job = Create(Connection, vlb);
+            var job = Create(Connection, vlb, VirtualLoadBalancerId);
 
             if (Wait)
             {
