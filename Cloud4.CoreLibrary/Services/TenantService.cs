@@ -24,12 +24,12 @@ namespace Cloud4.CoreLibrary.Services
 
         }
 
-        public async Task<Result<Tenant>> GetByPlatformAsync(Guid platformid)
+        public async Task<Result<List<Tenant>>> GetByPlatformAsync(Guid platformid)
         {
             var result = await client.GetDataAsJsonAsync<List<Tenant>>(new Uri(this.Connection.ApiUrl, Entity));
 
-            Result<Tenant> returnresult = new Result<Tenant>();
-            returnresult.Object = result.Content?.First(x=>x.PlatformId == platformid);
+            Result<List<Tenant>> returnresult = new Result<List<Tenant>>();
+            returnresult.Object = result.Content.Where(x=>x.PlatformId == platformid).ToList();
             returnresult.Code = result.StatusCode;
 
             return returnresult;

@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 namespace Cloud4.Powershell5.Module
 {
 
-    [Cmdlet(VerbsCommon.Open, "Cloud4Connection")]
+    [Cmdlet(VerbsCommon.Set, "Cloud4Tenant")]
     [OutputType(typeof(ConnectionResult))]
-    public class OpenConnection : Cmdlet
+    public class SetTenant : Cmdlet
     {
         private Uri _apiUrl;
         private Uri _loginUrl;
@@ -25,106 +25,41 @@ namespace Cloud4.Powershell5.Module
 
         private Tenant tenant { get; set; }
 
-      //  private List<Platform> platforms { get; set; }
-
-
+    
 
         [Parameter(
-          Mandatory = true,
-          Position = 0,
-          ValueFromPipeline = false,
-          ValueFromPipelineByPropertyName = false)]
-
-        public string LoginUrl
-        {
-            get
-            {
-                return _loginUrl.AbsolutePath;
-
-            }
-            set
-            {
-                _loginUrl = new Uri(value);
-            }
-        }
-
-        [Parameter(
-       Mandatory = true,
-       Position = 1,
-       ValueFromPipeline = false,
-       ValueFromPipelineByPropertyName = false)]
-
-        public string ApiUrl
-        {
-            get
-            {
-                return _apiUrl.AbsolutePath;
-
-            }
-            set
-            {
-                string apiurl = value;
-                apiurl += "/api/v1/";
-                _apiUrl = new Uri(apiurl);
-            }
-        }
-
-
-        [Parameter(
-         Mandatory = true,
-         Position = 2,
-         ValueFromPipeline = true,
-         ValueFromPipelineByPropertyName = true)]
-
-        public PSCredential Credential { get; set; }
-
-
-        [Parameter(
-            Mandatory = false,
-            Position = 3,
+            Mandatory = true,
+            Position = 0,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true)]
 
-        public Guid TenantId { get; set; }
+        public Guid Id { get; set; }
 
 
 
 
         protected override void ProcessRecord()
         {
-
-            string password = new System.Net.NetworkCredential(string.Empty, Credential.Password).Password;
-
-            TokenService.Connect(_loginUrl, Credential.UserName, password);
-
-            var con = new Connection { UserName = Credential.UserName, PassWord = password, LogonUrl = _loginUrl, AccessToken = TokenService.AccessToken, ApiUrl = _apiUrl };
+            Guid runspId;
+            var runsp = PowerShell.Create(RunspaceMode.CurrentRunspace);
+            runspId = runsp.Runspace.InstanceId;
+            var con = (Connection)TokenCollection.Get(runspId);
 
 
+            if (con == null)
+            {
+                throw new ArgumentException("No Active Connection");
+            }
 
-            //if (Id == Guid.Empty)
-            //{
-            //    // No Platform selected
-            //    PlatformService platformService = new PlatformService(con);
+            if (string.IsNullOrEmpty(con.AccessToken))
+            {
+                throw new ArgumentException("No Valid Connection");
+            }
 
-            //    try
-            //    {
-
-            //        Task<Result<List<Platform>>> callTask = Task.Run(() => platformService.AllAsync());
-
-            //        callTask.Wait();
-            //        platforms = callTask.Result.Object;
-
-            //        platforms.ToList().ForEach(WriteObject);
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        Console.WriteLine("Error: " + e.Message);
-            //    }
-            //}
-            //else
-            //{
             TenantService tenantService = new TenantService(con);
-            JobService jobService = new JobService(con);
+
+         
+
 
             try
             {
@@ -150,9 +85,9 @@ namespace Cloud4.Powershell5.Module
                     else
                     {
 
-                        if (TenantId != Guid.Empty & callTask.Result.Object.Any(x => x.Id == TenantId))
+                        if (callTask.Result.Object.Any(x => x.Id == Id))
                         {
-                            tenant = callTask.Result.Object.First(x => x.Id == TenantId);
+                            tenant = callTask.Result.Object.First(x => x.Id == Id);
                             con.TenantId = tenant.Id;
 
 
@@ -168,8 +103,8 @@ namespace Cloud4.Powershell5.Module
 
                     }
 
-                    Guid runspId;
-                    using (var runsp = PowerShell.Create(RunspaceMode.CurrentRunspace))
+                 
+                    using (runsp = PowerShell.Create(RunspaceMode.CurrentRunspace))
                     {
                         runspId = runsp.Runspace.InstanceId;
                         TokenCollection.Replace(runspId, con);

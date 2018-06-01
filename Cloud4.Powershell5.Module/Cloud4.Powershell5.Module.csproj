@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionCommands\SetTenant.cs" />
     <Compile Include="AddCommands\AddDataDisk.cs" />
     <Compile Include="BaseClasses\BaseActionCmdLet.cs" />
     <Compile Include="BaseClasses\BaseCmdLet.cs" />

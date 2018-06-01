@@ -69,7 +69,8 @@ namespace Cloud4.Powershell5.Module
             var virtualDisk = new CreateVirtualDisk
             {
                 Name = _name,
-                VirtualDiskProfileName = _diskProfile
+                VirtualDiskProfileName = _diskProfile,
+                virtualMachineId = VirtualMachineId
             };
 
 

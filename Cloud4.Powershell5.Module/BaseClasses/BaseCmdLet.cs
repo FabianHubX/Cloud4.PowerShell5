@@ -35,9 +35,14 @@ namespace Cloud4.Powershell5.Module
                 throw new ArgumentException("No Valid Connection");
             }
 
-            checkcon = new CompanyService(Connection);
-            checkcon.OnRefreshConnectionRaised += Service_OnRefreshConnectionRaised;
-            var currentcompany = Task.Run(() => checkcon.GetCurrentAsync()).Result;
+         //   checkcon = new CompanyService(Connection);
+         //   checkcon.OnRefreshConnectionRaised += Service_OnRefreshConnectionRaised;
+         //   var currentcompany = Task.Run(() => checkcon.GetCurrentAsync()).Result;
+
+            if (Connection.TenantId == Guid.Empty)
+            {
+                throw new ArgumentException("No Tenant Selected");
+            }
 
 
         }
