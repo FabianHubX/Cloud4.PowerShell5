@@ -82,6 +82,7 @@
     <Compile Include="BaseClasses\BaseNewCmdLet.cs" />
     <Compile Include="BaseClasses\BaseUpdateCmdLet.cs" />
     <Compile Include="GetCommands\GetContact.cs" />
+    <Compile Include="GetCommands\GetTenant.cs" />
     <Compile Include="GetCommands\GetImage.cs" />
     <Compile Include="GetCommands\GetProfile.cs" />
     <Compile Include="GetCommands\GetCompany.cs" />

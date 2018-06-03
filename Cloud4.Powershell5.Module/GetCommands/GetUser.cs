@@ -24,8 +24,6 @@ namespace Cloud4.Powershell5.Module
 
         public string eMail { get; set; }
 
-        private UserService userService { get; set; }
-
         protected override void ProcessRecord()
         {
 

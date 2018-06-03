@@ -34,9 +34,6 @@ namespace Cloud4.Powershell5.Module
 
         public string FilterByName { get; set; }
 
-        private ImageService Service { get; set; }
-
-
 
         protected override void ProcessRecord()
         {

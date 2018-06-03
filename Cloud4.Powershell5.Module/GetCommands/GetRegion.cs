@@ -35,9 +35,6 @@ namespace Cloud4.Powershell5.Module
 
         public string FilterByName { get; set; }
 
-        private RegionService service;
-
-
         protected override void ProcessRecord()
         {
             if (!string.IsNullOrEmpty(FilterByName))
