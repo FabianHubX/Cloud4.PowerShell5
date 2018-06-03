@@ -188,7 +188,7 @@ namespace Cloud4.Powershell5.Module
             virtualniclist.Add(new CreateVirtualNetworkAdapter
             {
                 IpAddress = subnet.NextFreeIpAddress,
-                IpAllocationMethod = 0,
+                Name = "Primary",               
                 SubNetId = VirtualSubNetId,
                 VirtualNetworkAdapterProfileName = _nICProfile
             });

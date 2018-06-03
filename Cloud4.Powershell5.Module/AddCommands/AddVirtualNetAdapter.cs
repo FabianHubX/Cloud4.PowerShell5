@@ -16,9 +16,6 @@ namespace Cloud4.Powershell5.Module
     public class AddVirtualNetAdapter : BaseAddCmdLet<VirtualNetworkAdapter, VirtualNetworkAdapterService>
     {
 
-        private string _nICProfile;
-
-
         [Parameter(
            Mandatory = true,
            Position = 0,
@@ -44,9 +41,26 @@ namespace Cloud4.Powershell5.Module
             HelpMessage = "Your Virtual Network Adapter Profile",
            ValueFromPipelineByPropertyName = true)]
 
-        public string NicProfile { get => _nICProfile; set => _nICProfile = value; }
+        public string NicProfile { get; set; }
+
+        [Parameter(
+      Mandatory = true,
+      Position = 2,
+      ValueFromPipeline = true,
+       HelpMessage = "Name for the Virtual Network Adapter",
+      ValueFromPipelineByPropertyName = true)]
+
+        public string Name { get; set; }
 
 
+        [Parameter(
+  Mandatory = false,
+  Position = 4,
+  ValueFromPipeline = true,
+    HelpMessage = "New Set of DNS Servers for this Virtual Network Adapter",
+  ValueFromPipelineByPropertyName = true)]
+
+        public string[] DnsServers { get; set; }
 
         public bool Wait { get; set; }
 
@@ -71,7 +85,7 @@ namespace Cloud4.Powershell5.Module
 
             callTasksubNet.Wait();
 
-            if (callTasksubNet.Result.Job != null)
+            if (callTasksubNet.Result.Object != null)
             {
                 subnet = callTasksubNet.Result.Object;
             }
@@ -84,16 +98,18 @@ namespace Cloud4.Powershell5.Module
                 throw new RemoteException("API returns: " + callTasksubNet.Result.Code.ToString());
             }
 
-           
+
 
 
 
             var virtualnic = new CreateVirtualNetworkAdapter
             {
+                VirtualMachineId = VirtualMachineId,
                 IpAddress = subnet.NextFreeIpAddress,
-                IpAllocationMethod = 0,
+                Name = Name,
+                DnsServers = DnsServers,
                 SubNetId = VirtualSubNetId,
-                VirtualNetworkAdapterProfileName = _nICProfile
+                VirtualNetworkAdapterProfileName = NicProfile
             };
 
 
