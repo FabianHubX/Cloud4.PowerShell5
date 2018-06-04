@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4VM")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualMachine : BaseNewCmdLet<VirtualMachine, VirtualMachineService, CreateVirtualMachine>
+    public class NewVirtualMachine : BaseTenantNewCmdLet<VirtualMachine, VirtualMachineService, CreateVirtualMachine>
     {
         private string _vMProfile;
         private string _oSDiskProfile;

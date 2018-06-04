@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4vDisk")]
     [OutputType(typeof(VirtualDisk))]
-    public class GetVirtualDisk : BaseGetCmdLet<VirtualDisk, VirtualDiskService>
+    public class GetVirtualDisk : BaseTenantGetCmdLet<VirtualDisk, VirtualDiskService>
     {
        
 

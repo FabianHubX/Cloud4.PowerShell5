@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4User")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.User))]
-    public class GetUser : BaseGetCmdLet<User, UserService>
+    public class GetUser : BaseTenantGetCmdLet<User, UserService>
     {
         
         [Parameter(

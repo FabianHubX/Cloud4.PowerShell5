@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Remove, "Cloud4VM")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class RemoveVirtualMachine : BaseRemoveCmdLet<VirtualMachine, VirtualMachineService>
+    public class RemoveVirtualMachine : BaseTenantRemoveCmdLet<VirtualMachine, VirtualMachineService>
     {
         [Parameter(
           Mandatory = true,

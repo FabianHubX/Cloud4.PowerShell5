@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vLB")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualLoadBalancer : BaseNewCmdLet<VirtualLoadBalancer, VirtualLoadBalancerService, CreateVirtualLoadBalancer>
+    public class NewVirtualLoadBalancer : BaseTenantNewCmdLet<VirtualLoadBalancer, VirtualLoadBalancerService, CreateVirtualLoadBalancer>
     {
        
 

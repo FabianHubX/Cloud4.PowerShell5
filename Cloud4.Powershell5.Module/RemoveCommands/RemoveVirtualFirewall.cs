@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Remove, "Cloud4vFirewall")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class RemoveVirtualFirewall :  BaseRemoveCmdLet<VirtualFirewall, VirtualFirewallService>
+    public class RemoveVirtualFirewall :  BaseTenantRemoveCmdLet<VirtualFirewall, VirtualFirewallService>
     {
         [Parameter(
           Mandatory = true,

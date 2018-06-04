@@ -156,8 +156,28 @@ namespace Cloud4.Powershell5.Module
         public int QuickModeSALifeTimeKiloBytes { get; set; }
 
         [Parameter(
+     Mandatory = true,
+     Position = 15,
+     ValueFromPipeline = true,
+     HelpMessage = "Name",
+     ValueFromPipelineByPropertyName = true)]
+
+        public string Name { get; set; }
+
+        [Parameter(
+Mandatory = true,
+Position = 16,
+ValueFromPipeline = true,
+HelpMessage = "SharedSecret",
+ValueFromPipelineByPropertyName = true)]
+
+        public string SharedSecret { get; set; }
+
+
+
+        [Parameter(
         Mandatory = false,
-        Position = 15,
+        Position = 17,
         ValueFromPipeline = true,
         HelpMessage = "Wait Job Finished",
         ValueFromPipelineByPropertyName = true)]
@@ -184,7 +204,9 @@ namespace Cloud4.Powershell5.Module
                 QuickModeIdleDisconnectSeconds = QuickModeIdleDisconnectSeconds,
                 QuickModePerfectForwardSecrecy = PerfectForwardSecrecy.ToString(),
                 QuickModeSALifeTimeKiloBytes = QuickModeSALifeTimeKiloBytes,
-                QuickModeSALifeTimeSeconds = QuickModeSALifeTimeSeconds
+                QuickModeSALifeTimeSeconds = QuickModeSALifeTimeSeconds,
+                Name = Name,
+                SharedSecret = SharedSecret
 
             };
 

@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Remove, "Cloud4vLB")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class RemoveVirtualLoadBalancer : BaseRemoveCmdLet<VirtualLoadBalancer, VirtualLoadBalancerService>
+    public class RemoveVirtualLoadBalancer : BaseTenantRemoveCmdLet<VirtualLoadBalancer, VirtualLoadBalancerService>
     {
         [Parameter(
           Mandatory = true,

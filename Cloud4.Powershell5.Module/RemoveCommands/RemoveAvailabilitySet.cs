@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Remove, "Cloud4AvailabilitySet")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class RemoveAvailabilitySet : BaseRemoveCmdLet<VirtualDatacenter, VirtualDataCenterService>
+    public class RemoveAvailabilitySet : BaseTenantRemoveCmdLet<VirtualDatacenter, VirtualDataCenterService>
     {
         [Parameter(
           Mandatory = true,

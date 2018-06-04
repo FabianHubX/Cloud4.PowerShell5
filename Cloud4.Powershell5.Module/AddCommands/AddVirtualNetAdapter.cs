@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Add, "Cloud4vNetAdapter")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class AddVirtualNetAdapter : BaseAddCmdLet<VirtualNetworkAdapter, VirtualNetworkAdapterService>
+    public class AddVirtualNetAdapter : BaseTenantAddCmdLet<VirtualNetworkAdapter, VirtualNetworkAdapterService>
     {
 
         [Parameter(

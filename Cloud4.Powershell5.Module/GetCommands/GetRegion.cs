@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4Region")]
     [OutputType(typeof(Region))]
-    public class GetRegion : BaseGetCmdLet<Region, RegionService>
+    public class GetRegion : BaseTenantGetCmdLet<Region, RegionService>
     {
 
        

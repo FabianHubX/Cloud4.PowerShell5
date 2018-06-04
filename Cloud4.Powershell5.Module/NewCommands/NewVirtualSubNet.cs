@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vSubNet")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualSubNet : BaseNewCmdLet<VirtualSubNet, VirtualSubNetService, CreateVirtualSubNet>
+    public class NewVirtualSubNet : BaseTenantNewCmdLet<VirtualSubNet, VirtualSubNetService, CreateVirtualSubNet>
     {
         [Parameter(
           Mandatory = true,
@@ -113,13 +113,19 @@ ValueFromPipelineByPropertyName = true)]
                 newfirewall = null;
             }
 
-
-            var newsubnet = new CreateVirtualSubNet {
+            var newsubnetpar = new CreateVirtualSubNetParams
+            {
                 Name = Name,
-                VirtualNetworkId = VirtualNetworkId,
-                IsGatewaySubnet = IsGatewaySubnet ,
+                IsGatewaySubnet = IsGatewaySubnet,
                 AddressPrefix = AddressSpace,
                 FirewallCreationParameters = newfirewall
+            };
+
+            var newsubnet = new CreateVirtualSubNet {
+            
+                VirtualNetworkId = VirtualNetworkId,
+                Parameters = newsubnetpar
+              
             };
 
             var job = Create(Connection, newsubnet);

@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vDC")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualDC : BaseNewCmdLet<VirtualDatacenter,VirtualDataCenterService, VirtualDatacenter>
+    public class NewVirtualDC : BaseTenantNewCmdLet<VirtualDatacenter,VirtualDataCenterService, VirtualDatacenter>
     {
         [Parameter(
           Mandatory = true,

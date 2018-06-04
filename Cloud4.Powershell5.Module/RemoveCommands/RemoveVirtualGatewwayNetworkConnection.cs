@@ -28,7 +28,7 @@ namespace Cloud4.Powershell5.Module
          ValueFromPipeline = true,
          ValueFromPipelineByPropertyName = true)]
 
-        public Guid VirtualLoadBalancerId { get; set; }
+        public Guid VirtualGatewayId { get; set; }
 
 
         [Parameter(
@@ -45,7 +45,7 @@ namespace Cloud4.Powershell5.Module
 
         protected override void ProcessRecord()
         {
-            WriteObject(Remove(Id, Connection, VirtualLoadBalancerId, Wait));
+            WriteObject(Remove(Id, Connection, VirtualGatewayId, Wait));
         }
 
       

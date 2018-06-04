@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Add, "Cloud4vDataDisk")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class AddDataDisk : BaseAddCmdLet<VirtualDisk, VirtualDiskService>
+    public class AddDataDisk : BaseTenantAddCmdLet<VirtualDisk, VirtualDiskService>
     {
 
         private string _diskProfile;

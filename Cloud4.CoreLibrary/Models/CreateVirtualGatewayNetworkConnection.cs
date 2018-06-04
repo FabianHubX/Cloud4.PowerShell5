@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 namespace Cloud4.CoreLibrary.Models
 {
     public class CreateVirtualGatewayNetworkConnection
-    {    
-     
+    {
+        public string Name { get; set; }
+
         public string DestinationIpAddress { get; set; }
         public List<string> DestinationPrefix { get; set; }
+
+        public string SharedSecret { get; set; }
         public string AuthenticationMethod { get; set; }
         public string MainModeDiffieHellmanGroup { get; set; }
         public string MainModeIntegrityAlgorithm { get; set; }
@@ -25,3 +28,4 @@ namespace Cloud4.CoreLibrary.Models
         public int QuickModeIdleDisconnectSeconds { get; set; }
     }
 }
+

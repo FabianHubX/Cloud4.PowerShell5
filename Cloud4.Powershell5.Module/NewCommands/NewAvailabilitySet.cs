@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4AvailabilitySet")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewAvailabilitySet : BaseNewCmdLet<AvailabilitySet, AvailabilitySetService, CreateAvailabilitySet>
+    public class NewAvailabilitySet : BaseTenantNewCmdLet<AvailabilitySet, AvailabilitySetService, CreateAvailabilitySet>
     {
         [Parameter(
           Mandatory = true,

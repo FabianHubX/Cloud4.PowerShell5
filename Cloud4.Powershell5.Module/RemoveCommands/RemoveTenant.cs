@@ -6,39 +6,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsCommon.Remove, "Cloud4vGW")]
+    [Cmdlet(VerbsCommon.Remove, "Cloud4Tenant")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class RemoveVirtualGateway : BaseTenantRemoveCmdLet<VirtualGateway, VirtualGatewayService>
+    public class RemoveTenant : BaseTenantRemoveCmdLet<Tenant, TenantService>
     {
         [Parameter(
           Mandatory = true,
           Position = 0,
           ValueFromPipeline = true,
           ValueFromPipelineByPropertyName = true)]
-     
-        public Guid Id { get; set; }
+      
+        public Guid Id  { get; set; }
 
-
-        [Parameter(
-        Mandatory = false,
-        Position = 2,
-        ValueFromPipeline = true,
-        HelpMessage = "Wait Job Finished",
-        ValueFromPipelineByPropertyName = true)]
-
-        public bool Wait { get; set; }
-
-
+        
+        
 
 
         protected override void ProcessRecord()
         {
-            WriteObject(Remove(Id, Connection, Wait));
+
+
+            WriteObject(Remove(Id, Connection, false));
+
+
+
+
         }
+
+
+
 
     }
 }

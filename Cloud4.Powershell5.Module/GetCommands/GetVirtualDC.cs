@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4vDC")]
     [OutputType(typeof(VirtualDatacenter))]
-    public class GetVirtualDC : BaseGetCmdLet<VirtualDatacenter, VirtualDataCenterService>
+    public class GetVirtualDC : BaseTenantGetCmdLet<VirtualDatacenter, VirtualDataCenterService>
     {
 
 

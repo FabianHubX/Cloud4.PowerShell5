@@ -11,7 +11,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4vFirewall")]
     [OutputType(typeof(VirtualFirewall))]
-    public class GetVirtualFirewall : BaseGetCmdLet<VirtualFirewall, VirtualFirewallService>
+    public class GetVirtualFirewall : BaseTenantGetCmdLet<VirtualFirewall, VirtualFirewallService>
     {
         [Parameter(
         Mandatory = false,

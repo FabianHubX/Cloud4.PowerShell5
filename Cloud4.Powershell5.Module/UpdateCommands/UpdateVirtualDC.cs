@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsData.Update, "Cloud4vDC")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualDC : BaseUpdateCmdLet<VirtualDatacenter,VirtualDataCenterService, VirtualDatacenter>
+    public class UpdateVirtualDC : BaseTenantUpdateCmdLet<VirtualDatacenter,VirtualDataCenterService, VirtualDatacenter>
     {
 
         [Parameter(

@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4vGW")]
     [OutputType(typeof(VirtualGateway))]
-    public class GetVirtualGateway : BaseGetCmdLet<VirtualGateway, VirtualGatewayService>
+    public class GetVirtualGateway : BaseTenantGetCmdLet<VirtualGateway, VirtualGatewayService>
     {
        
       

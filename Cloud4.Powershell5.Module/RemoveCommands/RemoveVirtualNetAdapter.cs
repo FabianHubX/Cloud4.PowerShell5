@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Remove, "Cloud4vNetAdapter")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class RemoveVirtualNetAdapter : BaseRemoveCmdLet<VirtualNetworkAdapter, VirtualNetworkAdapterService>
+    public class RemoveVirtualNetAdapter : BaseTenantRemoveCmdLet<VirtualNetworkAdapter, VirtualNetworkAdapterService>
     {
         [Parameter(
           Mandatory = true,

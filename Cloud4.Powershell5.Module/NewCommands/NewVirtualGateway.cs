@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vGW")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualGateway : BaseNewCmdLet<VirtualGateway, VirtualGatewayService, CreateVirtualGateway>
+    public class NewVirtualGateway : BaseTenantNewCmdLet<VirtualGateway, VirtualGatewayService, CreateVirtualGateway>
     {
        
 

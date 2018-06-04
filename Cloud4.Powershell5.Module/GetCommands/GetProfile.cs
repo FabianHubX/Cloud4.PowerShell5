@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4Profile")]
     [OutputType(typeof(string))]
-    public class GetProfile : BaseGetCmdLet<VirtualDiskProfile, VirtualDiskProfileService>
+    public class GetProfile : BaseTenantGetCmdLet<VirtualDiskProfile, VirtualDiskProfileService>
     {
 
 

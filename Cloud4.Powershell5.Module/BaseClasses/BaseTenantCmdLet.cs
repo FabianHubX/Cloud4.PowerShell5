@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    public class BaseCmdLet<T,Y>: Cmdlet
+    public class BaseTenantCmdLet<T,Y>: Cmdlet
     {
         public Connection Connection { get; set; }
 
@@ -35,7 +35,14 @@ namespace Cloud4.Powershell5.Module
                 throw new ArgumentException("No Valid Connection");
             }
 
-         
+         //   checkcon = new CompanyService(Connection);
+         //   checkcon.OnRefreshConnectionRaised += Service_OnRefreshConnectionRaised;
+         //   var currentcompany = Task.Run(() => checkcon.GetCurrentAsync()).Result;
+
+            if (Connection.TenantId == Guid.Empty)
+            {
+                throw new ArgumentException("No Tenant Selected");
+            }
 
 
         }

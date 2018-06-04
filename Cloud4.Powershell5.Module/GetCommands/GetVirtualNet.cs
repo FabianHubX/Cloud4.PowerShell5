@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4vNet")]
     [OutputType(typeof(VirtualNetwork))]
-    public class GetVirtualNet :  BaseGetCmdLet<VirtualNetwork, VirtualNetworkService>
+    public class GetVirtualNet :  BaseTenantGetCmdLet<VirtualNetwork, VirtualNetworkService>
     {
        
 

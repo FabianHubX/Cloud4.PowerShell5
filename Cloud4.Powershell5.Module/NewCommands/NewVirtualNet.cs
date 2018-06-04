@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vNet")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualNet : BaseNewCmdLet<VirtualNetwork, VirtualNetworkService, CreateVirtualNetwork>
+    public class NewVirtualNet : BaseTenantNewCmdLet<VirtualNetwork, VirtualNetworkService, CreateVirtualNetwork>
     {
         private List<string> _dnsservers;
 

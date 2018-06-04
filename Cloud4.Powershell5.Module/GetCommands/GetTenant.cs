@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4Tenant")]
     [OutputType(typeof(Tenant))]
-    public class GetTenant : BaseGetCmdLet<Tenant, TenantService>
+    public class GetTenant : BaseTenantGetCmdLet<Tenant, TenantService>
     {
 
 

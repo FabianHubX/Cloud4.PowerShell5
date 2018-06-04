@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4Job")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class GetJobs : BaseGetCmdLet<CoreLibrary.Models.Job, JobService>
+    public class GetJobs : BaseTenantGetCmdLet<CoreLibrary.Models.Job, JobService>
     {     
 
         [Parameter(

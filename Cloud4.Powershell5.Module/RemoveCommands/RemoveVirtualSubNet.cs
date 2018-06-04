@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Remove, "Cloud4vSubNet")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class RemoveVirtualSubNet : BaseRemoveCmdLet<VirtualSubNet, VirtualSubNetService>
+    public class RemoveVirtualSubNet : BaseTenantRemoveCmdLet<VirtualSubNet, VirtualSubNetService>
     {
         [Parameter(
           Mandatory = true,

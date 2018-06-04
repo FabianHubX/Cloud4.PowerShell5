@@ -16,7 +16,7 @@ namespace Cloud4.CoreLibrary.Services
         }
         public VirtualGatewayService(Connection con) : base(con)
         {
-            this.Entity = "VitualGateways";
+            this.Entity = "VirtualGateways";
            
         }
 

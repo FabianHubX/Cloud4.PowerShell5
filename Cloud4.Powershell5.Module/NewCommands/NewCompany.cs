@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4Company")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewCompany : BaseNewCmdLet<Company, CompanyService, Company>
+    public class NewCompany : BaseTenantNewCmdLet<Company, CompanyService, Company>
     {
        
 

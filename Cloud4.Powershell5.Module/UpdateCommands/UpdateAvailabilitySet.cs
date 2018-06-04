@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsData.Update, "Cloud4AvailabilitySet")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateAvailabilitySet : BaseUpdateCmdLet<AvailabilitySet, AvailabilitySetService, AvailabilitySet>
+    public class UpdateAvailabilitySet : BaseTenantUpdateCmdLet<AvailabilitySet, AvailabilitySetService, AvailabilitySet>
     {
 
         [Parameter(

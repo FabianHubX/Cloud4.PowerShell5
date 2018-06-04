@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    public class BaseGetVirtualGatewayCmdLet<T,Y> : BaseCmdLet<T,Y> where Y : new()
+    public class BaseGetVirtualGatewayCmdLet<T,Y> : BaseTenantCmdLet<T,Y> where Y : new()
     {
 
         

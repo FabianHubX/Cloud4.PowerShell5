@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4VM")]
     [OutputType(typeof(VirtualMachine))]
-    public class GetVirtualMachine :   BaseGetCmdLet<VirtualMachine, VirtualMachineService>
+    public class GetVirtualMachine :   BaseTenantGetCmdLet<VirtualMachine, VirtualMachineService>
     {
         
       

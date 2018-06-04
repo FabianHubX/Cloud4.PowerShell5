@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Remove, "Cloud4Company")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class RemoveCompany : BaseRemoveCmdLet<Company, CompanyService>
+    public class RemoveCompany : BaseTenantRemoveCmdLet<Company, CompanyService>
     {
         [Parameter(
           Mandatory = true,

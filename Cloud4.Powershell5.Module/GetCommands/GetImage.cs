@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4Image")]
     [OutputType(typeof(Image))]
-    public class GetImage : BaseGetCmdLet<Image, ImageService>
+    public class GetImage : BaseTenantGetCmdLet<Image, ImageService>
     {
 
 

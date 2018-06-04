@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsData.Update, "Cloud4vNet")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualNetwork : BaseUpdateCmdLet< VirtualNetwork, VirtualNetworkService, VirtualNetwork>
+    public class UpdateVirtualNetwork : BaseTenantUpdateCmdLet< VirtualNetwork, VirtualNetworkService, VirtualNetwork>
     {
         [Parameter(
      Mandatory = true,

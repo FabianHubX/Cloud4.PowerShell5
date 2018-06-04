@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    public class BaseUpdateCmdLet<T, Y, U> : BaseCmdLet<T, Y> where Y : new()
+    public class BaseTenantUpdateCmdLet<T, Y, U> : BaseTenantCmdLet<T, Y> where Y : new()
     {
         public static CoreLibrary.Models.Job Update(Connection con, Guid Id, U toupdateobject)
         {

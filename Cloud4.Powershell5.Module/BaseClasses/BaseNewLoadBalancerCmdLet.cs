@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    public class BaseNewLoadBalancerCmdLet<T, Y, N> : BaseCmdLet<T, Y> where Y : new()
+    public class BaseNewLoadBalancerCmdLet<T, Y, N> : BaseTenantCmdLet<T, Y> where Y : new()
     {
 
         public static CoreLibrary.Models.Job Create(Connection con, N newobject, Guid VirtualLoadBalancerId)

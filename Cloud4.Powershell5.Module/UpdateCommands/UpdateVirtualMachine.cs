@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsData.Update, "Cloud4VM")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualMachine : BaseUpdateCmdLet<VirtualMachine, VirtualMachineService, VirtualMachine>
+    public class UpdateVirtualMachine : BaseTenantUpdateCmdLet<VirtualMachine, VirtualMachineService, VirtualMachine>
     {
         [Parameter(
      Mandatory = true,

@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vFirewall")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualFirewall : BaseNewCmdLet<VirtualFirewall, VirtualFirewallService, VirtualFirewall>
+    public class NewVirtualFirewall : BaseTenantNewCmdLet<VirtualFirewall, VirtualFirewallService, VirtualFirewall>
     {
         [Parameter(
           Mandatory = true,
