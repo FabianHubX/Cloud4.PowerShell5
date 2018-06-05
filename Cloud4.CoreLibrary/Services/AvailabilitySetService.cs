@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Cloud4.CoreLibrary.Services
 {
-    public class AvailabilitySetService : BaseTenantService<AvailabilitySet, AvailabilitySet, AvailabilitySet>
+    public class AvailabilitySetService : BaseTenantService<AvailabilitySet, CreateAvailabilitySet, AvailabilitySet>
     {
         public AvailabilitySetService()
         {

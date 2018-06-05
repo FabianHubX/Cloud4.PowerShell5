@@ -46,8 +46,6 @@ namespace Cloud4.Powershell5.Module
         public bool Wait { get; set; }
 
 
-        private AvailabilitySetService service { get; set; }
-
 
 
         protected override void ProcessRecord()
