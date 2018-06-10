@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Remove, "Cloud4vGWNetConnection")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class RemoveVirtualGatawayNetworkConnection : BaseRemoveVirtualGatewayCmdLet<VirtualLoadBalancerRule, VirtualLoadBalancerRuleService>
+    public class RemoveVirtualGatawayNetworkConnection : BaseRemoveVirtualGatewayCmdLet<VirtualGatewayNetworkConnection, VirtualGatewayNetworkConnectionService>
     {
         [Parameter(
           Mandatory = true,
