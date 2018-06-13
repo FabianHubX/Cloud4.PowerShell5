@@ -52,7 +52,7 @@ namespace Cloud4.Powershell5.Module
             HelpMessage = "New Subnet's for this Virtual Network",
           ValueFromPipelineByPropertyName = true)]
       
-        public List<CreateVirtualSubNet> SubNet { get; set; }
+        public List<CreateVirtualSubNetParams> SubNet { get; set; }
 
 
         [Parameter(

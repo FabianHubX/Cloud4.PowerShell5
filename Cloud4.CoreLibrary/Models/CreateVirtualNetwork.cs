@@ -17,7 +17,7 @@ namespace Cloud4.CoreLibrary.Models
         public string[] DnsServers { get; set; }
 
 
-        public List<CreateVirtualSubNet> SubNets { get; set; }
+        public List<CreateVirtualSubNetParams> SubNets { get; set; }
 
 
     }
