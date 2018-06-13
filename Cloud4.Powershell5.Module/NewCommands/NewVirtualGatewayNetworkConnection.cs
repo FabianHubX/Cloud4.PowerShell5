@@ -215,7 +215,7 @@ ValueFromPipelineByPropertyName = true)]
 
             if (Wait)
             {
-                WriteObject(WaitJobFinished(job.Id, Connection));
+                WriteObject(WaitJobFinished(job.Id, Connection,VirtualGatewayId));
             }
             else
             {

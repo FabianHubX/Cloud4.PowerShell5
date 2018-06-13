@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    public class BaseNewVirtualGatewayCmdLet<T, Y, N> : BaseTenantCmdLet<T, Y> where Y : new()
+    public class BaseNewVirtualGatewayCmdLet<T, Y, N> : BaseVirtualGatewayCmdLet<T, Y> where Y : new()
     {
 
         public static CoreLibrary.Models.Job Create(Connection con, N newobject, Guid VirtualGatewayId)
