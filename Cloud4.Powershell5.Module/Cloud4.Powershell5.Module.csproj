@@ -71,6 +71,7 @@
     <Compile Include="BaseClasses\BaseActionCmdLet.cs" />
     <Compile Include="BaseClasses\BaseGetVirtualGatewayCmdLet.cs" />
     <Compile Include="BaseClasses\BaseGetLoadBalancerCmdLet.cs" />
+    <Compile Include="BaseClasses\BaseVirtualGatewayCmdLet.cs" />
     <Compile Include="BaseClasses\BaseNewVirtualGatewayCmdLet.cs" />
     <Compile Include="BaseClasses\BaseNewLoadBalancerCmdLet.cs" />
     <Compile Include="BaseClasses\BaseRemoveVirtualGatewayCmdLet.cs" />
