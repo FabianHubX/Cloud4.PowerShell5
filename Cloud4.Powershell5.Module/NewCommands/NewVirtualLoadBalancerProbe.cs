@@ -102,7 +102,7 @@ namespace Cloud4.Powershell5.Module
 
             if (Wait)
             {
-                WriteObject(WaitJobFinished(job.Id, Connection));
+                WriteObject(WaitJobFinished(job.Id, Connection, VirtualLoadBalancerId));
             }
             else
             {
