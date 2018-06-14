@@ -75,6 +75,10 @@ namespace Cloud4.Powershell5.Module
                 InternalIpAddress = subnet.NextFreeIpAddress;
             }
             
+            if (AssignPublicIP)
+            {
+                InternalIpAddress = null;
+            }
 
             var vlb = new CreateVirtualLoadBalancerFrontEndIPConfigurations
             {
