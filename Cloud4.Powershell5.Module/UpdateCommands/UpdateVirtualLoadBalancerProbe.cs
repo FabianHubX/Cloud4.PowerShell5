@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsCommon.New, "Cloud4vLBProbe")]
+    [Cmdlet(VerbsData.Update, "Cloud4vLBProbe")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualLoadBalancerProbe : BaseLoadBalancerNewCmdLet<VirtualLoadBalancerProbe,VirtualLoadBalancerProbeService, CreateVirtualLoadBalancerProbe>
+    public class UpdateVirtualLoadBalancerProbe : BaseLoadBalancerUpdateCmdLet<VirtualLoadBalancerProbe,VirtualLoadBalancerProbeService, Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerProbe>
     {
       
 
@@ -24,7 +24,7 @@ namespace Cloud4.Powershell5.Module
             HelpMessage = "Probe Intervall",
           ValueFromPipelineByPropertyName = true)]
       
-        public int IntervalInSeconds { get; set; }
+        public int? IntervalInSeconds { get; set; }
 
         [Parameter(
         Mandatory = true,
@@ -33,7 +33,7 @@ namespace Cloud4.Powershell5.Module
             HelpMessage = "Protocol",
         ValueFromPipelineByPropertyName = true)]
       
-        public LoadBalancerParameters.ProbeProtocol Protocol { get; set; }
+        public LoadBalancerParameters.ProbeProtocol? Protocol { get; set; }
 
      
         [Parameter(
@@ -43,8 +43,17 @@ namespace Cloud4.Powershell5.Module
             HelpMessage = "Probe Port",
            ValueFromPipelineByPropertyName = true)]
       
-        public int Port { get; set; }
-        
+        public int? Port { get; set; }
+
+
+        [Parameter(
+ Mandatory = true,
+ Position = 1,
+ ValueFromPipeline = true,
+   HelpMessage = "Id of the Virtual Load Balancer Probe",
+ ValueFromPipelineByPropertyName = true)]
+
+        public Guid Id { get; set; }
 
         [Parameter(
          Mandatory = true,
@@ -73,7 +82,7 @@ namespace Cloud4.Powershell5.Module
          HelpMessage = "Number of Probes",
        ValueFromPipelineByPropertyName = true)]
 
-        public int NumberOfProbes { get; set; }
+        public int? NumberOfProbes { get; set; }
 
         [Parameter(
          Mandatory = false,
@@ -88,17 +97,27 @@ namespace Cloud4.Powershell5.Module
 
         protected override void ProcessRecord()
         {
-            var vlb = new CreateVirtualLoadBalancerProbe
+          
+
+
+            var vlborg = Get(Connection, Id, VirtualLoadBalancerId);
+
+            var vlbnew = new Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerProbe();
+
+            if (Protocol.HasValue) { vlbnew.Protocol = Protocol.Value.ToString(); } else { vlbnew.Protocol = vlborg.Protocol; }
+            if (IntervalInSeconds.HasValue) { vlbnew.IntervalInSeconds = IntervalInSeconds.Value; } else { vlbnew.IntervalInSeconds = vlborg.IntervalInSeconds; }
+            if (NumberOfProbes.HasValue) { vlbnew.NumberOfProbes = NumberOfProbes.Value; } else { vlbnew.NumberOfProbes = vlborg.NumberOfProbes; }
+
+
+            if (Port.HasValue) { vlbnew.Port = Port.Value; } else { vlbnew.Port = vlborg.Port; }
+            if (!string.IsNullOrEmpty(RequestPath))
             {
-                IntervalInSeconds = IntervalInSeconds,
-                NumberOfProbes = NumberOfProbes,
-                Port = Port,
-                Protocol = Protocol.ToString(),
-                RequestPath = RequestPath
+                vlbnew.RequestPath = RequestPath;
+            }
 
-            };
 
-            var job = Create(Connection, vlb, VirtualLoadBalancerId);
+            var job = Update(Connection, Id, vlbnew, VirtualLoadBalancerId);
+
 
             if (Wait)
             {
@@ -108,7 +127,6 @@ namespace Cloud4.Powershell5.Module
             {
                 WriteObject(job);
             }
-
 
         }
 

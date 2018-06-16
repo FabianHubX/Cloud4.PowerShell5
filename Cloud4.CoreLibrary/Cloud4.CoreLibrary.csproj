@@ -94,6 +94,10 @@
     <Compile Include="Models\CreateVirtualFirewall4Subnet.cs" />
     <Compile Include="Models\CreateVirtualGateway.cs" />
     <Compile Include="Models\CreateVirtualGatewayNetworkConnection.cs" />
+    <Compile Include="Models\UpdateVirtualLoadBalancerProbe.cs" />
+    <Compile Include="Models\UpdateVirtualLoadBalancerRule.cs" />
+    <Compile Include="Models\UpdateVirtualLoadBalancerBackEndPool.cs" />
+    <Compile Include="Models\UpdateVirtualLoadBalancerInboundNatRule.cs" />
     <Compile Include="Models\ErrorDetails.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="Models\UpdateVirtualLoadBalancerFrontEndConfigurations.cs" />
@@ -103,6 +107,7 @@
     <Compile Include="Models\Region.cs" />
     <Compile Include="Models\Tenant.cs" />
     <Compile Include="Models\TenantCredentials.cs" />
+    <Compile Include="Models\UpdateVirtualNetworkAdapter.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\VirtualDatacenter.cs" />
     <Compile Include="Models\CreateVirtualDisk.cs" />
@@ -110,6 +115,7 @@
     <Compile Include="Models\VirtualDiskProfile.cs" />
     <Compile Include="Models\UpdateVirtualFirewall.cs" />
     <Compile Include="Models\VirtualFirewall.cs" />
+    <Compile Include="Models\VirtualFirewallAssignment.cs" />
     <Compile Include="Models\VirtualFirewallRule.cs" />
     <Compile Include="Models\CreateVirtualMachine.cs" />
     <Compile Include="Models\CreateVirtualLoadBalancer.cs" />

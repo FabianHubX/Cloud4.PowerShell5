@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsCommon.New, "Cloud4vLBFrontEndIPConfigurations")]
+    [Cmdlet(VerbsData.Update, "Cloud4vLBFrontEndIPConfigurations")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualLoadBalancerFrontEndIPConfiguration: BaseLoadBalancerNewCmdLet<VirtualLoadBalancerFrontEndIPConfigurations, VirtualLoadBalancerFrontendIpConfigurationsService, CreateVirtualLoadBalancerFrontEndIPConfigurations>
+    public class UpdateVirtualLoadBalancerFrontEndIPConfiguration: BaseLoadBalancerUpdateCmdLet<VirtualLoadBalancerFrontEndIPConfigurations, VirtualLoadBalancerFrontendIpConfigurationsService, Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerFrontEndIPConfigurations>
     {
 
 
@@ -36,16 +36,6 @@ namespace Cloud4.Powershell5.Module
         public string InternalIpAddress { get; set; }
 
   
-
-        [Parameter(
-       Mandatory = false,
-       Position = 2,
-       ValueFromPipeline = true,
-         HelpMessage = "Assign a Public IP Address",
-       ValueFromPipelineByPropertyName = true)]
-
-        public SwitchParameter AssignPublicIP { get; set; }
-
         [Parameter(
        Mandatory = true,
        Position = 3,
@@ -54,6 +44,16 @@ namespace Cloud4.Powershell5.Module
        ValueFromPipelineByPropertyName = true)]
 
         public Guid VirtualSubnetId { get; set; }
+
+        [Parameter(
+      Mandatory = true,
+      Position = 1,
+      ValueFromPipeline = true,
+        HelpMessage = "Id of the Virtual Load Balancer FrontEnd IP Configuration",
+      ValueFromPipelineByPropertyName = true)]
+
+        public Guid Id { get; set; }
+
 
         [Parameter(
          Mandatory = false,
@@ -67,33 +67,33 @@ namespace Cloud4.Powershell5.Module
 
 
         protected override void ProcessRecord()
-        {            
+        {
+            var vlborg = Get(Connection, Id, VirtualLoadBalancerId);
 
-            if (string.IsNullOrEmpty(InternalIpAddress))
-            {
-                var subnet = GetSpecial<VirtualSubNet, VirtualSubNetService>(Connection, VirtualSubnetId);
-                InternalIpAddress = subnet.NextFreeIpAddress;
-            }
+            var vlbnew = new Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerFrontEndIPConfigurations();
             
-            if (AssignPublicIP)
+          
+            if (string.IsNullOrEmpty(InternalIpAddress)) { vlbnew.InternalIpAddress = vlborg.InternalIpAddress; } else { vlbnew.InternalIpAddress = InternalIpAddress; }
+            if (VirtualSubnetId == Guid.Empty)
             {
-                InternalIpAddress = null;
+                if (vlborg.VirtualSubnetId.HasValue)
+                {
+                    vlbnew.VirtualSubnetId = vlborg.VirtualSubnetId;
+                }
+            }
+            else
+            {
+                vlbnew.VirtualSubnetId = VirtualSubnetId;
             }
 
-            var vlb = new CreateVirtualLoadBalancerFrontEndIPConfigurations
-            {
-                InternalIpAddress = InternalIpAddress,
-                AssignPublicIp = AssignPublicIP,
-                VirtualSubnetId = VirtualSubnetId
-
-            };
 
 
-            var job = Create(Connection, vlb, VirtualLoadBalancerId);
+
+            var job = Update(Connection, Id, vlbnew, VirtualLoadBalancerId);
 
             if (Wait)
             {
-                WriteObject(WaitJobFinished(job.Id,Connection,VirtualLoadBalancerId));               
+                WriteObject(WaitJobFinished(job.Id, Connection, VirtualLoadBalancerId));
             }
             else
             {

@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4vLBRule")]
     [OutputType(typeof(VirtualLoadBalancerRule))]
-    public class GetVirtualLoadBalancerRule :  BaseGetLoadBalancerCmdLet<VirtualLoadBalancerRule, VirtualLoadBalancerRuleService>
+    public class GetVirtualLoadBalancerRule :  BaseLoadBalancerGetCmdLet<VirtualLoadBalancerRule, VirtualLoadBalancerRuleService>
     {
        
       

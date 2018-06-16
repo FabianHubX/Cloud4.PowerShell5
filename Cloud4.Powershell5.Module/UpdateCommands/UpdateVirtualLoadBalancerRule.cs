@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsCommon.New, "Cloud4vLBRule")]
+    [Cmdlet(VerbsData.Update, "Cloud4vLBRule")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualLoadBalancerRule : BaseLoadBalancerNewCmdLet<VirtualLoadBalancerRule, VirtualLoadBalancerRuleService, CreateVirtualLoadBalancerRule>
+    public class UpdateVirtualLoadBalancerRule : BaseLoadBalancerUpdateCmdLet<VirtualLoadBalancerRule, VirtualLoadBalancerRuleService, Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerRule>
     {
       
 
@@ -24,7 +24,7 @@ namespace Cloud4.Powershell5.Module
             HelpMessage = "Id of the Virtual Machine",
           ValueFromPipelineByPropertyName = true)]
       
-        public Guid BackendAddressPool { get; set; }
+        public Guid? BackendAddressPool { get; set; }
 
         [Parameter(
         Mandatory = true,
@@ -33,7 +33,7 @@ namespace Cloud4.Powershell5.Module
             HelpMessage = "Protocol",
         ValueFromPipelineByPropertyName = true)]
       
-        public LoadBalancerParameters.Protocol Protocol { get; set; }
+        public LoadBalancerParameters.Protocol? Protocol { get; set; }
 
      
         [Parameter(
@@ -43,7 +43,7 @@ namespace Cloud4.Powershell5.Module
             HelpMessage = "FrontEnd Port",
            ValueFromPipelineByPropertyName = true)]
       
-        public int FrontEndPort { get; set; }
+        public int? FrontEndPort { get; set; }
 
         [Parameter(
         Mandatory = true,
@@ -52,7 +52,7 @@ namespace Cloud4.Powershell5.Module
             HelpMessage = "BackEnd Port",
         ValueFromPipelineByPropertyName = true)]
 
-        public int BackEndPort { get; set; }
+        public int? BackEndPort { get; set; }
 
 
         [Parameter(
@@ -65,6 +65,15 @@ namespace Cloud4.Powershell5.Module
 
 
         [Parameter(
+ Mandatory = true,
+ Position = 1,
+ ValueFromPipeline = true,
+   HelpMessage = "Id of the Virtual Load Balancer Rule",
+ ValueFromPipelineByPropertyName = true)]
+
+        public Guid Id { get; set; }
+
+        [Parameter(
          Mandatory = true,
          Position = 5,
          ValueFromPipeline = true,
@@ -73,14 +82,6 @@ namespace Cloud4.Powershell5.Module
 
         public Guid VirtualLoadBalancerId { get; set; }
 
-        [Parameter(
-       Mandatory = true,
-       Position = 6,
-       ValueFromPipeline = true,
-         HelpMessage = "Enable Floating IP",
-       ValueFromPipelineByPropertyName = true)]
-
-        public SwitchParameter FloatingIpEnabled { get; set; }
 
         [Parameter(
        Mandatory = true,
@@ -89,7 +90,7 @@ namespace Cloud4.Powershell5.Module
          HelpMessage = "Load Distribution Type",
        ValueFromPipelineByPropertyName = true)]
 
-        public LoadBalancerParameters.LoadDistribution LoadDistribution { get; set; }
+        public LoadBalancerParameters.LoadDistribution? LoadDistribution { get; set; }
 
         [Parameter(
        Mandatory = true,
@@ -98,7 +99,7 @@ namespace Cloud4.Powershell5.Module
          HelpMessage = "Probe Id",
        ValueFromPipelineByPropertyName = true)]
 
-        public Guid ProbeId { get; set; }
+        public Guid? ProbeId { get; set; }
         [Parameter(
      Mandatory = true,
      Position = 9,
@@ -106,7 +107,7 @@ namespace Cloud4.Powershell5.Module
        HelpMessage = "Idle Timeout In Minutes",
      ValueFromPipelineByPropertyName = true)]
 
-        public int IdleTimeoutInMinutes { get; set; }
+        public int? IdleTimeoutInMinutes { get; set; }
 
         [Parameter(
          Mandatory = false,
@@ -122,26 +123,28 @@ namespace Cloud4.Powershell5.Module
         protected override void ProcessRecord()
         {
 
-            var vlb = new CreateVirtualLoadBalancerRule
-            {
-                BackendAddressPool = BackendAddressPool,
-                FrontendIPConfigurations = FrontendIPConfigurations,
-                Protocol = Protocol.ToString(),
-                FrontendPort = FrontEndPort,
-                BackendPort = BackEndPort,
-                IdleTimeoutInMinutes = IdleTimeoutInMinutes,
-                EnableFloatingIp = FloatingIpEnabled,
-                LoadDistribution = LoadDistribution.ToString(),
-                ProbeId = ProbeId
+           
 
-            };
+            var vlborg = Get(Connection, Id, VirtualLoadBalancerId);
 
-            var job = Create(Connection, vlb, VirtualLoadBalancerId);
+            var vlbnew = new Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerRule();
+
+            if (Protocol.HasValue) { vlbnew.Protocol = Protocol.Value.ToString(); } else { vlbnew.Protocol = vlborg.Protocol; }
+            if (BackendAddressPool.HasValue) { vlbnew.BackendAddressPool = BackendAddressPool.Value; } else { vlbnew.BackendAddressPool = vlborg.BackendAddressPool; }
+            if (FrontEndPort.HasValue) { vlbnew.FrontendPort = FrontEndPort.Value; } else { vlbnew.FrontendPort = vlborg.FrontendPort; }
+            if (BackEndPort.HasValue) { vlbnew.BackendPort = BackEndPort.Value; } else { vlbnew.BackendPort = vlborg.backendPort; }
+            if (IdleTimeoutInMinutes.HasValue) { vlbnew.IdleTimeoutInMinutes = IdleTimeoutInMinutes.Value; } else { vlbnew.IdleTimeoutInMinutes = vlborg.IdleTimeoutInMinutes; }
+            if (LoadDistribution.HasValue) { vlbnew.LoadDistribution = LoadDistribution.Value.ToString(); } else { vlbnew.LoadDistribution = vlborg.LoadDistribution; }
+            if (ProbeId.HasValue) { vlbnew.ProbeId = ProbeId.Value; } else { vlbnew.ProbeId = vlborg.ProbeId; }
+
+          
+
+            var job = Update(Connection, Id, vlbnew, VirtualLoadBalancerId);
 
 
             if (Wait)
             {
-                WriteObject(WaitJobFinished(job.Id, Connection,VirtualLoadBalancerId));
+                WriteObject(WaitJobFinished(job.Id, Connection, VirtualLoadBalancerId));
             }
             else
             {

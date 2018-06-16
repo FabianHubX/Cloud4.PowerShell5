@@ -51,7 +51,7 @@ namespace Cloud4.Powershell5.Module
             HelpMessage = "Virtual Network is a Gateway Net",
         ValueFromPipelineByPropertyName = true)]
 
-        public bool IsGatewaySubnet { get; set; }
+        public SwitchParameter IsGatewaySubnet { get; set; }
 
         [Parameter(
    Mandatory = false,
@@ -88,7 +88,7 @@ ValueFromPipelineByPropertyName = true)]
       HelpMessage = "Wait Job Finished",
      ValueFromPipelineByPropertyName = true)]
 
-        public bool Wait { get; set; }
+        public SwitchParameter Wait { get; set; }
 
 
         private VirtualSubNetService service { get; set; }

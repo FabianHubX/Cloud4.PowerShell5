@@ -35,9 +35,39 @@ namespace Cloud4.Powershell5.Module
 
         public Guid VirtualDatacenterId { get; set; }
 
+        [Parameter(
+ Mandatory = false,
+ Position = 2,
+ ValueFromPipeline = true,
+  HelpMessage = "Filter by Name",
+ ValueFromPipelineByPropertyName = true)]
+
+        public string Name { get; set; }
+
         protected override void ProcessRecord()
         {
-            if (Id == Guid.Empty)
+            if (!string.IsNullOrEmpty(Name))
+            {
+                var pattern = new WildcardPattern(Name);
+
+                if (Id == Guid.Empty)
+                {
+                    if (VirtualDatacenterId == Guid.Empty)
+                    {
+                      
+                        GetAll(Connection).Where(x => pattern.IsMatch(x.Name)).ToList().ForEach(WriteObject);
+                    }
+                    else
+                    {
+
+                        GetbyvDCAll(VirtualDatacenterId, Connection).Where(x => pattern.IsMatch(x.Name)).ToList().ForEach(WriteObject);
+                    }
+                }
+
+
+
+            }
+            else if (Id == Guid.Empty)
             {
                 if (VirtualDatacenterId == Guid.Empty)
                 {
@@ -50,7 +80,7 @@ namespace Cloud4.Powershell5.Module
             }
             else
             {
-                WriteObject(GetOne(Id, Connection));
+               WriteObject(GetOne(Id, Connection));
             }
         }
         

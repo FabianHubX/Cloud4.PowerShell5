@@ -32,7 +32,7 @@ namespace Cloud4.Powershell5.Module
            Position = 1,
            ValueFromPipelineByPropertyName = true)]
 
-        public bool ForcePowerOff { get; set; }
+        public SwitchParameter ForcePowerOff { get; set; }
 
         [Parameter(
             Mandatory = false,
@@ -41,7 +41,7 @@ namespace Cloud4.Powershell5.Module
             HelpMessage = "Wait Job Finished",
             ValueFromPipelineByPropertyName = true)]
 
-        public bool Wait { get; set; }
+        public SwitchParameter Wait { get; set; }
 
         private VirtualMachineService Service { get; set; }
 

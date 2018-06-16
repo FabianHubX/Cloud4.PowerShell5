@@ -11,58 +11,52 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsCommon.New, "Cloud4vLBInboundNATRule")]
+    [Cmdlet(VerbsData.Update, "Cloud4vLBInboundNATRule")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualLoadBalancerInboundNatRule : BaseLoadBalancerNewCmdLet<VirtualLoadBalancerInboundNatRule, VirtualLoadBalancerInboundNatRuleService, CreateVirtualLoadBalancerInboundNatRule>
+    public class UpdateVirtualLoadBalancerInboundNatRule : BaseLoadBalancerUpdateCmdLet<VirtualLoadBalancerInboundNatRule, VirtualLoadBalancerInboundNatRuleService, Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerInboundNatRule>
     {
       
 
-    [Parameter(
-          Mandatory = true,
-          Position = 0,
-          ValueFromPipeline = true,
-            HelpMessage = "Id of the Virtual Machine",
-          ValueFromPipelineByPropertyName = true)]
-      
-        public Guid VirtualMachineId { get; set; }
+ 
 
         [Parameter(
-        Mandatory = true,
+        Mandatory = false,
         Position = 1,
         ValueFromPipeline = true,
             HelpMessage = "Protocol",
         ValueFromPipelineByPropertyName = true)]
       
-        public LoadBalancerParameters.Protocol Protocol { get; set; }
+        public LoadBalancerParameters.Protocol? Protocol { get; set; }
 
      
         [Parameter(
-           Mandatory = true,
+           Mandatory = false,
            Position = 2,
            ValueFromPipeline = true,
             HelpMessage = "FrontEnd Port",
            ValueFromPipelineByPropertyName = true)]
       
-        public int FrontEndPort { get; set; }
+        public int? FrontEndPort { get; set; }
 
         [Parameter(
-        Mandatory = true,
+        Mandatory = false,
         Position = 3,
         ValueFromPipeline = true,
             HelpMessage = "BackEnd Port",
         ValueFromPipelineByPropertyName = true)]
 
-        public int BackEndPort { get; set; }
+        public int? BackEndPort { get; set; }
+
 
 
         [Parameter(
-      Mandatory = true,
-      Position = 4,
-      ValueFromPipeline = true,
-          HelpMessage = "FrontEnd IP Configuration Ids",
-      ValueFromPipelineByPropertyName = true)]
-        public List<Guid> FrontendIpConfigurations { get; set; }
+ Mandatory = true,
+ Position = 1,
+ ValueFromPipeline = true,
+   HelpMessage = "Id of the Virtual Load Balancer BackendPool",
+ ValueFromPipelineByPropertyName = true)]
 
+        public Guid Id { get; set; }
 
         [Parameter(
          Mandatory = true,
@@ -86,22 +80,22 @@ namespace Cloud4.Powershell5.Module
 
         protected override void ProcessRecord()
         {
-            var vlb = new CreateVirtualLoadBalancerInboundNatRule
-            {
-                BackendPort = BackEndPort,
-                FrontendIpConfigurations = FrontendIpConfigurations,
-                FrontendPort = FrontEndPort,
-                Protocol = Protocol.ToString(),
-                VirtualMachineId = VirtualMachineId
+            var vlborg = Get(Connection, Id, VirtualLoadBalancerId);
 
-            };
+            var vlbnew = new Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerInboundNatRule();
+
+            if (Protocol.HasValue) { vlbnew.Protocol = Protocol.Value.ToString(); } else { vlbnew.Protocol = vlborg.Protocol; }
+            if (FrontEndPort.HasValue) { vlbnew.FrontendPort = FrontEndPort.Value; } else { vlbnew.FrontendPort = vlborg.FrontendPort; }
+            if (BackEndPort.HasValue) { vlbnew.BackendPort = BackEndPort.Value; } else { vlbnew.BackendPort = vlborg.BackendPort; }
 
 
-            var job = Create(Connection, vlb, VirtualLoadBalancerId);
+
+            var job = Update(Connection, Id, vlbnew, VirtualLoadBalancerId);
+
 
             if (Wait)
             {
-                WriteObject(WaitJobFinished(job.Id,Connection, VirtualLoadBalancerId));             
+                WriteObject(WaitJobFinished(job.Id, Connection, VirtualLoadBalancerId));
             }
             else
             {

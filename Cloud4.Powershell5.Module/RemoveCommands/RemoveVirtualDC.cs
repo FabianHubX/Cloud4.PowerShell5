@@ -30,7 +30,7 @@ namespace Cloud4.Powershell5.Module
           HelpMessage = "Force Delete all Child Objects",
           ValueFromPipelineByPropertyName = true)]
 
-        public bool Force { get; set; }
+        public SwitchParameter Force { get; set; }
 
         [Parameter(
           Mandatory = false,
@@ -39,7 +39,7 @@ namespace Cloud4.Powershell5.Module
           HelpMessage = "Wait Job Finished",
           ValueFromPipelineByPropertyName = true)]
 
-        public bool Wait { get; set; }
+        public SwitchParameter Wait { get; set; }
         
 
 

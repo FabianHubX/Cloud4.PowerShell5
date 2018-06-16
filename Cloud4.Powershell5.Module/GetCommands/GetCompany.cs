@@ -22,7 +22,7 @@ namespace Cloud4.Powershell5.Module
             HelpMessage = "Filter by Current Company",
            ValueFromPipelineByPropertyName = true)]
         [PSDefaultValue(Value = true)]
-        public bool? Current { get; set; }
+        public SwitchParameter Current { get; set; }
 
         [Parameter(
           Mandatory = false,
@@ -30,13 +30,13 @@ namespace Cloud4.Powershell5.Module
           ValueFromPipeline = true,
            HelpMessage = "Filter by Company Id",
           ValueFromPipelineByPropertyName = true)]
-        [PSDefaultValue(Value = true)]
+      
         public Guid Id { get; set; }
 
         protected override void ProcessRecord()
         {
 
-            if (Current.HasValue)
+            if (Current)
             {
 
                 GetAll(Connection).ToList().ForEach(WriteObject);
@@ -48,7 +48,7 @@ namespace Cloud4.Powershell5.Module
             }
             else
             {
-                WriteObject(GetOne(Id, Connection));
+               WriteObject(GetOne(Id, Connection));
             }
 
 

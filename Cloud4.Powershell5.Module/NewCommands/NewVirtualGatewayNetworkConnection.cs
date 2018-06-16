@@ -13,7 +13,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.New, "Cloud4vGWNetConnection")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualGatewayNetworkConnection : BaseNewVirtualGatewayCmdLet<VirtualGatewayNetworkConnection, VirtualGatewayNetworkConnectionService, CreateVirtualGatewayNetworkConnection>
+    public class NewVirtualGatewayNetworkConnection : BaseVirtualGatewayNewCmdLet<VirtualGatewayNetworkConnection, VirtualGatewayNetworkConnectionService, CreateVirtualGatewayNetworkConnection>
     {
 
 
@@ -182,7 +182,7 @@ ValueFromPipelineByPropertyName = true)]
         HelpMessage = "Wait Job Finished",
         ValueFromPipelineByPropertyName = true)]
 
-        public bool Wait { get; set; }
+        public SwitchParameter Wait { get; set; }
 
 
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    public class BaseGetLoadBalancerCmdLet<T,Y> : BaseLoadBalancerCmdLet<T,Y> where Y : new()
+    public class BaseLoadBalancerGetCmdLet<T,Y> : BaseLoadBalancerCmdLet<T,Y> where Y : new()
     {
 
       

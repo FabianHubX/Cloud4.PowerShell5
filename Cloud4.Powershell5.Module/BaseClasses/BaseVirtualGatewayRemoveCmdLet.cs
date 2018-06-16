@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Cloud4.Powershell5.Module
 {
    
-    public class BaseRemoveVirtualGatewayCmdLet<T,Y> : BaseVirtualGatewayCmdLet<T,Y> where Y : new()
+    public class BaseVirtualGatewayRemoveCmdLet<T,Y> : BaseVirtualGatewayCmdLet<T,Y> where Y : new()
     {
         public Connection Connection { get; set; }
 

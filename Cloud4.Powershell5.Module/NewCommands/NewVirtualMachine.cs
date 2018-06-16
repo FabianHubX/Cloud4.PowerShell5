@@ -134,7 +134,7 @@ namespace Cloud4.Powershell5.Module
             HelpMessage = "EnableRemoteAccess",
             ValueFromPipelineByPropertyName = true)]
 
-        public bool EnableRemoteAccess { get => _enableremoteaccess; set => _enableremoteaccess = value; }
+        public SwitchParameter EnableRemoteAccess { get => _enableremoteaccess; set => _enableremoteaccess = value; }
 
 
         [Parameter(
@@ -144,7 +144,7 @@ namespace Cloud4.Powershell5.Module
             HelpMessage = "EnableInternetAccess",
             ValueFromPipelineByPropertyName = true)]
 
-        public bool EnableInternetAccess { get => _enableinternetaccess; set => _enableinternetaccess = value; }
+        public SwitchParameter EnableInternetAccess { get => _enableinternetaccess; set => _enableinternetaccess = value; }
 
 
         [Parameter(
@@ -154,7 +154,7 @@ namespace Cloud4.Powershell5.Module
             HelpMessage = "New AvailabilitySet Name",
             ValueFromPipelineByPropertyName = true)]
 
-        public bool EnableInOutboundVNetTraffic { get => _enableinboundvnettraffic; set => _enableinboundvnettraffic = value; }
+        public SwitchParameter EnableInOutboundVNetTraffic { get => _enableinboundvnettraffic; set => _enableinboundvnettraffic = value; }
 
      
 
@@ -165,9 +165,9 @@ namespace Cloud4.Powershell5.Module
          HelpMessage = "Wait Job Finished",
         ValueFromPipelineByPropertyName = true)]
 
-        public bool Wait { get; set; }
+        public SwitchParameter Wait { get; set; }
+        
 
-   
 
 
         protected override void ProcessRecord()
