@@ -52,7 +52,7 @@ namespace Cloud4.Powershell5.Module
 
 
 
-        public bool Wait { get; set; }
+        public SwitchParameter Wait { get; set; }
 
         private VirtualDiskService service { get; set; }
 

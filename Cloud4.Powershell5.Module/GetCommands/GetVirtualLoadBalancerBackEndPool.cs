@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4vLBBackEndPool")]
     [OutputType(typeof(VirtualLoadBalancerBackEndPool))]
-    public class GetVirtualLoadBalancerBackEndPool: BaseGetLoadBalancerCmdLet<VirtualLoadBalancerBackEndPool, VirtualLoadBalancerBackEndPoolService>
+    public class GetVirtualLoadBalancerBackEndPool: BaseLoadBalancerGetCmdLet<VirtualLoadBalancerBackEndPool, VirtualLoadBalancerBackEndPoolService>
     {
 
 

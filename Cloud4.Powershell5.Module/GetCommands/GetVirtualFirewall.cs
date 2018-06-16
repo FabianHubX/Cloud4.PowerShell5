@@ -20,7 +20,7 @@ namespace Cloud4.Powershell5.Module
            HelpMessage = "Filter by Virtual Firewall Id",
         ValueFromPipelineByPropertyName = true)]
 
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
 
 
         [Parameter(
@@ -30,7 +30,7 @@ namespace Cloud4.Powershell5.Module
      HelpMessage = "Filter by Virtual Firewall Name",
     ValueFromPipelineByPropertyName = true)]
 
-        public string FilterByName { get; set;}
+        public string Name { get; set;}
         [Parameter(
  Mandatory = false,
  Position = 2,
@@ -38,30 +38,51 @@ namespace Cloud4.Powershell5.Module
   HelpMessage = "Filter by Virtual DataCenter ID",
  ValueFromPipelineByPropertyName = true)]
 
-        public Guid VirtualDatacenterId { get; set; }
+        public Guid? VirtualDatacenterId { get; set; }
 
+
+        [Parameter(
+Mandatory = false,
+Position = 2,
+ValueFromPipeline = true,
+HelpMessage = "Filter by Virtual SubNet ID",
+ValueFromPipelineByPropertyName = true)]
+
+        public Guid? VirtualSubNetId { get; set; }
+
+        [Parameter(
+Mandatory = false,
+Position = 2,
+ValueFromPipeline = true,
+HelpMessage = "Filter by Virtual NetAdapter ID",
+ValueFromPipelineByPropertyName = true)]
+
+        public Guid? VirtualNetAdapterId { get; set; }
 
         protected override void ProcessRecord()
         {
-            if (!string.IsNullOrEmpty(FilterByName))
+            if (!string.IsNullOrEmpty(Name))
             {
 
-                GetAll(Connection).Where(x => x.Name == FilterByName).ToList().ForEach(WriteObject);
+                var pattern = new WildcardPattern(Name);
+                GetAll(Connection).Where(x => pattern.IsMatch(x.Name)).ToList().ForEach(WriteObject);
 
             }
-            else if (VirtualDatacenterId != Guid.Empty)
+            else if (Id.HasValue)
+            {
+               WriteObject(GetOne(Id.Value, Connection));
+
+            }          
+            else if (VirtualDatacenterId.HasValue)
             {
 
-                GetAll(Connection).Where(x => x.VirtualDatacenterId == VirtualDatacenterId).ToList().ForEach(WriteObject);
+                GetAll(Connection).Where(x => x.VirtualDatacenterId == VirtualDatacenterId.Value).ToList().ForEach(WriteObject);
 
-            }
-            else if (Id == Guid.Empty)
-            {
-                GetAll(Connection).ForEach(WriteObject);
             }
             else
             {
-                WriteObject(GetOne(Id, Connection));
+
+                GetAll(Connection).ForEach(WriteObject);
             }
         }
         

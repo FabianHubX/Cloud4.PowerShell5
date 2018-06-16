@@ -62,7 +62,7 @@ namespace Cloud4.Powershell5.Module
             }
             else
             {
-                WriteObject(GetOne(Id, Connection));
+               WriteObject(GetOne(Id, Connection));
             }
 
         }

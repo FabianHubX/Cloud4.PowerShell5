@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsCommon.New, "Cloud4vLBBackEndPool")]
+    [Cmdlet(VerbsData.Update, "Cloud4vLBBackEndPool")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class NewVirtualLoadBalancerBackEndPool : BaseLoadBalancerNewCmdLet<VirtualLoadBalancerBackEndPool, VirtualLoadBalancerBackEndPoolService, CreateVirtualLoadBalancerBackEndPool>
+    public class UpdateVirtualLoadBalancerBackEndPool : BaseLoadBalancerUpdateCmdLet<VirtualLoadBalancerBackEndPool, VirtualLoadBalancerBackEndPoolService, Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerBackEndPool>
     {
       
 
@@ -26,6 +26,15 @@ namespace Cloud4.Powershell5.Module
       ValueFromPipelineByPropertyName = true)]
         public List<Guid> VirtualMachineIds { get; set; }
 
+
+        [Parameter(
+ Mandatory = true,
+ Position = 1,
+ ValueFromPipeline = true,
+   HelpMessage = "Id of the Virtual Load Balancer BackendPool",
+ ValueFromPipelineByPropertyName = true)]
+
+        public Guid Id { get; set; }
 
         [Parameter(
          Mandatory = true,
@@ -51,18 +60,19 @@ namespace Cloud4.Powershell5.Module
         {
 
 
-            var vlb = new CreateVirtualLoadBalancerBackEndPool
+            var vlb = new Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerBackEndPool
             {
+               
                 VirtualMachines = VirtualMachineIds
 
             };
+            
 
-            var job = Create(Connection, vlb, VirtualLoadBalancerId);
+            var job = Update(Connection, Id, vlb, VirtualLoadBalancerId);
 
             if (Wait)
             {
                 WriteObject(WaitJobFinished(job.Id, Connection, VirtualLoadBalancerId));
-
             }
             else
             {

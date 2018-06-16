@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4vLBFrontEndIPConfigurations")]
     [OutputType(typeof(VirtualLoadBalancerFrontEndIPConfigurations))]
-    public class GetVirtualFrontEndIPConfigurations : BaseGetLoadBalancerCmdLet<VirtualLoadBalancerFrontEndIPConfigurations, VirtualLoadBalancerFrontendIpConfigurationsService>
+    public class GetVirtualFrontEndIPConfigurations : BaseLoadBalancerGetCmdLet<VirtualLoadBalancerFrontEndIPConfigurations, VirtualLoadBalancerFrontendIpConfigurationsService>
     {
        
       

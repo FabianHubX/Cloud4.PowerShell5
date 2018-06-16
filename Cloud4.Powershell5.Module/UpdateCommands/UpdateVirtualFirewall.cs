@@ -51,17 +51,14 @@ namespace Cloud4.Powershell5.Module
        HelpMessage = "Wait Job Finished",
       ValueFromPipelineByPropertyName = true)]
 
-        public bool Wait { get; set; }
-
-        private VirtualFirewallService service { get; set; }
+        public SwitchParameter Wait { get; set; }
 
 
 
         protected override void ProcessRecord()
         {
 
-            service = new VirtualFirewallService(Connection);
-
+     
             var vfw = Get(Connection, Id);
 
             var newfirewall = new Cloud4.CoreLibrary.Models.UpdateVirtualFirewall { Name = vfw.Name, Rules = vfw.Rules };

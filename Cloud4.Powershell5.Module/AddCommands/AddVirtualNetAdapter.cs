@@ -62,7 +62,7 @@ namespace Cloud4.Powershell5.Module
 
         public string[] DnsServers { get; set; }
 
-        public bool Wait { get; set; }
+        public SwitchParameter Wait { get; set; }
 
         private VirtualNetworkAdapterService service { get; set; }
 

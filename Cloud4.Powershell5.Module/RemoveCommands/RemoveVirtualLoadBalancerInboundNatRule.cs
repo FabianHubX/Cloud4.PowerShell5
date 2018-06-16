@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Remove, "Cloud4vLBInboundNATRule")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class RemoveVirtualLoadBalancerInboundNatRule : BaseRemoveLoadBalancerCmdLet<VirtualLoadBalancerInboundNatRule, VirtualLoadBalancerInboundNatRuleService>
+    public class RemoveVirtualLoadBalancerInboundNatRule : BaseLoadBalancerRemoveCmdLet<VirtualLoadBalancerInboundNatRule, VirtualLoadBalancerInboundNatRuleService>
     {
         [Parameter(
           Mandatory = true,
@@ -38,7 +38,7 @@ namespace Cloud4.Powershell5.Module
         HelpMessage = "Wait Job Finished",
         ValueFromPipelineByPropertyName = true)]
 
-        public bool Wait { get; set; }
+        public SwitchParameter Wait { get; set; }
 
 
 

@@ -11,16 +11,13 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    public class BaseNewLoadBalancerCmdLet<T, Y, N> : BaseLoadBalancerCmdLet<T, Y> where Y : new()
+    public class BaseLoadBalancerUpdateCmdLet<T, Y, U> : BaseLoadBalancerCmdLet<T, Y> where Y : new()
     {
-
-        public static CoreLibrary.Models.Job Create(Connection con, N newobject, Guid VirtualLoadBalancerId)
+        public static CoreLibrary.Models.Job Update(Connection con, Guid Id, U toupdateobject, Guid VirtualLoadBalancerId)
         {
-        
-
             var service = Activator.CreateInstance(typeof(Y), new object[] { con, VirtualLoadBalancerId });
 
-            Task<CoreLibrary.Models.Result> callTask = Task.Run(() => ((IBaseCreateServiceInterface<N>)service).CreateAsync(newobject));
+            Task<CoreLibrary.Models.Result> callTask = Task.Run(() => ((IBaseUpdateServiceInterface<U>)service).UpdateAsync(Id, toupdateobject));
 
             callTask.Wait();
             var result = callTask.Result;
@@ -28,7 +25,7 @@ namespace Cloud4.Powershell5.Module
 
             if (result.Job != null)
             {
-               return result.Job;
+                return result.Job;
             }
             else if (result.Error != null)
             {
@@ -40,6 +37,5 @@ namespace Cloud4.Powershell5.Module
             }
         }
 
-  
     }
 }

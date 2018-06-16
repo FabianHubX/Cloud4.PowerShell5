@@ -33,7 +33,7 @@ namespace Cloud4.Powershell5.Module
          HelpMessage = "Filter by Profile Name",
         ValueFromPipelineByPropertyName = true)]
 
-        public string FilterByName { get; set; }
+        public string Name { get; set; }
 
         private VirtualDiskProfileService DiskProfileService { get; set; }
         private VirtualMachineProfileService MachineProfileService { get; set; }
@@ -55,12 +55,14 @@ namespace Cloud4.Powershell5.Module
 
                         callTask1.Wait();
                         var result1 = callTask1.Result;
+                        
 
                         if (result1.Object != default(List<VirtualDiskProfile>))
                         {
-                            if (!string.IsNullOrEmpty(FilterByName))
+                            if (!string.IsNullOrEmpty(Name))
                             {
-                                result1.Object.Where(x => x.Id == FilterByName).ToList().ForEach(WriteObject);
+                                var pattern = new WildcardPattern(Name);
+                                result1.Object.Where(x => pattern.IsMatch(x.Id)).ToList().ForEach(WriteObject);
                             }
                             else
                             {
@@ -88,9 +90,10 @@ namespace Cloud4.Powershell5.Module
 
                         if (result2.Object != default(List<VirtualMachineProfile>))
                         {
-                            if (!string.IsNullOrEmpty(FilterByName))
+                            if (!string.IsNullOrEmpty(Name))
                             {
-                                result2.Object.Where(x => x.Id == FilterByName).ToList().ForEach(WriteObject);
+                                var pattern = new WildcardPattern(Name);
+                                result2.Object.Where(x => pattern.IsMatch(x.Id)).ToList().ForEach(WriteObject);
                             }
                             else
                             {
@@ -117,9 +120,10 @@ namespace Cloud4.Powershell5.Module
 
                         if (result3.Object != default(List<VirtualNetworkAdapterProfile>))
                         {
-                            if (!string.IsNullOrEmpty(FilterByName))
+                            if (!string.IsNullOrEmpty(Name))
                             {
-                                result3.Object.Where(x => x.Id == FilterByName).ToList().ForEach(WriteObject);
+                                var pattern = new WildcardPattern(Name);
+                                result3.Object.Where(x => pattern.IsMatch(x.Id)).ToList().ForEach(WriteObject);
                             }
                             else
                             {

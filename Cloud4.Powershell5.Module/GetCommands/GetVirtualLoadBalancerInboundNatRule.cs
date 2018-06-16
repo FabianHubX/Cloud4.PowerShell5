@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4vLBInboundNATRule")]
     [OutputType(typeof(VirtualLoadBalancerInboundNatRule))]
-    public class GetVirtualLoadBalancerInboundNatRule : BaseGetLoadBalancerCmdLet<VirtualLoadBalancerInboundNatRule, VirtualLoadBalancerInboundNatRuleService>
+    public class GetVirtualLoadBalancerInboundNatRule : BaseLoadBalancerGetCmdLet<VirtualLoadBalancerInboundNatRule, VirtualLoadBalancerInboundNatRuleService>
     {
 
 

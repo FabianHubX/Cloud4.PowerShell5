@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace Cloud4.CoreLibrary.Models
 {
-    public class UpdateVirtualLoadBalancerFrontEndIPConfigurations
+    public class UpdateVirtualLoadBalancerBackEndPool
     {
-   
-        public Guid? VirtualSubnetId { get; set; }
      
-        public string InternalIpAddress { get; set; }
-
+        public List<Guid> VirtualMachines { get; set; }
 
     }
 }

@@ -32,16 +32,17 @@ namespace Cloud4.Powershell5.Module
          HelpMessage = "Filter by Name",
         ValueFromPipelineByPropertyName = true)]
 
-        public string FilterByName { get; set; }
+        public string Name { get; set; }
 
 
 
         protected override void ProcessRecord()
         {
-            if (!string.IsNullOrEmpty(FilterByName))
+            if (!string.IsNullOrEmpty(Name))
             {
 
-                GetAll(Connection).Where(x => x.Name == FilterByName).ToList().ForEach(WriteObject);
+                var pattern = new WildcardPattern(Name);
+                GetAll(Connection).Where(x => pattern.IsMatch(x.Name)).ToList().ForEach(WriteObject);
 
             }
             else if (Id == Guid.Empty)
@@ -50,7 +51,7 @@ namespace Cloud4.Powershell5.Module
             }
             else
             {
-                WriteObject(GetOne(Id, Connection));
+               WriteObject(GetOne(Id, Connection));
             }
 
         }

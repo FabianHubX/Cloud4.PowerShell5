@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Cloud4.Powershell5.Module
 {
    
-    public class BaseRemoveLoadBalancerCmdLet<T,Y> : BaseLoadBalancerCmdLet<T,Y> where Y : new()
+    public class BaseLoadBalancerRemoveCmdLet<T,Y> : BaseLoadBalancerCmdLet<T,Y> where Y : new()
     {
         public Connection Connection { get; set; }
 

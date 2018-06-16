@@ -14,7 +14,7 @@ namespace Cloud4.CoreLibrary.Models
         public string Protocol { get; set; }
         public int FrontendPort { get; set; }
         public int backendPort { get; set; }
-        public int BdleTimeoutInMinutes { get; set; }
+        public int IdleTimeoutInMinutes { get; set; }
         public Guid ProbeId { get; set; }       
         public bool FloatingIpEnabled { get; set; }
         public string LoadDistribution { get; set; }

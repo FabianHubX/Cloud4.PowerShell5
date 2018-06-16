@@ -41,7 +41,7 @@ namespace Cloud4.Powershell5.Module
        HelpMessage = "Id of the virtual Firewall",
      ValueFromPipelineByPropertyName = true)]
 
-        public Guid VirtualFirewallId { get; set; }
+        public Guid? VirtualFirewallId { get; set; }
 
 
         [Parameter(
@@ -51,7 +51,7 @@ namespace Cloud4.Powershell5.Module
        HelpMessage = "Wait Job Finished",
       ValueFromPipelineByPropertyName = true)]
 
-        public bool Wait { get; set; }
+        public SwitchParameter Wait { get; set; }
 
         private VirtualSubNetService service { get; set; }
 
@@ -70,9 +70,17 @@ namespace Cloud4.Powershell5.Module
                 IsChanged = true;
             }
 
-            if (VirtualFirewallId != Guid.Empty)
+            if (VirtualFirewallId.HasValue)
             {
-                vsubnet.VirtualFirewallId = VirtualFirewallId;
+                if (VirtualFirewallId == Guid.Empty)
+                {
+                    vsubnet.VirtualFirewallId = null;
+                }
+                else
+                {
+                    vsubnet.VirtualFirewallId = VirtualFirewallId.Value;
+                }
+              
                 IsChanged = true;
             }
 

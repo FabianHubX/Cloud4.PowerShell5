@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4vGWNetConnection")]
     [OutputType(typeof(VirtualGatewayNetworkConnection))]
-    public class GetVirtualGatewayNetworkConnection :  BaseGetVirtualGatewayCmdLet<VirtualGatewayNetworkConnection, VirtualGatewayNetworkConnectionService>
+    public class GetVirtualGatewayNetworkConnection :  BaseVirtualGatewayGetCmdLet<VirtualGatewayNetworkConnection, VirtualGatewayNetworkConnectionService>
     {
        
       

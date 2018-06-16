@@ -45,7 +45,7 @@ ValueFromPipelineByPropertyName = true)]
        HelpMessage = "Wait Job Finished",
       ValueFromPipelineByPropertyName = true)]
 
-        public bool Wait { get; set; }
+        public SwitchParameter Wait { get; set; }
 
 
 

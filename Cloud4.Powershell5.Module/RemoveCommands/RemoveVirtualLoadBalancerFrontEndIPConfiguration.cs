@@ -12,7 +12,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Remove, "Cloud4vLBFrontEndIPConfigurations")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class RemoveVirtualLoadBalancerFrontEndIPConfiguration : BaseRemoveLoadBalancerCmdLet<VirtualLoadBalancerFrontEndIPConfigurations, VirtualLoadBalancerFrontendIpConfigurationsService>
+    public class RemoveVirtualLoadBalancerFrontEndIPConfiguration : BaseLoadBalancerRemoveCmdLet<VirtualLoadBalancerFrontEndIPConfigurations, VirtualLoadBalancerFrontendIpConfigurationsService>
     {
         [Parameter(
           Mandatory = true,
@@ -38,7 +38,7 @@ namespace Cloud4.Powershell5.Module
         HelpMessage = "Wait Job Finished",
         ValueFromPipelineByPropertyName = true)]
 
-        public bool Wait { get; set; }
+        public SwitchParameter Wait { get; set; }
 
 
 
