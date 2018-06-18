@@ -67,7 +67,51 @@ namespace Cloud4.Powershell5.Module
             }
             else
             {
-               WriteObject(GetOne(Id, Connection));
+                var lborg = GetOne(Id, Connection);
+                var lb = new ExtendedVirtualLoadBalancer();
+                lb.Id = lborg.Id;
+                lb.Name = lborg.Name;
+                lb.VirtualDatacenterId = lborg.VirtualDatacenterId;
+                lb.BackendAddressPools = new List<VirtualLoadBalancerBackEndPool>();
+                lb.FrontEndIPConfigurations = new List<VirtualLoadBalancerFrontEndIPConfigurations>();
+                lb.InboundNatRules = new List<VirtualLoadBalancerInboundNatRule>();
+                lb.LoadBalancingRules = new List<VirtualLoadBalancerRule>();
+                lb.Probes = new List<VirtualLoadBalancerProbe>();
+
+                foreach (var item in lborg.BackendAddressPools)
+                {
+                   lb.BackendAddressPools.Add(GetVirtualLoadBalancerBackEndPool.GetOne(item, Connection, lb.Id));
+
+                }
+
+                foreach (var item in lborg.FrontEndIPConfigurations)
+                {
+                    lb.FrontEndIPConfigurations.Add(GetVirtualFrontEndIPConfigurations.GetOne(item, Connection, lb.Id));
+
+                }
+
+                foreach (var item in lborg.InboundNatRules)
+                {
+                    lb.InboundNatRules.Add(GetVirtualLoadBalancerInboundNatRule.GetOne(item, Connection, lb.Id));
+
+                }
+
+                foreach (var item in lborg.LoadBalancingRules)
+                {
+                    lb.LoadBalancingRules.Add(GetVirtualLoadBalancerRule.GetOne(item, Connection, lb.Id));
+
+                }
+
+                foreach (var item in lborg.Probes)
+                {
+                    lb.Probes.Add(GetVirtualLoadBalancerProbe.GetOne(item, Connection, lb.Id));
+
+                }
+
+            
+
+
+                WriteObject(lb);
             }
 
         }
