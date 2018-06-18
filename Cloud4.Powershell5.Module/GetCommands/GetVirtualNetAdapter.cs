@@ -35,6 +35,15 @@ namespace Cloud4.Powershell5.Module
         public Guid VirtualMachineId { get; set; }
 
         [Parameter(
+ Mandatory = false,
+ Position = 0,
+ ValueFromPipeline = true,
+    HelpMessage = "Filter by Virtual Maschine ",
+ ValueFromPipelineByPropertyName = true)]
+
+        public VirtualMachine VirtualMachine { get; set; }
+
+        [Parameter(
         Mandatory = false,
         Position = 0,
         ValueFromPipeline = true,
@@ -129,7 +138,7 @@ namespace Cloud4.Powershell5.Module
 
             if (result.Object != null)
             {
-                var vm = result.Object.First(x => x.Name == vmName);
+                var vm = result.Object.FirstOrDefault(x => x.Name == vmName);
                 if (vm != null)
                 {
                     newlist.AddRange(vm.NetworkInterfaces);
