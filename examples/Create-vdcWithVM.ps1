@@ -8,7 +8,7 @@ $subnets= @([pscustomobject]@{Name="Demo SubNet1";AddressPrefix="192.168.1.0/24"
 
 $vnet = New-Cloud4vNet -Name "Demo vNet" -AddressSpace "192.168.0.0/16" -VirtualDataCenterId $vdc.Id -SubNet $subnets -DNSServers 8.8.8.8,8.8.4.4 -Wait
 
-$vdc = Get-Cloud4vDC -FilterByName "Demo vDC"
+$vdc = Get-Cloud4vDC -Name "Demo vDC"
 $vnet = Get-Cloud4vNet -VirtualDatacenterId $vdc.Id
 $vsubnet = Get-Cloud4vSubNet -VirtualNetworkId $vnet.Id
 $vsubnetid = $vsubnet[0].Id
