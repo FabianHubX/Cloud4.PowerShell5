@@ -4,5 +4,172 @@ title: Manual Cloud4 PowerShell5 Module
 ---
 
 <div id="home">
-  <h1>Manual</h1>
+  <h1>1. Einf&uuml;hrung</h1>
+<p>Die folgende Dokumentation dient als Anleitung in der Benutzung des PowerShell Modules f&uuml;r den Zugriff auf die Public API der Cloud 4.0 Plattform <a href="https://portal.swiss.cloud/">https://portal.swiss.cloud/</a> der HIAG Data.</p>
+<p>Die aktuelle Version des Modules sowie der Source Code ist auf GitHub abrufbar:</p>
+<p><a href="https://github.com/HiagData/Cloud4.PowerShell5">https://github.com/HiagData/Cloud4.PowerShell5</a></p>
+<h1>2. Installation des PowerShell Modules</h1>
+<p>Die Installation des PowerShell Modules geschieht durch Downloaden aller aktuell kompilierten Dateien auf welche sie unter dieser Adresse finden:</p>
+<p><a href="https://github.com/HiagData/Cloud4.PowerShell5/releases">https://github.com/HiagData/Cloud4.PowerShell5/releases</a></p>
+<p>Diese ZIP herunterladen, entpacken und komplett in einem Ordner ihrer Wahl ablegen.</p>
+<p>Starten Sie eine und importieren Sie das Module:</p>
+<p><code>Import-Module "&lt;Ordner&gt;\Cloud4.Powershell5.Module.psd1"</code></p>
+<p>Wenn das Module erfolgreich importiert wurde sind alle Kommandos entsprechend verf&uuml;gbar:</p>
+<table style="width: 17.0cm; border-collapse: collapse; border: none;" width="643">
+<tbody>
+<tr>
+<td style="width: 226.75pt; border: none; padding: 0cm 5.4pt 0cm 5.4pt;" width="302">
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Open-Cloud4Connection</strong></p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Get-Cloud4Image</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Get-Cloud4Profile</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Get-Cloud4Job</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Get-Cloud4Region</strong></p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Get-Cloud4vFirewall</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>New-Cloud4vFirewall</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Remove-Cloud4vFirewall</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Update-Cloud4vFirewall</strong></p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Get-Cloud4vFirewallRule</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Add-Cloud4vFirewallRule</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Get-Cloud4vNetAdapter</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Add-Cloud4vNetAdapter</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Remove-Cloud4vNetAdapter</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Get-Cloud4vDC</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>New-Cloud4vDC</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Update-Cloud4vDC</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Remove-Cloud4vDC</strong></p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Get-Cloud4vSubNet</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>New-Cloud4vSubNet</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Update-Cloud4vSubNet</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Remove-Cloud4vSubNet</strong></p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Get-Cloud4vLB</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>New-Cloud4vLB</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Remove-Cloud4vLB</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Get-Cloud4vLBInboundNATRule</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>New-Cloud4vLBInboundNATRule</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Remove-Cloud4vLBInboundNATRule</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Get-Cloud4vLBProbe</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>New-Cloud4vLBProbe</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Remove-Cloud4vLBProbe</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Get-Cloud4vGW</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>New-Cloud4vGW</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Remove-Cloud4vGW</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Get-Cloud4vGWNetConnection</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>New-Cloud4vGWNetConnection</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Remove-Cloud4vGWNetConnection</p>
+<p style="line-height: normal;">&nbsp;</p>
+</td>
+<td style="width: 255.2pt; border: none; padding: 0cm 5.4pt 0cm 5.4pt;" width="340">
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Get-Cloud4Contact</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Get-Cloud4Company</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>New-Cloud4Company</p>
+<p style="margin-left: 18.0pt; line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Get-Cloud4User</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Start-Cloud4User</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Get-Cloud4AvailabilitySet</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>New-Cloud4AvailabilitySet</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Remove-Cloud4AvailabilitySet</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Update-Cloud4AvailabilitySet</strong></p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Get-Cloud4vDisk</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Add-Cloud4vDataDisk</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Get-Cloud4VM</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>New-Cloud4VM</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Update-Cloud4VM</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Remove-Cloud4VM</strong></p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Get-Cloud4vNet</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>New-Cloud4vNet</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Update-Cloud4vNet</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Remove-Cloud4vNet</strong></p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Start-Cloud4VM</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Stop-Cloud4VM</strong></p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Get-Cloud4vLBBackEndPool</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>New-Cloud4vLBBackEndPool</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Remove-Cloud4vLBBackEndPool</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Get-Cloud4vLBFrontEndIPConfigurations</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>New-Cloud4vLBFrontEndIPConfigurations</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Remove-Cloud4vLBFrontEndIPConfigurations</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Get-Cloud4vLBRule</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>New-Cloud4vLBRule</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Remove-Cloud4vLBRule</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="line-height: normal;">&nbsp;</p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Set-Cloud4Tenant</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Remove-Cloud4Tenant</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong>Get-Cloud4Tenant</strong></p>
+<p style="text-indent: -18.0pt; line-height: normal;"><span style="font-family: Symbol;">&middot;<span style="font: 7.0pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span>Set-Cloud4TenantCredentials</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p style="margin-bottom: 8.0pt;">&nbsp;</p>
+<p><span style="font-size: 11.0pt; line-height: 107%; font-family: 'Replica TT Light',sans-serif;">&nbsp;</span></p>
+<p style="margin-bottom: 8.0pt;"><a name="_Toc511114188"></a><strong><span style="font-size: 14.0pt; line-height: 107%; color: #0739ed;">&nbsp;</span></strong></p>
+<ol start="3">
+<li><a name="_Toc515949734"></a> Verbinden mit der Cloud 4.0</li>
+</ol>
+<p>Die Verbindung mit der Cloud 4.0 erfolgt &uuml;ber das Kommando:</p>
+<p>Open-Cl&nbsp;oud4Connection</p>
+<p><strong><span style="font-variant: small-caps;">&nbsp;</span></strong></p>
+<p>Folgende Parameter m&uuml;ssen mitgegeben werden:</p>
+<p>-Credential&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Anmeldedaten in Form eines PSCredential Objekts</p>
+<p>-LoginUrl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "https://login.swiss.cloud"</p>
+<p>-ApiUrl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "https://api.swiss.cloud"</p>
+<p>-TenantId &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TenantID als GUID</p>
+<p>&nbsp;</p>
+<p>Die TenantID stellt die aktuelle ID des Tenants in der Cloud 4.0 dar. Zu einem sp&auml;teren Zeitpunkt k&ouml;nnen weitere Tenant erstellt werden. Um die aktuelle Liste der verf&uuml;gbaren Tenants zu erhalten, ist das &ldquo;Open-Cloud4Connection&rdquo; Kommando ohne den Parameter &ldquo;TenantId&rdquo; ausf&uuml;hren. Dies liefert die aktuelle Liste an Tenants zur&uuml;ck. Wird keine TenantId angegeben und es ist nur ein Tenant verf&uuml;gbar wird dieser automatisch gesetzt.</p>
+<p>&nbsp;</p>
+<p>F&uuml;r die Erstellung eines PSCredential Objekts kann folgender PowerShell Code verwendet werden:</p>
+<p>$username = "e-mail addresse"</p>
+<p>$password = 'Password' | ConvertTo-SecureString -asPlainText -Force</p>
+<p>$cred = New-Object System.Management.Automation.PSCredential($username,$password)</p>
+<p>&nbsp;</p>
+<p>Bei erfolgreicher Anmeldung wird folgendes Resultat zur&uuml;ckgegeben:</p>
+<p>Connection established</p>
+<p>UserName&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LogonUrl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ApiUrl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TenantId</p>
+<p>--------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --------</p>
+<p>(User)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (LoginUrl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (ApiUrl)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (TenantID)</p>
+<p style="margin-bottom: 8.0pt;">&nbsp;</p>
+<p><span style="font-size: 11.0pt; line-height: 107%; font-family: 'Replica TT Light',sans-serif;">&nbsp;</span></p>
+<p style="margin-bottom: 8.0pt;"><strong><span style="font-size: 12.0pt; line-height: 107%; color: #0739ed;">&nbsp;</span></strong></p>
+<ul>
+<li><a name="_Toc515949735"></a> Tenant verwalten</li>
+</ul>
+<p style="margin-bottom: 8.0pt;">Mit folgendem Kommando kann der entsprechende Tenant gesetzt werden:</p>
+<p>Set-Cloud4Tenant -Id &lt;GUID des Tenants&gt;</p>
+<p style="margin-bottom: 8.0pt;">&nbsp;</p>
+<p style="margin-bottom: 8.0pt;">Mit folgendem Kommando kann eine Liste der verf&uuml;gbaren Tenants ausgelesen werden. Funktioniert nur wenn bereits ein Tenant gesetzt wurde.</p>
+<p>Get-Cloud4Tenant</p>
+<p style="margin-bottom: 8.0pt;">&nbsp;</p>
+<p style="margin-bottom: 8.0pt;">Mit folgendem Kommando kann ein bestehender Tenant gel&ouml;scht werden. Dies Funktioniert nur wenn alle Ressourcen aus diesem Tenant vorg&auml;ngig gel&ouml;scht wurden.</p>
+<p>Remove-Cloud4Tenant -Id &lt;GUID des Tenants&gt;</p>
+<p>Starten Sie eine PowerShell Session und importieren das Module&nbsp;<a href="#_msoanchor_10">[G(10]</a></p>
+<p>--&gt; w&auml;re das der Sinn des Satzes?</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
  </div>
