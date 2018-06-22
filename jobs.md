@@ -14,5 +14,5 @@ Loads a specific job using its ID:
 
 The following parameters can be specified: 
 
-`-ID` 
+`-ID` **`<GUID of Job>`**
 

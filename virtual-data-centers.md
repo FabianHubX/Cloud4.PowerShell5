@@ -14,8 +14,9 @@ Loads a specific data center by its ID:
 
 The following parameters can be specified: 
 
-`-ID  
--NAME  ('<Name of the vDC's>')`
+`-ID` **`<GUID of vDC>`**
+
+`-NAME`  **`'<Name of the vDC's>'`**
 
 ## Creating a data center 
 
@@ -25,9 +26,11 @@ Creates a new virtual data center:
 
 The following parameters must be specified:
 
-`-NAME Name of the data center   
--REGIONID Guid of the region   
--WAIT (SWITCH)`
+`-NAME` **`Name of the data center`**
+
+`-REGIONID` **`Guid of the region`** ``
+
+`-WAIT`
 
 The Wait parameter forces you to wait for the process to be completed \(otherwise this command is created as a job\) and returns the virtual datacenter object as a return value. 
 

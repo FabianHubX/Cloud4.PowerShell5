@@ -22,7 +22,7 @@ The following command returns the currently available disk types:
 
 The following command returns the currently available network adapter profiles: 
 
-`GET-CLOUD4PROFILE -TYPE VIRTUAL NETWORK ADAPTER`
+`GET-CLOUD4PROFILE -TYPE VIRTUALNETWORKADAPTER`
 
 ## Virtual Machine \(VM\) Profiles 
 
