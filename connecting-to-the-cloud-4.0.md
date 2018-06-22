@@ -26,7 +26,7 @@ $cred = New-Object System.Management.Automation.PSCredential($username,$password
 
 The corresponding tenant can be set with the following command: 
 
-`SET-CLOUD4TENANT -ID` 
+`SET-CLOUD4TENANT -ID` **`<GUID of Tenant>`**
 
 With the following command a list of the available tenants can be read out. Only works if a tenant has already been set. 
 
@@ -34,5 +34,5 @@ With the following command a list of the available tenants can be read out. Only
 
 An existing tenant can be deleted with the following command. This only works if all resources from this tenant have been deleted beforehand. 
 
-`REMOVE-CLOUD4TENANT -ID`
+`REMOVE-CLOUD4TENANT -ID` **`<GUID of Tenant>`**
 

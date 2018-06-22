@@ -10,7 +10,7 @@
 * [Virtual Data Centers](virtual-data-centers.md)
 * [Virtual Network](virtual-network.md)
 * [Virtual SubNets](virtual-subnets.md)
-* [Virtual Machines](untitled.md)
+* [Virtual Machines](virtual-machines.md)
 * [Virtual Firewall](virtual-firewall.md)
 * [Availability Set](availability-set.md)
 
