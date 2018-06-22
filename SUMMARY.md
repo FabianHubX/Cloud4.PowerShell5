@@ -13,4 +13,6 @@
 * [Virtual Machines](virtual-machines.md)
 * [Virtual Firewall](virtual-firewall.md)
 * [Availability Set](availability-set.md)
+* [Virtual Load Balancer](virtual-load-balancer.md)
+* [Virtual Site2Site Gateway](virtual-site2site-gateway.md)
 
