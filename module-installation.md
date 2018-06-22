@@ -1,6 +1,6 @@
 # Module Installation
 
-To install the PowerShell Module you need first to download the newst release on following address:
+To install the PowerShell Module you need first to download the newest release on following address:
 
 [https://github.com/HiagData/Cloud4.PowerShell5/releases](https://github.com/HiagData/Cloud4.PowerShell5/releases)  
 

@@ -8,7 +8,7 @@ The following parameters must be specified:
 
 `-CREDENTIAL (Logon data in the form of a PSCredential object)`
 
-`-LOGINURL`  [`https://login.swiss.cloud`](https://login.swiss.cloud) ``
+`-LOGINURL`  [`https://login.swiss.cloud`](https://login.swiss.cloud)
 
 `-APIURL` [`https://api.swiss.cloud`](https://api.swiss.cloud)
 
