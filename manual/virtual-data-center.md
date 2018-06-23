@@ -1,4 +1,4 @@
-# Virtual Data Centers
+# Virtual Data Center
 
 ## Available data centers 
 
@@ -61,6 +61,4 @@ Attention: A deletion only takes place if all resources in the vDC have been del
 The following parameters must be specified: 
 
 `-ID` **`<GUID of vDC>`**
-
-
 

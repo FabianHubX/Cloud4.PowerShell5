@@ -1,4 +1,4 @@
-# Module Installation
+# Installation
 
 To install the PowerShell Module you need first to download the newest release on following address:
 
