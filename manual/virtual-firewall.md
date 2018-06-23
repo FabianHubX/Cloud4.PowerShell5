@@ -43,7 +43,7 @@ DESTINATIONPORTRANGE="*";PROTOCOL="TCP";DIRECTION="INBOUND";ACTION="ALLOW";PRIOR
 
 ## Updating a virtual firewall 
 
-Creates a new virtual machine: 
+Update a existing virtual firewall: 
 
 `UPDATE-CLOUD4FIREWALL`
 

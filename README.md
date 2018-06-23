@@ -1,8 +1,10 @@
-# Cloud4 PowerShell Module
+# Cloud4.PowerShell5.Module
+
+## Cloud4 PowerShell Module
 
 There you found the compiled version: [https://github.com/HiagData/Cloud4.PowerShell5/releases](https://github.com/HiagData/Cloud4.PowerShell5/releases)
 
-# Manual
+## Manual
 
 * [Introduction](manual/introduction.md)
 * [Installation](manual/installation.md)
@@ -19,7 +21,8 @@ There you found the compiled version: [https://github.com/HiagData/Cloud4.PowerS
 * [Virtual S2S Gateway](manual/virtual-s2s-gateway.md)
 * [Availability Set](manual/availability-set.md)
 
-# Main
+## Main
 
 * [Changelog](main/changelog.md)
 * [FAQ](main/faq.md)
+
