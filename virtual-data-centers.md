@@ -42,9 +42,11 @@ Creates a new virtual data center:
 
 The following parameters must be specified:
 
-`-ID  
--NAME New name of data center   
--WAIT (SWITCH)`
+`-ID` **`<GUID of vDC>`**
+
+`-NAME` **`New name of data center`** 
+
+`-WAIT` 
 
 The Wait parameter forces you to wait for the process to be completed \(otherwise this command is created as a job\) and returns the virtual datacenter object as a return value.
 
@@ -58,7 +60,7 @@ Attention: A deletion only takes place if all resources in the vDC have been del
 
 The following parameters must be specified: 
 
-`-ID`
+`-ID` **`<GUID of vDC>`**
 
 
 

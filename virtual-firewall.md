@@ -14,8 +14,9 @@ Loads a specific virtual firewall by its ID:
 
 The following parameters must be specified: '
 
-`-ID  
--VIRTUALDATACENTERID` 
+`-ID` **`<GUID of vFirewall>`**
+
+`-VIRTUALDATACENTERID` **`<GUID of vDC> (Search by vDC)`** 
 
 ## Creating a virtual firewall 
 
@@ -25,10 +26,13 @@ Creates a new virtual firewall:
 
 The following parameters must be specified: 
 
-`-NAME Name of the virtual firewall   
--VIRTUALDATACENTERID virtual data center GUID   
--RULES list of virtual firewall rules   
--WAIT (switch)`
+`-NAME` **`(Name of the virtual firewall)`** ``
+
+`-VIRTUALDATACENTERID` **`<GUID of vDC>`**
+
+`-RULES` **`(list of virtual firewall rules)`**
+
+`-WAIT`
 
 The Wait parameter forces you to wait for the process to be completed \(otherwise this command is created as a job\) and returns the virtual firewall object as a return value.
 
@@ -41,13 +45,15 @@ DESTINATIONPORTRANGE="*";PROTOCOL="TCP";DIRECTION="INBOUND";ACTION="ALLOW";PRIOR
 
 Creates a new virtual machine: 
 
-`UPDATE CLOUD4FIREWALL`
+`UPDATE-CLOUD4FIREWALL`
 
 The following parameters must be specified: 
 
-`-NAME Name of the virtual firewall   
--RULES list of virtual firewall rules   
--WAIT (switch)`
+`-NAME` **`(Name of the virtual firewall)`** 
+
+`-RULES` **`(list of virtual firewall rules)`**
+
+`-WAIT`
 
 So that the firewall rules can be adapted, they must first be loaded into a variable \(with Get-Cloud4vFirewall\). Then you can update the array in the new configuration and send it to the firewall.
 
@@ -61,5 +67,5 @@ Deletes the virtual firewall.
 
 The following parameters must be specified: 
 
-`-ID`
+`-ID` **`<GUID of vFirewall>`**
 

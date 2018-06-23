@@ -14,8 +14,9 @@ Loads a specific data center using its Id:
 
 The following parameters can be specified: 
 
-`-ID  
--NAME`
+`-ID` **`<GUID of vNet>`**
+
+`-NAME` **`(Name of vNet you looking for)`**
 
 ## Creating a virtual network 
 
@@ -25,12 +26,17 @@ Creates a new virtual data center:
 
 The following parameters must be specified:
 
-`-NAME Name of the virtual network   
--ADDRESSSPACE Address Space e.g. (10.0.0.0/16)  
--VIRTUALDATACENTERID virtual data center GUID   
--SUBNET List of SubNet   
--DNSSERVERS List of DNS server IP's separated by coma   
--WAIT (switch)`
+`-NAME` **`Name of the virtual network`**
+
+`-ADDRESSSPACE` **`Address Space e.g. (10.0.0.0/16)`**
+
+`-VRTUALDATACENTERID` **`<GUID of vDC>`**
+
+`-SUBNET` **`(List of SubNet)`**
+
+`-DNSSERVERS` **`(List of DNS server IP's separated by coma)`**
+
+`-WAIT`
 
 The Wait parameter forces you to wait for the process to be completed \(otherwise this command is created as a job\) and returns the virtual network object as a return value.
 
@@ -45,10 +51,13 @@ Creates a new virtual data center:
 
 The following parameters must be specified:
 
-`-ID '<GUID of the virtual network's>'   
--NAME New name of the virtual network   
--DNSSERVERS List of DNS server IP's separated by coma   
--WAIT (switch)`
+`-ID` **`<GUID of the vNet>`**
+
+`-NAME` **`(New name of the virtual network)`**
+
+`-DNSSERVERS` **`(List of DNS server IP's separated by coma)`**
+
+`-WAIT`
 
 The Wait parameter forces you to wait for the process to be completed \(otherwise this command is created as a job\) and returns the virtual network object as a return value.
 
@@ -62,7 +71,7 @@ Attention: Deletion only takes place if all resources in the vNet have been dele
 
 The following parameters must be specified: 
 
-`-ID '<GUID of the virtual network's>'`
+`-ID` **`<GUID of vNet>`**
 
 
 

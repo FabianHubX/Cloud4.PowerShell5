@@ -1,12 +1,12 @@
-# Virtual SubNets
+# Virtual Subnet
 
-## Available virtual SubNets 
+## Available virtual Subnets 
 
 Loads all available virtual SubNets: 
 
 `GET-CLOUD4VSUBNET`
 
-## Loading a virtual SubNet 
+## Loading a virtual Subnet 
 
 Loads a specific virtual SubNet by its ID: 
 
@@ -14,10 +14,11 @@ Loads a specific virtual SubNet by its ID:
 
 The following parameters can be specified: 
 
-`-ID  
--NAME`
+`-ID` **`<GUID of vSubNet>`**
 
-## Creating a virtual SubNet 
+`-NAME (Search for possible Name)`
+
+## Creating a virtual Subnet 
 
 Creates a new virtual SubNets: 
 
@@ -25,10 +26,13 @@ Creates a new virtual SubNets:
 
 The following parameters must be specified: 
 
-`-NAME Name of the virtual subnet   
--ADDRESSSPACE Address Space e.g. (10.0.0.0/16)   
--VIRTUALNETWORKID Virtual Network Guid   
--WAIT` 
+`-NAME` **`(Name of the virtual subnet)`** ``
+
+`-ADDRESSSPACE` **`(Address Space e.g. (10.0.0.0/16))`** 
+
+`-VIRTUALNETWORKID` **`<GUID of vNet>`** ``
+
+`-WAIT` 
 
 The Wait parameter forces you to wait for the process to be completed \(otherwise this command is created as a job\) and returns the virtual SubNet object as a return value.
 
@@ -40,9 +44,11 @@ Creates a new virtual SubNets:
 
 The following parameters must be specified: 
 
-`-ID  
--NAME New name of the virtual subnet   
--WAIT` 
+`-ID` **`<GUID of vSubNet>`**
+
+`-NAME` **`(New name of the virtual subnet)`**
+
+`-WAIT` 
 
 The Wait parameter forces you to wait for the process to be completed \(otherwise this command is created as a job\) and returns the virtual SubNet object as a return value.
 
@@ -56,7 +62,7 @@ Attention: A deletion only takes place if all resources in vSubNet have been del
 
 The following parameters must be specified:
 
-`-ID '`
+`-ID` **`<GUID of vSubNet>`**
 
 
 
