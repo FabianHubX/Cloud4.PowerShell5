@@ -1,4 +1,4 @@
-# Connecting to the Cloud 4.0
+# Connecting to the Cloud 4
 
 The connection to Cloud 4.0 is made via the command: 
 

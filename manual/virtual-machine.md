@@ -1,4 +1,4 @@
-# Virtual Machines
+# Virtual Machine
 
 ## Available virtual machines
 

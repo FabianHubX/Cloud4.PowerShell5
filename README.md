@@ -6,16 +6,16 @@ There you found the compiled version: [https://github.com/HiagData/Cloud4.PowerS
 
 ## Manual
 
-* [Introduction](introduction.md)
-* [Module Installation](module-installation.md)
-* [Connecting to the Cloud 4.0](connecting-to-the-cloud-4.0.md)
-* [Basic Data](basic-data.md)
-* [Jobs](jobs.md)
-* [Companies, Users](companies-users.md)
-* [Virtual Data Centers](virtual-data-centers.md)
-* [Virtual Network](virtual-network.md)
-* [Virtual SubNets](subnet.md)
-* [Virtual Machines](virtual-machines.md)
-* [Virtual Firewall](virtual-firewall.md)
-* [Availability Set](availability-set.md)
+* [Introduction]()
+* [Module Installation]()
+* [Connecting to the Cloud 4.0]()
+* [Basic Data]()
+* [Jobs]()
+* [Companies, Users]()
+* [Virtual Data Centers]()
+* [Virtual Network]()
+* [Virtual SubNets]()
+* [Virtual Machines]()
+* [Virtual Firewall]()
+* [Availability Set]()
 

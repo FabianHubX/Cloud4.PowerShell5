@@ -1,8 +1,4 @@
----
-description: Still to document
----
-
-# Companies, Users
+# Company Administration
 
 ## Reading the companies
 

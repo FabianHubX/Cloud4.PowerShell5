@@ -1,22 +1,21 @@
 # Table of contents
 
 * [Cloud4.PowerShell5.Module](README.md)
-* [Introduction](introduction.md)
-* [Module Installation](module-installation.md)
-* [Connecting to the Cloud 4.0](connecting-to-the-cloud-4.0.md)
-* [Basic Data](basic-data.md)
-* [Jobs](jobs.md)
-* [Companies, Users](companies-users.md)
-* [Virtual Data Centers](virtual-data-centers.md)
-* [Virtual Network](virtual-network.md)
-* [Virtual Subnet](subnet.md)
-* [Virtual Machines](virtual-machines.md)
-* [Virtual Firewall](virtual-firewall.md)
-* [Availability Set](availability-set.md)
-* [Virtual Load Balancer](virtual-load-balancer.md)
-* [Virtual Site2Site Gateway](virtual-site2site-gateway.md)
 
 ## Manual
 
 * [Introduction](manual/introduction.md)
+* [Installation](manual/installation.md)
+* [Connecting to the Cloud 4](manual/connecting-to-the-cloud-4.md)
+* [Basic Data](manual/basic-data.md)
+* [Jobs](manual/jobs.md)
+* [Company Administration](manual/company-administration.md)
+* [Virtual Data Center](manual/virtual-data-center.md)
+* [Virtual Network](manual/virtual-network.md)
+* [Virtual Subnet](manual/virtual-subnet.md)
+* [Virtual Machine](manual/virtual-machine.md)
+* [Virtual Firewall](manual/virtual-firewall.md)
+* [Virtual Load Balancer](manual/virtual-load-balancer.md)
+* [Virtual S2S Gateway](manual/virtual-s2s-gateway.md)
+* [Availability Set](manual/availability-set.md)
 
