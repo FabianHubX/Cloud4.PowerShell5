@@ -6,7 +6,7 @@ The connection to Cloud 4.0 is made via the command:
 
 The following parameters must be specified: 
 
-`-CREDENTIAL (Logon data in the form of a PSCredential object)`
+`-CREDENTIAL` **`(Logon data in the form of a PSCredential object)`**
 
 `-LOGINURL`  [`https://login.swiss.cloud`](https://login.swiss.cloud)
 

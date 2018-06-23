@@ -9,7 +9,7 @@
 * [Companies, Users](companies-users.md)
 * [Virtual Data Centers](virtual-data-centers.md)
 * [Virtual Network](virtual-network.md)
-* [Virtual SubNets](manual.md)
+* [Virtual Subnet](manual.md)
 * [Virtual Machines](virtual-machines.md)
 * [Virtual Firewall](virtual-firewall.md)
 * [Availability Set](availability-set.md)

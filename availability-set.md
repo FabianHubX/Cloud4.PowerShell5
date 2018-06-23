@@ -12,10 +12,11 @@ Sets Loads all available availability sets:
 
 `GET-CLOUD4AVAILABILITYSET`
 
-The following parameters must be specified: 
+The following parameters can be specified: 
 
-`-ID  
--VIRTUALDATACENTERID` 
+`-ID` **`<GUID of Availabilityset>`**
+
+`-VIRTUALDATACENTERID` **`<GUID of vDC>`**
 
 ## Creating an Availability 
 
@@ -25,9 +26,11 @@ Set Creates a new availability set:
 
 The following parameters must be specified: 
 
-`-NAME Name of the availability set  
--VIRTUALDATACENTERID virtual data center GUID   
--WAIT`
+`-NAME` **`(Name of the availability set)`**
+
+`-VIRTUALDATACENTERID` **`<GUID of vDC>`**
+
+`-WAIT`
 
 The Wait parameter forces you to wait for the process to be completed \(otherwise this command is created as a job\) and returns the Availability Set object as a return value.
 
@@ -35,13 +38,15 @@ The Wait parameter forces you to wait for the process to be completed \(otherwis
 
 Creates a new availability set: 
 
-`UPDATE CLOUD4AVAILABILITYSET`
+`UPDATE-CLOUD4AVAILABILITYSET`
 
 The following parameters must be specified: 
 
-`-ID  
--NAME Name of the availability set   
--WAIT`
+`-ID` **`<GUID of Availabilityset>`**
+
+`-NAME` **`(Name of the availability set)`**
+
+`-WAIT`
 
 The Wait parameter forces you to wait for the process to be completed \(otherwise this command is created as a job\) and returns the Availability Set object as a return value.
 
@@ -53,5 +58,5 @@ Set Deletes the Availability Set.
 
 The following parameters must be specified: 
 
-`-ID` 
+`-ID` **`<GUID of Availabilityset>`**
 

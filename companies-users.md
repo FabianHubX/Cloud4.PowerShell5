@@ -12,6 +12,8 @@ Loads all current companies:
 
 ## Creating a Company
 
+TODO
+
 `NEW-CLOUD4COMPANY`
 
 ## Reading all contacts 
@@ -27,6 +29,8 @@ Loads all current user accounts:
 `GET-CLOUD4USER`
 
 ## Sending a new invitation to a user
+
+TODO
 
 `START-CLOUD4USER`
 
