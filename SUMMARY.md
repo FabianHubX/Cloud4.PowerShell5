@@ -19,3 +19,8 @@
 * [Virtual S2S Gateway](manual/virtual-s2s-gateway.md)
 * [Availability Set](manual/availability-set.md)
 
+## Main
+
+* [Changelog](main/changelog.md)
+* [FAQ](main/faq.md)
+
