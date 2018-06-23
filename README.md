@@ -14,7 +14,7 @@ There you found the compiled version: [https://github.com/HiagData/Cloud4.PowerS
 * [Companies, Users](companies-users.md)
 * [Virtual Data Centers](virtual-data-centers.md)
 * [Virtual Network](virtual-network.md)
-* [Virtual SubNets](manual.md)
+* [Virtual SubNets](subnet.md)
 * [Virtual Machines](virtual-machines.md)
 * [Virtual Firewall](virtual-firewall.md)
 * [Availability Set](availability-set.md)
