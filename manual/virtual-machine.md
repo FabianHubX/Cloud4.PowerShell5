@@ -32,7 +32,9 @@ The following parameters must be specified:
 
 `-VIRTUALDATACENTERID` **`<GUID of vDC>`**
 
-`-VMPROFILE VM Profile` **`(Physical Template)`** ``
+`-VMPROFILE VM Profile` **`(Physical Template)`**
+
+`-IMAGEID` **`(GUID of OS Image)`** ``
 
 `-OSDISKPROFILE` **`(OS Disk Profile`** ``
 
@@ -113,4 +115,6 @@ Deletes the virtual machine.
 The following parameters must be specified: 
 
 `-ID` **`<GUID of VM>`**
+
+`-FORCEPOWEROFF` 
 

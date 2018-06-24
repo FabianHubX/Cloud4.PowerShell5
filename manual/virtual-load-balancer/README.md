@@ -1,5 +1,12 @@
 # Virtual Load Balancer
 
+Additional to the virtual Load Balancer you need to configure addition topics:
+
+* [Backend Pool](https://hiagdata.gitbook.io/cloud4-powershell5/~/edit/drafts/-LFnTWLh2fJJgXLDv_LW/manual/virtual-load-balancer)
+* [FrontEnd IP Configuration](https://hiagdata.gitbook.io/cloud4-powershell5/~/edit/drafts/-LFnTWLh2fJJgXLDv_LW/manual/virtual-load-balancer)
+* [Probe](https://hiagdata.gitbook.io/cloud4-powershell5/~/edit/drafts/-LFnTWLh2fJJgXLDv_LW/manual/virtual-load-balancer)
+* [Rule](https://hiagdata.gitbook.io/cloud4-powershell5/~/edit/drafts/-LFnTWLh2fJJgXLDv_LW/manual/virtual-load-balancer)
+
 ## Available virtual Load Balancers
 
 Loads all available virtual Load Balancers: 
@@ -57,4 +64,8 @@ Deletes the virtual Load Balancer.
 The following parameters must be specified: 
 
 `-ID` **`<GUID of vLB>`**
+
+
+
+
 

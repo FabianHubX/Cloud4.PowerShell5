@@ -16,6 +16,8 @@ The following parameters must be specified: '
 
 `-ID` **`<GUID of vFirewall>`**
 
+`-VIRTUALSUBNETID` **`<GUID of vSubNet>`**
+
 `-VIRTUALDATACENTERID` **`<GUID of vDC> (Search by vDC)`** 
 
 ## Creating a virtual firewall 
@@ -36,7 +38,29 @@ The following parameters must be specified:
 
 The Wait parameter forces you to wait for the process to be completed \(otherwise this command is created as a job\) and returns the virtual firewall object as a return value.
 
-The list of firewall rules is passed as an array: 
+The list of Firewall is passed as an array with following object structure :
+
+`{`
+
+`SOURCEADDRESSPREFIX= "*";` **`(IP or Range: 192.168.0.2/32; 192.168.0.2/24 or * for any)`**
+
+`SOURCEPORTRANGE= "*";` **`(Port is between 1 and 65535)`**
+
+`DESTINATIONADDRESSPREFIX= "*"` **`(IP or Range: 192.168.0.2/32; 192.168.0.2/24 or * for any)`**
+
+`DESTINATIONPORTRANGE= "*"`**`(Port is between 1 and 65535)`**
+
+`PROTOCOL = "ALL"` **`(TCP, UDP or ALL)`**
+
+`DIRECTION = "Inbound"` **`(Inbound or Outbound)`**
+
+`ACTION = "Allow"` **`(Allow or Deny)`**
+
+`PRIORITY = 200` **`(Between 101 and 65000)`**
+
+`}`
+
+Example: 
 
 `$FWRULES= @([PSCUSTOMOBJECT]@{SOURCEADDRESSPREFIX="*";SOURCEPORTRANGE="*";DESTINATIONADDRESSPREFIX="*";  
 DESTINATIONPORTRANGE="*";PROTOCOL="TCP";DIRECTION="INBOUND";ACTION="ALLOW";PRIORITY="1000"})`
