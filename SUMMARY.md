@@ -14,16 +14,9 @@
 * [Virtual Network](manual/virtual-network.md)
 * [Virtual Subnet](manual/virtual-subnet.md)
 * [Virtual Machine](manual/virtual-machine.md)
-* [Virtual Disk](manual/virtual-disk.md)
-* [Virtual Network Adapter](manual/virtual-network-adapter.md)
 * [Virtual Firewall](manual/virtual-firewall.md)
-* [Virtual Load Balancer](manual/virtual-load-balancer/README.md)
-  * [Backend Pool](manual/virtual-load-balancer/backend-pool.md)
-  * [FrontEnd IP Configuration](manual/virtual-load-balancer/frontend-ip-configuration.md)
-  * [Rule](manual/virtual-load-balancer/rule.md)
-  * [Probe](manual/virtual-load-balancer/probe.md)
-* [Virtual S2S Gateway](manual/virtual-s2s-gateway/README.md)
-  * [Gateway Connection](manual/virtual-s2s-gateway/gateway-connection.md)
+* [Virtual Load Balancer](manual/virtual-load-balancer.md)
+* [Virtual S2S Gateway](manual/virtual-s2s-gateway.md)
 * [Availability Set](manual/availability-set.md)
 
 ## Main
