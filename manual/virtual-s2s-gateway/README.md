@@ -18,6 +18,9 @@ The following parameters must be specified: '
 
 `-VIRTUALDATACENTERID` **`<GUID of vDC> (Search by vDC)`** 
 
+`-NAME` **`(Search for possible Name)`**  
+
+
 ## Creating a virtual S2S Gateway
 
 Creates a new virtual S2S Gateway: 
@@ -29,6 +32,8 @@ The following parameters must be specified:
 `-NAME` **`(Name of the virtual Load S2S Gateway)`** ``
 
 `-VIRTUALDATACENTERID` **`<GUID of vDC>`**
+
+`-VIRTUALSUBNETID` **`<GUID of Gateway Subnet>`**
 
 `-WAIT`
 
@@ -56,5 +61,7 @@ Deletes the virtual S2S Gateway.
 
 The following parameters must be specified: 
 
-`-ID` **`<GUID of vLB>`**
+`-ID` **`<GUID of vGW>`**
+
+## 
 

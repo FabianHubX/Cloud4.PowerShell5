@@ -16,7 +16,7 @@ The following parameters can be specified:
 
 `-ID` **`<GUID of vSubNet>`**
 
-`-NAME (Search for possible Name)`
+`-NAME` **`(Search for possible Name)`**
 
 ## Creating a virtual Subnet 
 
@@ -30,7 +30,15 @@ The following parameters must be specified:
 
 `-ADDRESSSPACE` **`(Address Space e.g. (10.0.0.0/16))`** 
 
-`-VIRTUALNETWORKID` **`<GUID of vNet>`** ``
+`-VIRTUALNETWORKID` **`<GUID of vNet>`**
+
+`-ISGATEWAYSUBNET`
+
+`-VIRTUALFIREWALLID` **`<GUID of vFirewall>`**
+
+`-NEWVIRTUALFIREWALLNAME` **`(Name of the new Firewall you want create)`**
+
+`-RULES` **`(Set of Firewall Rules)`**
 
 `-WAIT` 
 
@@ -40,11 +48,13 @@ The Wait parameter forces you to wait for the process to be completed \(otherwis
 
 Creates a new virtual SubNets: 
 
-`UPDATE CLOUD4VSUBNET`
+`UPDATE-CLOUD4VSUBNET`
 
 The following parameters must be specified: 
 
 `-ID` **`<GUID of vSubNet>`**
+
+`-VIRTUALFIREWALLID` **`<GUID for vFirewall>`**
 
 `-NAME` **`(New name of the virtual subnet)`**
 
@@ -63,4 +73,6 @@ Attention: A deletion only takes place if all resources in vSubNet have been del
 The following parameters must be specified:
 
 `-ID` **`<GUID of vSubNet>`**
+
+`-FORCE` **`(EXPERIMENTAL: Delete the vDC an all his child)`**
 

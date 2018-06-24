@@ -16,6 +16,8 @@ The following parameters can be specified:
 
 `-ID` **`<GUID of vNet>`**
 
+`-VIRTUALDATACENTERID` **`<GUID for vDC>`**
+
 `-NAME` **`(Name of vNet you looking for)`**
 
 ## Creating a virtual network 
@@ -40,7 +42,16 @@ The following parameters must be specified:
 
 The Wait parameter forces you to wait for the process to be completed \(otherwise this command is created as a job\) and returns the virtual network object as a return value.
 
-The list of SubNet is passed as an array:   
+The list of SubNet is passed as an array with following object structure :
+
+`{  
+NAME= "";  
+ADDRESSPREFIX = "x.x.x.x/x";  
+ISGATEWAYSUBNET = $false/$true;  
+FIREWALLCREATIONPARAMETERS = { TBD }  
+}`
+
+Example:   
 `$SUBNETS= @([PSCUSTOMOBJECT]@{NAME="SUBNET1";ADDRESS PREFIX="192.168.1.0/24"}, [PSCUSTOMOBJECT]@{NAME="SUBNET2";ADDRESS PREFIX="192.168.2.0/24"}, [PSCUSTOMOBJECT]@{NAME="SUBNET3";ADDRESS PREFIX="192.168.3.0/24"})`
 
 ## Updating a virtual network 
@@ -72,4 +83,6 @@ Attention: Deletion only takes place if all resources in the vNet have been dele
 The following parameters must be specified: 
 
 `-ID` **`<GUID of vNet>`**
+
+`-FORCE` **`(EXPERIMENTAL: Delete the vDC an all his child)`**
 
