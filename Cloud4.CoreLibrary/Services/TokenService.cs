@@ -11,6 +11,10 @@ namespace Cloud4.CoreLibrary.Services
     {
         public static string AccessToken { get; set; }
 
+        public static string RefreshToken { get; set; }
+
+        public static DateTime ExpiresAt { get; set; }
+
         private static TokenResponse Response { get; set; }
 
 
@@ -22,7 +26,9 @@ namespace Cloud4.CoreLibrary.Services
             IdentityServer4Client.StsServer = logonUrl;
             Response = IdentityServer4Client.LoginAsync(username,password).Result;
 
-           
+            RefreshToken = Response.RefreshToken;
+
+            ExpiresAt = DateTime.UtcNow.AddSeconds(Response.ExpiresIn);
 
             AccessToken = Response.AccessToken;
 
@@ -30,5 +36,21 @@ namespace Cloud4.CoreLibrary.Services
 
         }
 
+        public static void Refresh(Uri logonUrl, string refreshToken)
+        {
+
+
+            IdentityServer4Client.StsServer = logonUrl;
+            Response = IdentityServer4Client.RefreshTokenAsync(refreshToken).Result;
+
+            RefreshToken = Response.RefreshToken;
+
+            ExpiresAt = DateTime.UtcNow.AddSeconds(Response.ExpiresIn);
+
+            AccessToken = Response.AccessToken;
+
+
+
+        }
     }
 }

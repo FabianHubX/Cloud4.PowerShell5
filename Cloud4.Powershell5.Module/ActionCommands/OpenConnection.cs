@@ -97,7 +97,7 @@ namespace Cloud4.Powershell5.Module
 
             TokenService.Connect(_loginUrl, Credential.UserName, password);
 
-            var con = new Connection { UserName = Credential.UserName, PassWord = password, LogonUrl = _loginUrl, AccessToken = TokenService.AccessToken, ApiUrl = _apiUrl };
+            var con = new Connection { UserName = Credential.UserName, PassWord = password, LogonUrl = _loginUrl, AccessToken = TokenService.AccessToken, ApiUrl = _apiUrl, ExpiresAt = TokenService.ExpiresAt, RefreshToken = TokenService.RefreshToken };
 
 
 

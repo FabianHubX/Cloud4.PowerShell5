@@ -116,7 +116,10 @@ namespace Cloud4.Powershell5.Module
 
         }
 
-        
-        
+        public static List<VirtualLoadBalancer> GetbyvDCAll(Guid vDCId, Connection con)
+        {
+            return GetAll(con).Where(x => x.VirtualDatacenterId == vDCId).ToList();
+        }
+
     }
 }

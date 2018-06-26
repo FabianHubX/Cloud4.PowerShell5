@@ -76,9 +76,12 @@ namespace Cloud4.Powershell5.Module
 
             bool IsSuccessfull = true;
 
+            
             var vnets = GetVirtualNet.GetbyvDCAll(Id, con);
             foreach (var vm in vnets)
             {
+                
+
                 job = RemoveVirtualNet.RemoveForce(vm.Id, con);
                 if (job == null)
                 {
@@ -89,6 +92,55 @@ namespace Cloud4.Powershell5.Module
                     IsSuccessfull = false;
                 }
             }
+
+            var lbs = GetVirtualLoadBalancer.GetbyvDCAll(Id, con);
+
+            foreach (var lb in lbs)
+            {
+                job = RemoveVirtualLoadBalancer.Remove(lb.Id, con, true);
+
+                if (job == null)
+                {
+                    IsSuccessfull = false;
+                }
+                else if (job.State == "failed")
+                {
+                    IsSuccessfull = false;
+                }
+            }
+
+            var gws = GetVirtualGateway.GetbyvDCAll(Id, con);
+
+            foreach (var gw in gws)
+            {
+                job = RemoveVirtualGateway.Remove(gw.Id, con, true);
+
+                if (job == null)
+                {
+                    IsSuccessfull = false;
+                }
+                else if (job.State == "failed")
+                {
+                    IsSuccessfull = false;
+                }
+            }
+
+            var avs = GetAvailabilitySet.GetbyvDCAll(Id, con);
+
+            foreach (var av in avs)
+            {
+                job = RemoveAvailabilitySet.Remove(av.Id, con, true);
+
+                if (job == null)
+                {
+                    IsSuccessfull = false;
+                }
+                else if (job.State == "failed")
+                {
+                    IsSuccessfull = false;
+                }
+            }
+
 
             if (IsSuccessfull)
             {

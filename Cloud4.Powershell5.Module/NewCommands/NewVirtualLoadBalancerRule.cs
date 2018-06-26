@@ -121,7 +121,7 @@ namespace Cloud4.Powershell5.Module
 
         protected override void ProcessRecord()
         {
-
+            
             var vlb = new CreateVirtualLoadBalancerRule
             {
                 BackendAddressPool = BackendAddressPool,
@@ -130,7 +130,7 @@ namespace Cloud4.Powershell5.Module
                 FrontendPort = FrontEndPort,
                 BackendPort = BackEndPort,
                 IdleTimeoutInMinutes = IdleTimeoutInMinutes,
-                EnableFloatingIp = FloatingIpEnabled,
+                EnableFloatingIp = FloatingIpEnabled.ToBool(),
                 LoadDistribution = LoadDistribution.ToString(),
                 ProbeId = ProbeId
 

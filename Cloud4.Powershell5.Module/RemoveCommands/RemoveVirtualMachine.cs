@@ -25,19 +25,40 @@ namespace Cloud4.Powershell5.Module
 
         [Parameter(
          Mandatory = false,
-         Position = 2,
+         Position = 1,
          ValueFromPipeline = true,
-         HelpMessage = "Wait Job Finished",
+         HelpMessage = "Force deleting attached virtual Firewalls",
          ValueFromPipelineByPropertyName = true)]
+
+        public SwitchParameter ForceDeleteFW { get; set; }
+
+        [Parameter(
+        Mandatory = false,
+        Position = 2,
+        ValueFromPipeline = true,
+        HelpMessage = "Wait Job Finished",
+        ValueFromPipelineByPropertyName = true)]
 
         public SwitchParameter Wait { get; set; }
 
 
-
-
         protected override void ProcessRecord()
         {
+            if(ForceDeleteFW.IsPresent)
+            {
+                var vm = Get(Connection, Id);
+                foreach (var nic in vm.NetworkInterfaces)
+                {
+                    if (nic.VirtualFirewallId.HasValue)
+                    {
+                        RemoveVirtualFirewall.Remove(nic.VirtualFirewallId.Value, Connection, true);
+
+                    }
+                }
+            }
+
             WriteObject(Remove(Id, Connection, Wait));
+
         }
 
         
