@@ -1,8 +1,6 @@
-# Cloud4.PowerShell5.Module
+# Table of contents
 
-## Cloud4 PowerShell Module
-
-There you found the compiled version: [https://github.com/HiagData/Cloud4.PowerShell5/releases](https://github.com/HiagData/Cloud4.PowerShell5/releases)
+* [Cloud4.PowerShell5.Module](README.md)
 
 ## Manual
 
@@ -17,12 +15,10 @@ There you found the compiled version: [https://github.com/HiagData/Cloud4.PowerS
 * [Virtual Subnet](manual/virtual-subnet.md)
 * [Virtual Machine](manual/virtual-machine.md)
 * [Virtual Disk](manual/virtual-disk.md)
-* [Virtual Network Adapter](manual/virtual-network-adapter.md)
-* [Virtual Firewall](manual/virtual-firewall.md)
+* [Virtual Firewall](manual/virtual-firewall.network-adapter.md)
 * [Virtual Load Balancer](manual/virtual-load-balancer.md)
 * [Virtual S2S Gateway](manual/virtual-s2s-gateway.md)
 * [Availability Set](manual/availability-set.md)
-
 
 ## Main
 
