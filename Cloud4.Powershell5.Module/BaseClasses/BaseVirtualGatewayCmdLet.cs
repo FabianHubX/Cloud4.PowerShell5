@@ -44,22 +44,28 @@ namespace Cloud4.Powershell5.Module
                 throw new ArgumentException("No Tenant Selected");
             }
 
+            var datenow = DateTime.Now.ToUniversalTime();
+            var expiredate = Connection.ExpiresAt;
 
-        }
-
-        private void Service_OnRefreshConnectionRaised()
-        {
-            using (var runsp = PowerShell.Create(RunspaceMode.CurrentRunspace))
+            if (DateTime.Compare(datenow, expiredate) == 1)
             {
-                var runspId = runsp.Runspace.InstanceId;
-
-
-                TokenCollection.Replace(runspId, checkcon.Connection);
-
+                throw new ArgumentException("Connection Token Refresh needed");
             }
-
-            WriteObject(checkcon.Connection);
         }
+
+        //private void Service_OnRefreshConnectionRaised()
+        //{
+        //    using (var runsp = PowerShell.Create(RunspaceMode.CurrentRunspace))
+        //    {
+        //        var runspId = runsp.Runspace.InstanceId;
+
+
+        //        TokenCollection.Replace(runspId, checkcon.Connection);
+
+        //    }
+
+        //    WriteObject(checkcon.Connection);
+        //}
 
         public T WaitJobFinished(Guid jobid, Connection con, Guid VirtualGatewayId)
         {

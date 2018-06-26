@@ -77,7 +77,7 @@ namespace Cloud4.Powershell5.Module
                 {
                     GetbyvDCAll(VirtualDatacenterId, Connection).ForEach(WriteObject);
                 }
-            }
+            }         
             else
             {
                WriteObject(GetOne(Id, Connection));

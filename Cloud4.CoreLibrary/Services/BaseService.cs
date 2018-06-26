@@ -17,8 +17,8 @@ namespace Cloud4.CoreLibrary.Services
 
         protected ResourceDataClient client { get; set; }
 
-        public delegate void OnRefreshConnection();
-        public event OnRefreshConnection OnRefreshConnectionRaised;
+     //   public delegate void OnRefreshConnection();
+     //   public event OnRefreshConnection OnRefreshConnectionRaised;
 
         protected string Entity { get; set; }
 
@@ -32,18 +32,18 @@ namespace Cloud4.CoreLibrary.Services
             client.Connection = con;
             this.Connection = con;
 
-            client.OnRefreshTokenRaised += Client_OnRefreshTokenRaised;
+       //     client.OnRefreshTokenRaised += Client_OnRefreshTokenRaised;
         }
 
-        private void Client_OnRefreshTokenRaised()
-        {
-            this.Connection.AccessToken = client.Connection.AccessToken;
+        //private void Client_OnRefreshTokenRaised()
+        //{
+        //    this.Connection.AccessToken = client.Connection.AccessToken;
 
-            if (OnRefreshConnectionRaised != null)
-            {
-                OnRefreshConnectionRaised();
-            }
-        }
+        //    if (OnRefreshConnectionRaised != null)
+        //    {
+        //        OnRefreshConnectionRaised();
+        //    }
+        //}
 
         public virtual async Task<Result<List<T>>> AllAsync()
         {

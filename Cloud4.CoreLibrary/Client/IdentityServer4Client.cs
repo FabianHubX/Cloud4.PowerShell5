@@ -36,28 +36,23 @@ namespace Cloud4.CoreLibrary.Client
             return await RequestTokenAsync(user, password);
         }
 
-        public static async Task<TokenResponse> RunRefreshAsync(TokenResponse response, int milliseconds)
-        {
-            var refresh_token = response.RefreshToken;
+        //public static async Task<TokenResponse> RunRefreshAsync(string refresh_token)
+        //{
 
-            while (true)
-            {
-                response = await RefreshTokenAsync(refresh_token);
 
-                // Get the resource data using the new tokens...
-              //  await ResourceDataClient.GetDataAndDisplayInConsoleAsync(response.AccessToken);
+        //    var response = await RefreshTokenAsync(refresh_token);
 
-                if (response.RefreshToken != refresh_token)
-                {
-                    ShowResponse(response);
-                    refresh_token = response.RefreshToken;
-                }
+           
+        //    if (response.RefreshToken != refresh_token)
+        //    {
+        //        ShowResponse(response);
+        //        refresh_token = response.RefreshToken;
+        //    }
 
-                Task.Delay(milliseconds).Wait();
-            }
+     
 
-            return response;
-        }
+        //    return response;
+        //}
         private static async Task<TokenResponse> RequestTokenAsync(string user, string password)
         {
             //Log.Logger.Verbose("begin RequestTokenAsync");
