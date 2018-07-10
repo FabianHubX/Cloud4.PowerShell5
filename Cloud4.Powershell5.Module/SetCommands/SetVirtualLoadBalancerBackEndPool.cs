@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsData.Update, "Cloud4vLBBackEndPool")]
+    [Cmdlet(VerbsCommon.Set, "Cloud4vLBBackEndPool")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualLoadBalancerBackEndPool : BaseLoadBalancerUpdateCmdLet<VirtualLoadBalancerBackEndPool, VirtualLoadBalancerBackEndPoolService, Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerBackEndPool>
+    public class SetVirtualLoadBalancerBackEndPool : BaseLoadBalancerUpdateCmdLet<VirtualLoadBalancerBackEndPool, VirtualLoadBalancerBackEndPoolService, Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerBackEndPool>
     {
       
 

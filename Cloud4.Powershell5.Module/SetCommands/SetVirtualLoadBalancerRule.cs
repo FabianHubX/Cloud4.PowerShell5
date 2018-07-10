@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsData.Update, "Cloud4vLBRule")]
+    [Cmdlet(VerbsCommon.Set, "Cloud4vLBRule")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualLoadBalancerRule : BaseLoadBalancerUpdateCmdLet<VirtualLoadBalancerRule, VirtualLoadBalancerRuleService, Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerRule>
+    public class SetVirtualLoadBalancerRule : BaseLoadBalancerUpdateCmdLet<VirtualLoadBalancerRule, VirtualLoadBalancerRuleService, Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerRule>
     {
       
 

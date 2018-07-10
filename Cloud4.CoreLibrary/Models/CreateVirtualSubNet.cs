@@ -10,7 +10,7 @@ namespace Cloud4.CoreLibrary.Models
 
         public CreateVirtualSubNetParams Parameters { get; set; }
 
-
+      
     }
 
     public class CreateVirtualSubNetParams
@@ -20,9 +20,7 @@ namespace Cloud4.CoreLibrary.Models
 
         public CreateVirtualFirewall4Subnet FirewallCreationParameters { get; set; }
         public string AddressPrefix { get; set; }
-
         public bool IsGatewaySubnet { get; set; }
-
     }
 }
 

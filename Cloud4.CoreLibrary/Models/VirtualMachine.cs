@@ -26,7 +26,9 @@ namespace Cloud4.CoreLibrary.Models
         public bool IsRemoteAccessEnabled { get; set; }
 
         public bool IsInternetAccessEnabled { get; set; }
+        public List<string> ConfigurableVirtualNetworkAdapterProfiles { get; set; }
 
+        public int MaxVirtualNetworkAdapterCount { get; set; }
     }
 
 

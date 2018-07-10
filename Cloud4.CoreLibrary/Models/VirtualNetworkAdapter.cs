@@ -17,12 +17,11 @@ namespace Cloud4.CoreLibrary.Models
 
         public string IpAddress { get; set; }
 
-        public int IpAllocationMethod { get; set; }
 
         public string VirtualNetworkAdapterProfileName { get; set; }
 
         public string[] DnsServers { get; set; }
 
-
+        public bool IsPrimary { get; set; }
     }
 }

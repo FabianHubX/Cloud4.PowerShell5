@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsData.Update, "Cloud4vNetAdapter")]
+    [Cmdlet(VerbsCommon.Set, "Cloud4vNetAdapter")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualNetAdapter : BaseTenantUpdateCmdLet<VirtualNetworkAdapter, VirtualNetworkAdapterService, Cloud4.CoreLibrary.Models.UpdateVirtualNetworkAdapter>
+    public class SetVirtualNetAdapter : BaseTenantUpdateCmdLet<VirtualNetworkAdapter, VirtualNetworkAdapterService, Cloud4.CoreLibrary.Models.UpdateVirtualNetworkAdapter>
     {
 
         [Parameter(

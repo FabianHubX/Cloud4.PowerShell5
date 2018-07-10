@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsData.Update, "Cloud4AvailabilitySet")]
+    [Cmdlet(VerbsCommon.Set, "Cloud4vDC")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateAvailabilitySet : BaseTenantUpdateCmdLet<AvailabilitySet, AvailabilitySetService, AvailabilitySet>
+    public class SetVirtualDC : BaseTenantUpdateCmdLet<VirtualDatacenter,VirtualDataCenterService, VirtualDatacenter>
     {
 
         [Parameter(
 Mandatory = true,
 Position = 0,
 ValueFromPipeline = true,
-HelpMessage = "Filter by Availability Set Id",
+HelpMessage = "Filter by vDC Id",
 ValueFromPipelineByPropertyName = true)]
 
         public Guid Id { get; set; }
@@ -29,7 +29,7 @@ ValueFromPipelineByPropertyName = true)]
           Mandatory = true,
           Position = 1,
           ValueFromPipeline = true,
-            HelpMessage = "Name of the Availability Set",
+            HelpMessage = "Name of the Datacenter",
           ValueFromPipelineByPropertyName = true)]
        
         public string Name { get; set; }
@@ -48,15 +48,16 @@ ValueFromPipelineByPropertyName = true)]
         public SwitchParameter Wait { get; set; }
 
 
+
         protected override void ProcessRecord()
         {
-           
+            
 
-            var availset = Get(Connection, Id);
+            var vdc = Get(Connection, Id);
 
-            availset.Name = Name;
+            vdc.Name = Name;
 
-            var job = Update(Connection, Id, availset);
+            var job = Update(Connection, Id, vdc);
 
             if (Wait)
             {
@@ -66,6 +67,7 @@ ValueFromPipelineByPropertyName = true)]
             {
                 WriteObject(job);
             }
+
         }
 
     }

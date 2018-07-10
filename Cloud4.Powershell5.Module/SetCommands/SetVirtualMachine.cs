@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsData.Update, "Cloud4VM")]
+    [Cmdlet(VerbsCommon.Set, "Cloud4VM")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualMachine : BaseTenantUpdateCmdLet<VirtualMachine, VirtualMachineService, VirtualMachine>
+    public class SetVirtualMachine : BaseTenantUpdateCmdLet<VirtualMachine, VirtualMachineService, VirtualMachine>
     {
         [Parameter(
      Mandatory = true,

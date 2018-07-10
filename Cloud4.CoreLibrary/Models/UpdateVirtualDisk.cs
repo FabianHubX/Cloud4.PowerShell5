@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace Cloud4.CoreLibrary.Models
 {
-    public class VirtualDisk
+    public class UpdateVirtualDisk
     {
-        public Guid Id { get; set; }
+
         public string Name { get; set; }
         public string VirtualDiskProfileName { get; set; }
-        public Guid? VirtualMachineId { get; set; }
-        public int ControllerId { get; set; }
-        public int DiskLocation { get; set; }
-    
+     
+     
     }
 }

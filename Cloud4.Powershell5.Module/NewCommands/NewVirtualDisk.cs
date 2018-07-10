@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsCommon.Add, "Cloud4vDataDisk")]
+    [Cmdlet(VerbsCommon.New, "Cloud4vDisk")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class AddDataDisk : BaseTenantAddCmdLet<VirtualDisk, VirtualDiskService>
+    public class NewVirtualDisk : BaseTenantNewCmdLet<VirtualDisk, VirtualDiskService, CreateVirtualDisk>
     {
 
         private string _diskProfile;
@@ -54,17 +54,14 @@ namespace Cloud4.Powershell5.Module
 
         public SwitchParameter Wait { get; set; }
 
-        private VirtualDiskService service { get; set; }
-
+    
 
 
         protected override void ProcessRecord()
         {
 
 
-            service = new VirtualDiskService(Connection);
-
-
+    
 
             var virtualDisk = new CreateVirtualDisk
             {
@@ -75,38 +72,17 @@ namespace Cloud4.Powershell5.Module
 
 
 
-
-
-            Task<CoreLibrary.Models.Result> callTask = Task.Run(() => service.CreateAsync(virtualDisk));
-
-            callTask.Wait();
-            var result = callTask.Result;
-            CoreLibrary.Models.Job job;
-
-            if (result.Job != null)
-            {
-                job = result.Job;
-            }
-            else if (result.Error != null)
-            {
-                throw new RemoteException("Conflict Error: " + result.Error.ErrorType + "\r\n" + result.Error.FaultyValues);
-            }
-            else
-            {
-                throw new RemoteException("API returns: " + result.Code.ToString());
-            }
+            var job = Create(Connection, virtualDisk);
 
 
             if (Wait)
             {
-                WriteObject(WaitJobFinished(job.Id,Connection));                             
+                WriteObject(WaitJobFinished(job.Id, Connection));
             }
             else
             {
-
                 WriteObject(job);
             }
-
         }
 
         

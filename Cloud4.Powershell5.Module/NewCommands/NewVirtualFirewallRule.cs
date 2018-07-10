@@ -11,22 +11,28 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsCommon.Add, "Cloud4vFirewallRule")]
+    [Cmdlet(VerbsCommon.New, "Cloud4vFirewallRule")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class AddVirtualFirewallRule : BaseTenantAddCmdLet<VirtualFirewall, VirtualFirewallService>
+    public class NewVirtualFirewallRule : BaseVirtualFirewallNewCmdLet<VirtualFirewallRule, VirtualFirewallRuleService, CreateVirtualFirewallRule>
     {
 
-       
-      
 
         [Parameter(
-           Mandatory = true,
-           Position = 0,
-           ValueFromPipeline = true,
-            HelpMessage = "Virtual Firewall where the Rule gets added",
-           ValueFromPipelineByPropertyName = true)]
+        Mandatory = true,
+        Position = 0,
+        ValueFromPipeline = true,
+        HelpMessage = "Id of the Virtual Firewall",
+        ValueFromPipelineByPropertyName = true)]
 
         public Guid VirtualFirewallId { get; set; }
+
+        [Parameter(
+  Mandatory = true,
+  Position = 1,
+  ValueFromPipeline = true,
+    HelpMessage = "Name of the Firewall Rule",
+  ValueFromPipelineByPropertyName = true)]
+        public string Name { get; set; }
 
 
         [Parameter(
@@ -96,34 +102,22 @@ namespace Cloud4.Powershell5.Module
         public int Priority { get; set; }
 
         [Parameter(
-     Mandatory = false,
-     Position = 9,
-     ValueFromPipeline = true,
-      HelpMessage = "Wait Job Finished",
-     ValueFromPipelineByPropertyName = true)]
+        Mandatory = false,
+        Position = 17,
+        ValueFromPipeline = true,
+        HelpMessage = "Wait Job Finished",
+        ValueFromPipelineByPropertyName = true)]
 
         public SwitchParameter Wait { get; set; }
 
 
+
         protected override void ProcessRecord()
         {
-            VirtualFirewallService service = new VirtualFirewallService(Connection);
 
-            var currentvirtualFirewall = Get(Connection, VirtualFirewallId);
-
-            var virtualFirewall = new Cloud4.CoreLibrary.Models.UpdateVirtualFirewall();
-            virtualFirewall.Rules = currentvirtualFirewall.Rules;
-            virtualFirewall.Name = currentvirtualFirewall.Name;
-
-
-
-            if (virtualFirewall.Rules == null)
+            var vgw = new CreateVirtualFirewallRule
             {
-                virtualFirewall.Rules = new List<VirtualFirewallRule>();
-            }
-
-            var rule = new VirtualFirewallRule
-            {
+                Name = Name,
                 SourceAddressPrefix = SourceAddressPrefix,
                 SourcePortRange = SourcePortRange,
                 DestinationAddressPrefix = DestinationAddressPrefix,
@@ -135,31 +129,12 @@ namespace Cloud4.Powershell5.Module
 
             };
 
-            virtualFirewall.Rules.Add(rule);
+            var job = Create(Connection, vgw, VirtualFirewallId);
 
-
-            Task<CoreLibrary.Models.Result> callTask = Task.Run(() => service.UpdateAsync(VirtualFirewallId, virtualFirewall));
-
-            callTask.Wait();
-            var result = callTask.Result;
-            CoreLibrary.Models.Job job;
-
-            if (result.Job != null)
-            {
-                job = result.Job;
-            }
-            else if (result.Error != null)
-            {
-                throw new RemoteException("Conflict Error: " + result.Error.ErrorType + "\r\n" + result.Error.FaultyValues);
-            }
-            else
-            {
-                throw new RemoteException("API returns: " + result.Code.ToString());
-            }
 
             if (Wait)
             {
-                WriteObject(WaitJobFinished(job.Id,Connection));             
+                WriteObject(WaitJobFinished(job.Id, Connection, VirtualFirewallId));
             }
             else
             {
@@ -168,7 +143,7 @@ namespace Cloud4.Powershell5.Module
 
         }
 
-        
-        
+
+
     }
 }

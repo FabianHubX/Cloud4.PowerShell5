@@ -4,10 +4,9 @@ using System.Text;
 
 namespace Cloud4.CoreLibrary.Models
 {
-    public class VirtualFirewallRule
+    public class CreateVirtualFirewallRule
     {
         public string Name { get; set; }
-        public Guid Id { get; set; }
         public string SourceAddressPrefix { get; set; }
         public string SourcePortRange { get; set; }
         public string DestinationAddressPrefix { get; set; }

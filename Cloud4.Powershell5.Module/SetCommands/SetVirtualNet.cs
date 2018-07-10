@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsData.Update, "Cloud4vNet")]
+    [Cmdlet(VerbsCommon.Set, "Cloud4vNet")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualNetwork : BaseTenantUpdateCmdLet< VirtualNetwork, VirtualNetworkService, VirtualNetwork>
+    public class SetVirtualNetwork : BaseTenantUpdateCmdLet< VirtualNetwork, VirtualNetworkService, VirtualNetwork>
     {
         [Parameter(
      Mandatory = true,
@@ -86,7 +86,7 @@ namespace Cloud4.Powershell5.Module
 
                     foreach (var netadapter in netadapters)
                     {
-                        var job = UpdateVirtualNetAdapter.UpdateDNSonNetAdapter(netadapter.Id, vnet.DnsServers, Connection);
+                        var job = SetVirtualNetAdapter.UpdateDNSonNetAdapter(netadapter.Id, vnet.DnsServers, Connection);
 
                         if (Wait)
                         {

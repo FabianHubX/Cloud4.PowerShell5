@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsData.Update, "Cloud4vLBInboundNATRule")]
+    [Cmdlet(VerbsCommon.Set, "Cloud4vLBInboundNATRule")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualLoadBalancerInboundNatRule : BaseLoadBalancerUpdateCmdLet<VirtualLoadBalancerInboundNatRule, VirtualLoadBalancerInboundNatRuleService, Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerInboundNatRule>
+    public class SetVirtualLoadBalancerInboundNatRule : BaseLoadBalancerUpdateCmdLet<VirtualLoadBalancerInboundNatRule, VirtualLoadBalancerInboundNatRuleService, Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerInboundNatRule>
     {
       
 

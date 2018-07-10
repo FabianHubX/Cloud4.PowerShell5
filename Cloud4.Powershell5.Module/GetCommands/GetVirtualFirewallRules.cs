@@ -11,7 +11,7 @@ namespace Cloud4.Powershell5.Module
 {
     [Cmdlet(VerbsCommon.Get, "Cloud4vFirewallRule")]
     [OutputType(typeof(VirtualFirewallRule))]
-    public class GetVirtualFirewallRules : BaseTenantGetCmdLet<VirtualFirewall, VirtualFirewallService>
+    public class GetVirtualFirewallRule : BaseVirtualFirewallGetCmdLet<VirtualFirewall, VirtualFirewallRuleService>
     {
         [Parameter(
         Mandatory = true,
@@ -34,8 +34,15 @@ namespace Cloud4.Powershell5.Module
         protected override void ProcessRecord()
         {
 
-            WriteObject(GetOne(VirtualFirewallId, Connection).Rules);
-          
+            if (Id == Guid.Empty)
+            {
+                GetAll(Connection, VirtualFirewallId).ForEach(WriteObject);
+            }
+            else
+            {
+                WriteObject(GetOne(Id, Connection, VirtualFirewallId));
+            }
+
         }
     
     }

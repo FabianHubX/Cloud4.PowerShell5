@@ -8,6 +8,7 @@ namespace Cloud4.Powershell5.Module.Models
 {
     public enum UserAction
     {
-        ReInvite = 1
+        ReInvite = 1,
+        Reset
     }
 }

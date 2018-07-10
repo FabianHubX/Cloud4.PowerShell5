@@ -11,15 +11,15 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsData.Update, "Cloud4vSubNet")]
+    [Cmdlet(VerbsCommon.Set, "Cloud4vFirewall")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualSubNet : BaseTenantUpdateCmdLet<VirtualSubNet, VirtualSubNetService, VirtualSubNet>
+    public class SetVirtualFirewall : BaseTenantUpdateCmdLet<VirtualFirewall, VirtualFirewallService, Cloud4.CoreLibrary.Models.UpdateVirtualFirewall>
     {
         [Parameter(
      Mandatory = true,
      Position = 0,
      ValueFromPipeline = true,
-      HelpMessage = "Filter by vSubNet Id",
+      HelpMessage = "Filter by vFirewall Id",
      ValueFromPipelineByPropertyName = true)]
 
         public Guid Id { get; set; }
@@ -28,7 +28,7 @@ namespace Cloud4.Powershell5.Module
      Mandatory = false,
      Position = 1,
      ValueFromPipeline = true,
-       HelpMessage = "Name of the virtual SubNet",
+       HelpMessage = "Name of the virtual Firewall",
      ValueFromPipelineByPropertyName = true)]
 
         public string Name { get; set; }
@@ -38,10 +38,10 @@ namespace Cloud4.Powershell5.Module
      Mandatory = false,
      Position = 2,
      ValueFromPipeline = true,
-       HelpMessage = "Id of the virtual Firewall",
+       HelpMessage = "New Ruleset of the virtual Firewall",
      ValueFromPipelineByPropertyName = true)]
 
-        public Guid? VirtualFirewallId { get; set; }
+        public List<VirtualFirewallRule> Rules { get; set; }
 
 
         [Parameter(
@@ -53,41 +53,35 @@ namespace Cloud4.Powershell5.Module
 
         public SwitchParameter Wait { get; set; }
 
-        private VirtualSubNetService service { get; set; }
-
 
 
         protected override void ProcessRecord()
         {
 
-            var vsubnet = Get(Connection, Id);
+     
+            var vfw = Get(Connection, Id);
+
+            var newfirewall = new Cloud4.CoreLibrary.Models.UpdateVirtualFirewall { Name = vfw.Name, Rules = vfw.Rules };
+
 
             bool IsChanged = false;
 
             if (!string.IsNullOrEmpty(Name))
             {
-                vsubnet.Name = Name;
+                newfirewall.Name = Name;
                 IsChanged = true;
             }
 
-            if (VirtualFirewallId.HasValue)
+            if (Rules != null)
             {
-                if (VirtualFirewallId == Guid.Empty)
-                {
-                    vsubnet.VirtualFirewallId = null;
-                }
-                else
-                {
-                    vsubnet.VirtualFirewallId = VirtualFirewallId.Value;
-                }
-              
+                newfirewall.Rules = Rules;
                 IsChanged = true;
             }
 
             if (IsChanged)
             {
 
-                var job = Update(Connection, Id, vsubnet);
+                var job = Update(Connection, Id, newfirewall);
 
                 if (Wait)
                 {
@@ -100,12 +94,7 @@ namespace Cloud4.Powershell5.Module
                 }
 
             }
-
         }
 
-        
-
-        
-        
     }
 }

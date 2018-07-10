@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsData.Update, "Cloud4vLBProbe")]
+    [Cmdlet(VerbsCommon.Set, "Cloud4vLBProbe")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualLoadBalancerProbe : BaseLoadBalancerUpdateCmdLet<VirtualLoadBalancerProbe,VirtualLoadBalancerProbeService, Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerProbe>
+    public class SetVirtualLoadBalancerProbe : BaseLoadBalancerUpdateCmdLet<VirtualLoadBalancerProbe,VirtualLoadBalancerProbeService, Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerProbe>
     {
       
 

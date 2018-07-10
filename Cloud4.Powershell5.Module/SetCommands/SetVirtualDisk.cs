@@ -11,15 +11,15 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsData.Update, "Cloud4vFirewall")]
+    [Cmdlet(VerbsCommon.Set, "Cloud4vDisk")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualFirewall : BaseTenantUpdateCmdLet<VirtualFirewall, VirtualFirewallService, Cloud4.CoreLibrary.Models.UpdateVirtualFirewall>
+    public class SetVirtualDisk: BaseTenantUpdateCmdLet<VirtualDisk, VirtualSubNetService, UpdateVirtualDisk>
     {
         [Parameter(
      Mandatory = true,
      Position = 0,
      ValueFromPipeline = true,
-      HelpMessage = "Filter by vFirewall Id",
+      HelpMessage = "Filter by vDisk Id",
      ValueFromPipelineByPropertyName = true)]
 
         public Guid Id { get; set; }
@@ -28,7 +28,7 @@ namespace Cloud4.Powershell5.Module
      Mandatory = false,
      Position = 1,
      ValueFromPipeline = true,
-       HelpMessage = "Name of the virtual Firewall",
+       HelpMessage = "Name of the virtual Disk",
      ValueFromPipelineByPropertyName = true)]
 
         public string Name { get; set; }
@@ -38,10 +38,10 @@ namespace Cloud4.Powershell5.Module
      Mandatory = false,
      Position = 2,
      ValueFromPipeline = true,
-       HelpMessage = "New Ruleset of the virtual Firewall",
+       HelpMessage = "Profile vDisk",
      ValueFromPipelineByPropertyName = true)]
 
-        public List<VirtualFirewallRule> Rules { get; set; }
+        public string VirtualDiskProfile { get; set; }
 
 
         [Parameter(
@@ -55,33 +55,39 @@ namespace Cloud4.Powershell5.Module
 
 
 
+
         protected override void ProcessRecord()
         {
 
-     
-            var vfw = Get(Connection, Id);
+            var vdisk = Get(Connection, Id);
 
-            var newfirewall = new Cloud4.CoreLibrary.Models.UpdateVirtualFirewall { Name = vfw.Name, Rules = vfw.Rules };
+            var newvdisk = new UpdateVirtualDisk
+            {
 
+                Name = vdisk.Name,
+                 VirtualDiskProfileName = vdisk.VirtualDiskProfileName
+            };
 
             bool IsChanged = false;
 
             if (!string.IsNullOrEmpty(Name))
             {
-                newfirewall.Name = Name;
+                newvdisk.Name = Name;
                 IsChanged = true;
             }
 
-            if (Rules != null)
+
+            if (!string.IsNullOrEmpty(VirtualDiskProfile))
             {
-                newfirewall.Rules = Rules;
+                newvdisk.VirtualDiskProfileName = VirtualDiskProfile;
                 IsChanged = true;
             }
+
 
             if (IsChanged)
             {
 
-                var job = Update(Connection, Id, newfirewall);
+                var job = Update(Connection, Id, newvdisk);
 
                 if (Wait)
                 {
@@ -94,7 +100,12 @@ namespace Cloud4.Powershell5.Module
                 }
 
             }
+
         }
 
+        
+
+        
+        
     }
 }

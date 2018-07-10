@@ -79,7 +79,7 @@ ValueFromPipeline = true,
 HelpMessage = "Rules for the new virtual Firewall to the virtual Network",
 ValueFromPipelineByPropertyName = true)]
 
-        public List<VirtualFirewallRule> Rules { get; set; }
+        public List<CreateVirtualFirewallRule> Rules { get; set; }
 
         [Parameter(
      Mandatory = false,

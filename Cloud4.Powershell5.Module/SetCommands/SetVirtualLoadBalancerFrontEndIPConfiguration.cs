@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Cloud4.Powershell5.Module
 {
-    [Cmdlet(VerbsData.Update, "Cloud4vLBFrontEndIPConfigurations")]
+    [Cmdlet(VerbsCommon.Set, "Cloud4vLBFrontEndIPConfigurations")]
     [OutputType(typeof(Cloud4.CoreLibrary.Models.Job))]
-    public class UpdateVirtualLoadBalancerFrontEndIPConfiguration: BaseLoadBalancerUpdateCmdLet<VirtualLoadBalancerFrontEndIPConfigurations, VirtualLoadBalancerFrontendIpConfigurationsService, Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerFrontEndIPConfigurations>
+    public class SetVirtualLoadBalancerFrontEndIPConfiguration: BaseLoadBalancerUpdateCmdLet<VirtualLoadBalancerFrontEndIPConfigurations, VirtualLoadBalancerFrontendIpConfigurationsService, Cloud4.CoreLibrary.Models.UpdateVirtualLoadBalancerFrontEndIPConfigurations>
     {
 
 

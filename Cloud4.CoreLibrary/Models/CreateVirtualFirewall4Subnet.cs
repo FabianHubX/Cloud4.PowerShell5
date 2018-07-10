@@ -11,7 +11,7 @@ namespace Cloud4.CoreLibrary.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
 
-        public List<VirtualFirewallRule> Rules { get; set; }
+        public List<CreateVirtualFirewallRule> Rules { get; set; }
 
    }
 }
